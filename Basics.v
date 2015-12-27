@@ -1,71 +1,53 @@
-(** * Basics: Functional Programming in Coq *)
- 
+(** * 基础知识: Coq中的函数式编程 *)
+
 (*
-   [Admitted] is Coq's "escape hatch" that says accept this definition
-   without proof.  We use it to mark the 'holes' in the development
-   that should be completed as part of your homework exercises.  In
-   practice, [Admitted] is useful when you're incrementally developing
-   large proofs. *)
+   [Admitted]是Coq的"紧急出口"，就是说接受一个定义而暂不证明。我们用它
+   来代表学习过程中的'空白'，这些空白应该由你的作业练习来补上。在实际
+   运用中，当你一步步地完成一个大型证明时[Admitted]也非常有用。 *)
 Definition admit {T: Type} : T.  Admitted.
 
 (* ###################################################################### *)
-(** * Introduction *)
+(** * 简介 *)
 
-(** The functional programming style brings programming closer to
-    simple, everyday mathematics: If a procedure or method has no side
-    effects, then pretty much all you need to understand about it is
-    how it maps inputs to outputs -- that is, you can think of it as
-    just a concrete method for computing a mathematical function.
-    This is one sense of the word "functional" in "functional
-    programming."  The direct connection between programs and simple
-    mathematical objects supports both formal proofs of correctness
-    and sound informal reasoning about program behavior.
-
-    The other sense in which functional programming is "functional" is
-    that it emphasizes the use of functions (or methods) as
-    _first-class_ values -- i.e., values that can be passed as
-    arguments to other functions, returned as results, stored in data
-    structures, etc.  The recognition that functions can be treated as
-    data in this way enables a host of useful and powerful idioms.
-
-    Other common features of functional languages include _algebraic
-    data types_ and _pattern matching_, which make it easy to construct
-    and manipulate rich data structures, and sophisticated
-    _polymorphic type systems_ that support abstraction and code
-    reuse.  Coq shares all of these features.
-
-    The first half of this chapter introduces the most essential
-    elements of Coq's functional programming language.  The second
-    half introduces some basic _tactics_ that can be used to prove
-    simple properties of Coq programs.
+(** 函数式编程风格使得编程更接近简单的、日常的数学：当一个过程或方法
+    没有副作用，那么所有你需要去理解的也就是如何将输入对应到输出而已 ——
+    或者说，你可以把它当做是一个用来计算数学函数的具体方法。这也就是
+    "函数式编程"中"函数式"一词的含义之一。程序与简单数学对象之间的关联
+    同时支撑了有关程序行为正确性的形式化证明以及非形式化合理论证。
+    
+    函数式编程中'函数式'一词的另一个含义是它强调把函数(或方法)作为
+    _第一等_ 的值 —— 换言之，这个值可以作为参数传递给其他函数，可以作为
+    结果返回，也可以存储在数据结构中，等等。这种把函数当做数据的认可
+    形式使得很多既有用且强大的用法成为可能。
+    
+    其他一些常见的函数式语言的特性包括 _代数数据类型_ 和 _模式匹配_
+    (使得构造和处理更丰富的数据结构更简单)，以及复杂的 _多态类型系统_
+    (用来支持抽象和代码复用)。Coq提供所有这些特性。
+    
+    这一章的前半部分介绍了Coq函数式编程语言的最基本的元素，后半部分
+    介绍了可被用于证明Coq程序一些简单特点的基本 _策略_ 。
 *)
 
 (* ###################################################################### *)
-(** * Enumerated Types *)
+(** * 可枚举类型 *)
 
-(** One unusual aspect of Coq is that its set of built-in
-    features is _extremely_ small.  For example, instead of providing
-    the usual palette of atomic data types (booleans, integers,
-    strings, etc.), Coq offers an extremely powerful mechanism for
-    defining new data types from scratch -- so powerful that all these
-    familiar types arise as instances.  
+(** Coq一个不寻常的地方就是它内置的特性集合 _极其_ 之小。比如，Coq不提供
+    通常的原子数据类型(如布尔值、整数、字符串等等)，而是提供一种极其强大的
+    可从头定义新数据类型的机制 —— 强大到以上这些常见的类型都是它定义产生出的
+    实例。
 
-    Naturally, the Coq distribution comes with an extensive standard
-    library providing definitions of booleans, numbers, and many
-    common data structures like lists and hash tables.  But there is
-    nothing magic or primitive about these library definitions: they
-    are ordinary user code.  To illustrate this, we will explicitly
-    recapitulate all the definitions we need in this course, rather
-    than just getting them implicitly from the library.
+    当然，Coq发行版也同时提供了一个内容丰富的标准库，包含了布尔值、数值，
+    以及如列表、杂凑表等很多常用的数据结构。但是这些库中的定义并没有
+    任何地方特殊或者是语言里原生的：它们都是普普通通的用户代码。为了说明
+    这个，我们在整个教程里显式的重新定义了所有我们所需要的数据类型，
+    而不是隐式的使用库里那些。
 
-    To see how this mechanism works, let's start with a very simple
-    example. *)
+    来看看这个机制是如何工作的，让我们从一个非常简单的例子开始。*)
 
 (* ###################################################################### *)
-(** ** Days of the Week *)
+(** ** 一周里的日子 *)
 
-(** The following declaration tells Coq that we are defining
-    a new set of data values -- a _type_. *)
+(** 下面的声明形式告诉Coq我们在定义一个新的数值集合 —— 一个 _类型_ 。*)
 
 Inductive day : Type :=
   | monday : day
@@ -76,12 +58,10 @@ Inductive day : Type :=
   | saturday : day
   | sunday : day.
 
-(** The type is called [day], and its members are [monday],
-    [tuesday], etc.  The second and following lines of the definition
-    can be read "[monday] is a [day], [tuesday] is a [day], etc."
+(** 这个类型叫做[day], 它的成员包括[monday]、[tuesday]等等。定义从第二行起，
+    包括后面的行，可以被读作"[monday]是一个[day]"，"[tuesday]是一个[day]"，以此类推。
 
-    Having defined [day], we can write functions that operate on
-    days. *)
+    在定义了[day]类型以后, 我们就可以来写一些函数操作day了. *)
 
 Definition next_weekday (d:day) : day :=
   match d with
@@ -94,85 +74,66 @@ Definition next_weekday (d:day) : day :=
   | sunday    => monday
   end.
 
-(** One thing to note is that the argument and return types of
-    this function are explicitly declared.  Like most functional
-    programming languages, Coq can often figure out these types for
-    itself when they are not given explicitly -- i.e., it performs
-    some _type inference_ -- but we'll always include them to make
-    reading easier. *)
-
-(** Having defined a function, we should check that it works on
-    some examples.  There are actually three different ways to do this
-    in Coq.  
-
-    First, we can use the command [Compute] to evaluate a
-    compound expression involving [next_weekday].  *)
+(** 注意，这里函数的参数以及返回值是被显式声明的。其实像大多数函数式
+    编程语言一样，如果没有显式给出，Coq自己通常也可以得出这些类型
+    —— 也就是说，它会做一些 _类型推断_ —— 但这里我们都会声明它们，
+    这样可使得阅读起来方便些。*)
+    
+(** 在定义完函数后，我们用一些例子来检验它。实际上，在Coq中可以用三种
+    不同方式来做这件事。
+    
+    第一，我们可以用命令[Compute]来计算一个包含[next_weekday]的合成表达式。*)
 
 Compute (next_weekday friday).
    (* ==> monday : day *)
 Compute (next_weekday (next_weekday saturday)).
    (* ==> tuesday : day *)
 
-(** If you have a computer handy, this would be an excellent
-    moment to fire up the Coq interpreter under your favorite IDE --
-    either CoqIde or Proof General -- and try this for yourself.  Load
-    this file ([Basics.v]) from the book's accompanying Coq sources,
-    find the above example, submit it to Coq, and observe the
-    result. *)
+(** 如果你手边就有电脑，那现在是一个好机会来打开Coq解释器并选用一个你
+    喜欢的IDE —— CoqIde 或是 Proof General 都可以 —— 然后自己试一试。
+    从这本书附带的Coq源码中载入[Basics.v]文件，找到上述例子，提交到Coq，
+    然后查看结果。*)
 
-
-(** Second, we can record what we _expect_ the result to be in
-    the form of a Coq example: *)
+(** 第二，我们可以用Coq例子的形式来记录我们所期望的结果是什么： *)
 
 Example test_next_weekday:
   (next_weekday (next_weekday saturday)) = tuesday.
 
-(** This declaration does two things: it makes an
-    assertion (that the second weekday after [saturday] is [tuesday]),
-    and it gives the assertion a name that can be used to refer to it
-    later. *)
-(** Having made the assertion, we can also ask Coq to verify it,
-    like this: *)
+(** 这个声明形式做了两件事：一是它做了一个断言(即：[saturday]之后的
+    第二个工作日是[tuesday])；二是它给这个断言起了个名字，以便于以后
+    用此名字来引用此断言。*)
+(** 定义好断言后，我们还能要求Coq来验证它，像这样：*)
 
 Proof. simpl. reflexivity.  Qed.
 
-(** The details are not important for now (we'll come back to
-    them in a bit), but essentially this can be read as "The assertion
-    we've just made can be proved by observing that both sides of the
-    equality evaluate to the same thing, after some simplification." *)
+(** 在这里一些细节不重要(后面我们还会回顾它)，重要的是这可以是说
+    "进行一些化简后，通过观察等式两边计算得到相同的东西，我们刚刚给出的
+    断言就可以被验证了。"
 
-(** Third, we can ask Coq to _extract_, from our [Definition], a
-    program in some other, more conventional, programming
-    language (OCaml, Scheme, or Haskell) with a high-performance
-    compiler.  This facility is very interesting, since it gives us a
-    way to construct _fully certified_ programs in mainstream
-    languages.  Indeed, this is one of the main uses for which Coq was
-    developed.  We'll come back to this topic in later chapters.  More
-    information can also be found in the Coq'Art book by Bertot and
-    Casteran, as well as the Coq reference manual. *)
+(** 第三，我们可以让Coq从我们的[Definition]中 _提炼出_ 一个其他编程
+    语言(诸如OCaml、Scheme、Haskell等)的程序，这些语言有着高性能的
+    编译器。这个能力非常有用，因为它能够提供给我们一种使用主流编程语言来
+    构造 _经过充分验证的_ 程序的方式。实际上，这也是Coq被开发出来以后
+    最主要的一种使用方式。后面的章节我们会再回来说这个内容。更多内容
+    可以在Bertot和Casteran编写的Coq's Art一书中找到，或者是Coq参考手册。*)
 
 
 (* ###################################################################### *)
-(** ** Booleans *)
+(** ** 布尔值 *)
 
-(** In a similar way, we can define the standard type [bool] of
-    booleans, with members [true] and [false]. *)
+(** 用类似的方式，我们可以定义标准类型[bool]表示布尔值，它包含
+    [true]和[false]两个成员。*)
 
 Inductive bool : Type :=
   | true : bool
   | false : bool.
 
-(** Although we are rolling our own booleans here for the sake
-    of building up everything from scratch, Coq does, of course,
-    provide a default implementation of the booleans in its standard
-    library, together with a multitude of useful functions and
-    lemmas.  (Take a look at [Coq.Init.Datatypes] in the Coq library
-    documentation if you're interested.)  Whenever possible, we'll
-    name our own definitions and theorems so that they exactly
-    coincide with the ones in the standard library. *)
+(** 尽管我们为了所谓"一切从头来"而在这里搞出我们自己的布尔类型，实际上，
+    Coq在其标准库中也提供了布尔类型的缺省实现，同时提供大量有用的函数和
+    定理。(有兴趣的话可参见Coq库文档中的[Coq.Init.Datatypes]。)尽可能地，
+    我们会将我们自己的定义和定理的命名做成与标准库中的命名完全一致。*)
 
-(** Functions over booleans can be defined in the same way as
-    above: *)
+(** 布尔值上的函数可用与上文相同的方式来定义：*)
 
 Definition negb (b:bool) : bool := 
   match b with
@@ -192,11 +153,9 @@ Definition orb (b1:bool) (b2:bool) : bool :=
   | false => b2
   end.
 
-(** The last two illustrate the syntax for multi-argument
-    function definitions. *)
+(** 后面两个演示了具有多个参数的函数的定义语法。*)
 
-(** The following four "unit tests" constitute a complete
-    specification -- a truth table -- for the [orb] function: *)
+(** 下面四个"单元测试"构成了针对[orb]函数的完整规范 —— 真值表：*)
 
 Example test_orb1:  (orb true  false) = true. 
 Proof. simpl. reflexivity.  Qed.

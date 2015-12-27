@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href="coqdoc.css" rel="stylesheet" type="text/css"/>
-<title>Prop: Propositions and Evidence</title>
+<title>Prop: 命题与证据</title>
 <script type="text/javascript" src="jquery-1.8.3.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </head>
@@ -18,7 +18,7 @@
 
 <div id="main">
 
-<h1 class="libtitle">Prop<span class="subtitle">Propositions and Evidence</span></h1>
+<h1 class="libtitle">Prop<span class="subtitle">命题与证据</span></h1>
 
 <div class="code code-tight">
 </div>
@@ -35,14 +35,12 @@
 </div>
 
 <div class="doc">
-<a name="lab230"></a><h1 class="section">Inductively Defined Propositions</h1>
+<a name="lab230"></a><h1 class="section">归纳定义命题</h1>
 
 <div class="paragraph"> </div>
 
- In chapter <span class="inlinecode"><span class="id" type="var">Basics</span></span> we defined a <i>function</i> <span class="inlinecode"><span class="id" type="var">evenb</span></span> that tests a
-    number for evenness, yielding <span class="inlinecode"><span class="id" type="var">true</span></span> if so.  We can use this
-    function to define the <i>proposition</i> that some number <span class="inlinecode"><span class="id" type="var">n</span></span> is
-    even: 
+ 在<span class="inlinecode"><span class="id" type="var">Basics</span></span>一章中，我们定义了一个用来检测一个数字是否为偶数的 <i>函数</i> <span class="inlinecode"><span class="id" type="var">evenb</span></span>，
+    若为偶数这个函数将返回<span class="inlinecode"><span class="id" type="var">true</span></span>。我们能够用这个函数来定义宣称某个数字<span class="inlinecode"><span class="id" type="var">n</span></span>是偶数的 <i>命题</i> ： 
 </div>
 <div class="code code-tight">
 
@@ -54,22 +52,20 @@
 </div>
 
 <div class="doc">
-That is, we can define "<span class="inlinecode"><span class="id" type="var">n</span></span> is even" to mean "the function <span class="inlinecode"><span class="id" type="var">evenb</span></span>
-    returns <span class="inlinecode"><span class="id" type="var">true</span></span> when applied to <span class="inlinecode"><span class="id" type="var">n</span></span>."  
+也即是说，我们能够将“<span class="inlinecode"><span class="id" type="var">n</span></span>是偶数”定义成“函数<span class="inlinecode"><span class="id" type="var">evenb</span></span>在被应用到<span class="inlinecode"><span class="id" type="var">n</span></span>上时返回<span class="inlinecode"><span class="id" type="var">true</span></span>”。
 
 <div class="paragraph"> </div>
 
-    Note that here we have given a name
-    to a proposition using a <span class="inlinecode"><span class="id" type="keyword">Definition</span></span>, just as we have
-    given names to expressions of other sorts. This isn't a fundamentally
-    new kind of proposition;  it is still just an equality. 
+    注意，这里我们使用了一个<span class="inlinecode"><span class="id" type="keyword">Definition</span></span>来为一个命题赋予一个名字，就像之前我
+    们将名字赋予其他类型的表达式一样。这不是一种全新的命题；这仅仅是一条等式。
 <div class="paragraph"> </div>
 
- Another alternative is to define the concept of evenness
-    directly.  Instead of going via the <span class="inlinecode"><span class="id" type="var">evenb</span></span> function ("a number is
-    even if a certain computation yields <span class="inlinecode"><span class="id" type="var">true</span></span>"), we can say what the
-    concept of evenness means by giving two different ways of
-    presenting <i>evidence</i> that a number is even. 
+
+<div class="paragraph"> </div>
+
+    另外一个选择是直接定义出偶数这一概念。作为通过<span class="inlinecode"><span class="id" type="var">evenb</span></span>函数做出定义（“若对
+    某个数计算得到<span class="inlinecode"><span class="id" type="var">true</span></span>，则这个数是偶数”）的替代，我们能够通过给出两种不
+    同的展现某个数是偶数的 <i>证据</i> 的方式来说明偶数的概念。
 </div>
 <div class="code code-tight">
 
@@ -82,19 +78,15 @@ That is, we can define "<span class="inlinecode"><span class="id" type="var">n</
 </div>
 
 <div class="doc">
-The first line declares that <span class="inlinecode"><span class="id" type="var">ev</span></span> is a proposition &mdash; or,
-    more formally, a family of propositions "indexed by" natural
-    numbers.  (That is, for each number <span class="inlinecode"><span class="id" type="var">n</span></span>, the claim that "<span class="inlinecode"><span class="id" type="var">n</span></span> is
-    even" is a proposition.)  Such a family of propositions is
-    often called a <i>property</i> of numbers.  
+第一行声明了<span class="inlinecode"><span class="id" type="var">ev</span></span>是一个命题——或者更为形式化地说，一个与自然数“一一对应”
+    的命题的集合（也即是说，对于每一个数字<span class="inlinecode"><span class="id" type="var">n</span></span>，陈述“<span class="inlinecode"><span class="id" type="var">n</span></span>是偶数”是一个命
+    题）。这样的命题所组成的集合通常被称作数字的 <i>性质</i> 。
 
 <div class="paragraph"> </div>
 
-    The last two lines declare the two ways to give evidence that a
-    number <span class="inlinecode"><span class="id" type="var">m</span></span> is even.  First, <span class="inlinecode">0</span> is even, and <span class="inlinecode"><span class="id" type="var">ev_0</span></span> is evidence
-    for this.  Second, if <span class="inlinecode"><span class="id" type="var">m</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" type="var">S</span></span> <span class="inlinecode">(<span class="id" type="var">S</span></span> <span class="inlinecode"><span class="id" type="var">n</span>)</span> for some <span class="inlinecode"><span class="id" type="var">n</span></span> and we can give
-    evidence <span class="inlinecode"><span class="id" type="var">e</span></span> that <span class="inlinecode"><span class="id" type="var">n</span></span> is even, then <span class="inlinecode"><span class="id" type="var">m</span></span> is also even, and <span class="inlinecode"><span class="id" type="var">ev_SS</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span>
-    <span class="inlinecode"><span class="id" type="var">e</span></span> is the evidence.
+    最后两行定义了给出证明某个数字<span class="inlinecode"><span class="id" type="var">m</span></span>是偶数的证据的方式。首先<span class="inlinecode">0</span>是偶数，而<span class="inlinecode"><span class="id" type="var">ev_0</span></span>
+    则是这一事实的证据；第二，如果有<span class="inlinecode"><span class="id" type="var">m</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" type="var">S</span></span> <span class="inlinecode">(<span class="id" type="var">S</span></span> <span class="inlinecode"><span class="id" type="var">n</span>)</span>且我们能够给出证明<span class="inlinecode"><span class="id" type="var">n</span></span>为偶数的
+    证据<span class="inlinecode"><span class="id" type="var">e</span></span>，那么<span class="inlinecode"><span class="id" type="var">m</span></span>也是偶数，且<span class="inlinecode"><span class="id" type="var">ev_SS</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode"><span class="id" type="var">e</span></span>是这一事实的证据。
 
 <div class="paragraph"> </div>
 
@@ -121,50 +113,44 @@ The first line declares that <span class="inlinecode"><span class="id" type="var
 </div>
 
 <div class="doc">
-For <span class="inlinecode"><span class="id" type="var">ev</span></span>, we had already defined <span class="inlinecode"><span class="id" type="var">even</span></span> as a function (returning a
-   boolean), and then defined an inductive relation that agreed with
-   it. However, we don't necessarily need to think about propositions
-   first as boolean functions, we can start off with the inductive
-   definition.
+对于<span class="inlinecode"><span class="id" type="var">ev</span></span>，我们已经定义了函数<span class="inlinecode"><span class="id" type="var">even</span></span>（返回一个布尔值），然后又定义了一个能够
+   表示它的归纳性关系。然而我们并不一定需要首先将命题当作布尔值函数来看
+   待；我们可以直接思考能够表示它的归纳定义。
 
 <div class="paragraph"> </div>
 
- As another example of an inductively defined proposition, let's
-    define a simple property of natural numbers &mdash; we'll call it
-    "<span class="inlinecode"><span class="id" type="var">beautiful</span></span>." 
+ 作为归纳定义命题的另外一个例子，让我们定义一个简单的自然数的性质——
+    我们将它称作"<span class="inlinecode"><span class="id" type="var">beautiful</span></span>"。
 <div class="paragraph"> </div>
 
- Informally, a number is <span class="inlinecode"><span class="id" type="var">beautiful</span></span> if it is <span class="inlinecode">0</span>, <span class="inlinecode">3</span>, <span class="inlinecode">5</span>, or the
-    sum of two <span class="inlinecode"><span class="id" type="var">beautiful</span></span> numbers.  
+ 非形式地说，如果某个数字是<span class="inlinecode">0</span>、<span class="inlinecode">3</span>、<span class="inlinecode">5</span>或者两个<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的数字的和，那么它是
+    <span class="inlinecode"><span class="id" type="var">beautiful</span></span>的。
 
 <div class="paragraph"> </div>
 
-    More pedantically, we can define <span class="inlinecode"><span class="id" type="var">beautiful</span></span> numbers by giving four
-    rules:
+    更为准确地说，通过给出四条规则，我们能够定义<span class="inlinecode"><span class="id" type="var">beautiful</span></span>数：
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> Rule <span class="inlinecode"><span class="id" type="var">b_0</span></span>: The number <span class="inlinecode">0</span> is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>.
+<li> 规则<span class="inlinecode"><span class="id" type="var">b_0</span></span>：<span class="inlinecode">0</span>是<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的。
 
 </li>
-<li> Rule <span class="inlinecode"><span class="id" type="var">b_3</span></span>: The number <span class="inlinecode">3</span> is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>. 
+<li> 规则<span class="inlinecode"><span class="id" type="var">b_3</span></span>：<span class="inlinecode">3</span>是<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的。
 
 </li>
-<li> Rule <span class="inlinecode"><span class="id" type="var">b_5</span></span>: The number <span class="inlinecode">5</span> is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>. 
+<li> 规则<span class="inlinecode"><span class="id" type="var">b_5</span></span>：<span class="inlinecode">5</span>是<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的。
 
 </li>
-<li> Rule <span class="inlinecode"><span class="id" type="var">b_sum</span></span>: If <span class="inlinecode"><span class="id" type="var">n</span></span> and <span class="inlinecode"><span class="id" type="var">m</span></span> are both <span class="inlinecode"><span class="id" type="var">beautiful</span></span>, then so is
-         their sum. 
+<li> 规则<span class="inlinecode"><span class="id" type="var">b_sum</span></span>：如果<span class="inlinecode"><span class="id" type="var">n</span></span>和<span class="inlinecode"><span class="id" type="var">m</span></span>都是<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的，那么它们的和也是<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的。
 </li>
 </ul>
 
 <div class="paragraph"> </div>
 
- We will see many definitions like this one during the rest
-    of the course, and for purposes of informal discussions, it is
-    helpful to have a lightweight notation that makes them easy to
-    read and write.  <i>Inference rules</i> are one such notation: 
+ 我们会在接下来的课程中看到许多像这样的定义，因此一个使得这些定义易于读
+    写的轻便的表示法将会使非形式化的讨论变得更加方便。 <i>推理规则</i> 就是这一类
+    表示法的其中一种：
 <div class="paragraph"> </div>
 
 <center><table class="infrule">
@@ -223,26 +209,24 @@ For <span class="inlinecode"><span class="id" type="var">ev</span></span>, we ha
 <div class="paragraph"> </div>
 
 <a name="lab232"></a><h3 class="section"> </h3>
- Each of the textual rules above is reformatted here as an
-    inference rule; the intended reading is that, if the <i>premises</i>
-    above the line all hold, then the <i>conclusion</i> below the line
-    follows.  For example, the rule <span class="inlinecode"><span class="id" type="var">b_sum</span></span> says that, if <span class="inlinecode"><span class="id" type="var">n</span></span> and <span class="inlinecode"><span class="id" type="var">m</span></span>
-    are both <span class="inlinecode"><span class="id" type="var">beautiful</span></span> numbers, then it follows that <span class="inlinecode"><span class="id" type="var">n</span>+<span class="id" type="var">m</span></span> is
-    <span class="inlinecode"><span class="id" type="var">beautiful</span></span> too.  If a rule has no premises above the line, then
-    its conclusion holds unconditionally.
 
 <div class="paragraph"> </div>
 
-    These rules <i>define</i> the property <span class="inlinecode"><span class="id" type="var">beautiful</span></span>.  That is, if we
-    want to convince someone that some particular number is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>,
-    our argument must be based on these rules.  For a simple example,
-    suppose we claim that the number <span class="inlinecode">5</span> is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>.  To support
-    this claim, we just need to point out that rule <span class="inlinecode"><span class="id" type="var">b_5</span></span> says so.
-    Or, if we want to claim that <span class="inlinecode">8</span> is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>, we can support our
-    claim by first observing that <span class="inlinecode">3</span> and <span class="inlinecode">5</span> are both <span class="inlinecode"><span class="id" type="var">beautiful</span></span> (by
-    rules <span class="inlinecode"><span class="id" type="var">b_3</span></span> and <span class="inlinecode"><span class="id" type="var">b_5</span></span>) and then pointing out that their sum, <span class="inlinecode">8</span>,
-    is therefore <span class="inlinecode"><span class="id" type="var">beautiful</span></span> by rule <span class="inlinecode"><span class="id" type="var">b_sum</span></span>.  This argument can be
-    expressed graphically with the following <i>proof tree</i>: 
+    以上的每一条用文字描述的规则在这里都被重排为一条推理规则；这种描述方式
+    意欲表达的解读是：如果在横线上方的所有 <i>前提</i> 都成立，那么在横线下方的
+     <i>结论</i> 成立。举例而言，规则<span class="inlinecode"><span class="id" type="var">b_sum</span></span>说明如果<span class="inlinecode"><span class="id" type="var">n</span></span>和<span class="inlinecode"><span class="id" type="var">m</span></span>都有beautiful这一性质，
+    那么<span class="inlinecode"><span class="id" type="var">n</span>+<span class="id" type="var">m</span></span>也拥有这一性质。如果一个规则没有在横线之上的前提，那么它的结论
+    无条件成立。
+
+<div class="paragraph"> </div>
+
+    这些规则 <i>定义</i> 了<span class="inlinecode"><span class="id" type="var">beautiful</span></span>这个性质。也就是说，如果我们想要说服某人某个
+    数字<span class="inlinecode"><span class="id" type="var">beautiful</span></span>，那么我们的推理必须基于这些规则。举个简单的例子：
+    假设我们宣称数字<span class="inlinecode">5</span>拥有性质<span class="inlinecode"><span class="id" type="var">beautiful</span></span>，为了证明它我们只需要指出规则<span class="inlinecode"><span class="id" type="var">b_5</span></span>
+    中声明了这一点；或者假设我们希望证明<span class="inlinecode">8</span>拥有这个性质，为了证明它，在首先观察到<span class="inlinecode">3</span>和
+    <span class="inlinecode">5</span>都是<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的（来自规则<span class="inlinecode"><span class="id" type="var">b_3</span></span>和<span class="inlinecode"><span class="id" type="var">b_5</span></span>）之后，我们能够通过规则
+    <span class="inlinecode"><span class="id" type="var">b_sum</span></span>指出<span class="inlinecode">8</span>作为拥有这一特性的<span class="inlinecode">3</span>和<span class="inlinecode">5</span>的和拥有这一特性。这一推论能够通过下面的
+    <i>证明树</i> 这一形式图形化地表示出来：
 <div class="paragraph"> </div>
 
 
@@ -260,8 +244,7 @@ For <span class="inlinecode"><span class="id" type="var">ev</span></span>, we ha
 
 <div class="paragraph"> </div>
 
-    Of course, there are other ways of using these rules to argue that
-    <span class="inlinecode">8</span> is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>, for instance:
+    当然也存在其他的使用这些规则证明这一事实的方法，比如说这一个证明：
 
 <div class="paragraph"> </div>
 
@@ -277,7 +260,7 @@ For <span class="inlinecode"><span class="id" type="var">ev</span></span>, we ha
 <div class="paragraph"> </div>
 
 <a name="lab234"></a><h4 class="section">Exercise: 1 star (varieties_of_beauty)</h4>
- How many different ways are there to show that <span class="inlinecode">8</span> is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>? 
+ 有多少种不同的证明<span class="inlinecode"><span class="id" type="var">beautiful</span></span> <span class="inlinecode">8</span>的方式？ 
 </div>
 <div class="code code-tight">
 
@@ -294,12 +277,11 @@ For <span class="inlinecode"><span class="id" type="var">ev</span></span>, we ha
 </div>
 
 <div class="doc">
-<a name="lab235"></a><h2 class="section">Constructing Evidence</h2>
+<a name="lab235"></a><h2 class="section">构建证据</h2>
 
 <div class="paragraph"> </div>
 
- In Coq, we can express the definition of <span class="inlinecode"><span class="id" type="var">beautiful</span></span> as
-    follows: 
+ 在Coq中，我们能够用如下的代码表示<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的定义：
 </div>
 <div class="code code-tight">
 
@@ -318,29 +300,26 @@ For <span class="inlinecode"><span class="id" type="var">ev</span></span>, we ha
 
 <div class="paragraph"> </div>
 
-    The rules introduced this way have the same status as proven 
-    theorems; that is, they are true axiomatically. 
-    So we can use Coq's <span class="inlinecode"><span class="id" type="tactic">apply</span></span> tactic with the rule names to prove 
-    that particular numbers are <span class="inlinecode"><span class="id" type="var">beautiful</span></span>.  
+    以这种方式引进的规则与已被证明的定理有着相同的地位；也就是说这些规则
+    像公理一样不证自立，因此我们能够使用策略<span class="inlinecode"><span class="id" type="tactic">apply</span></span>和这些规则的名字来证明某
+    些特定的数字拥有<span class="inlinecode"><span class="id" type="var">beautiful</span></span>这一性质。
 </div>
 <div class="code code-tight">
 
 <br/>
 <span class="id" type="keyword">Theorem</span> <span class="id" type="var">three_is_beautiful</span>: <span class="id" type="var">beautiful</span> 3.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;This&nbsp;simply&nbsp;follows&nbsp;from&nbsp;the&nbsp;rule&nbsp;<span class="inlinecode"><span class="id" type="var">b_3</span></span>.&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;这能够直接从<span class="inlinecode"><span class="id" type="var">b_3</span></span>得出。*)</span><br/>
 &nbsp;&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <span class="id" type="var">b_3</span>.<br/>
 <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
 <span class="id" type="keyword">Theorem</span> <span class="id" type="var">eight_is_beautiful</span>: <span class="id" type="var">beautiful</span> 8.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;First&nbsp;we&nbsp;use&nbsp;the&nbsp;rule&nbsp;<span class="inlinecode"><span class="id" type="var">b_sum</span></span>,&nbsp;telling&nbsp;Coq&nbsp;how&nbsp;to<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instantiate&nbsp;<span class="inlinecode"><span class="id" type="var">n</span></span>&nbsp;and&nbsp;<span class="inlinecode"><span class="id" type="var">m</span></span>.&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;首先我们使用规则<span class="inlinecode"><span class="id" type="var">b_sum</span></span>来让Coq知道如何将<span class="inlinecode"><span class="id" type="var">n</span></span>和<span class="inlinecode"><span class="id" type="var">m</span></span>实例化。*)</span><br/>
 &nbsp;&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <span class="id" type="var">b_sum</span> <span class="id" type="keyword">with</span> (<span class="id" type="var">n</span>:=3) (<span class="id" type="var">m</span>:=5).<br/>
-&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;To&nbsp;solve&nbsp;the&nbsp;subgoals&nbsp;generated&nbsp;by&nbsp;<span class="inlinecode"><span class="id" type="var">b_sum</span></span>,&nbsp;we&nbsp;must&nbsp;provide<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;evidence&nbsp;of&nbsp;<span class="inlinecode"><span class="id" type="var">beautiful</span></span> <span class="inlinecode">3</span>&nbsp;and&nbsp;<span class="inlinecode"><span class="id" type="var">beautiful</span></span> <span class="inlinecode">5</span>.&nbsp;Fortunately&nbsp;we<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;have&nbsp;rules&nbsp;for&nbsp;both.&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;为了证明<span class="inlinecode"><span class="id" type="var">b_sum</span></span>生成的子目标，我们必须提供<span class="inlinecode"><span class="id" type="var">beautiful</span></span> <span class="inlinecode">3</span>和<span class="inlinecode"><span class="id" type="var">beautiful</span></span> <span class="inlinecode">5</span>的<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;证据。幸运的是我们有能够得出它们的规则。*)</span><br/>
 &nbsp;&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <span class="id" type="var">b_3</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <span class="id" type="var">b_5</span>.<br/>
 <span class="id" type="keyword">Qed</span>.<br/>
@@ -350,8 +329,7 @@ For <span class="inlinecode"><span class="id" type="var">ev</span></span>, we ha
 
 <div class="doc">
 <a name="lab237"></a><h3 class="section"> </h3>
- As you would expect, we can also prove theorems that have
-hypotheses about <span class="inlinecode"><span class="id" type="var">beautiful</span></span>. 
+ 就像你会期待的那样，我们也能够证明包含有关<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的前提的定理。
 </div>
 <div class="code code-tight">
 
@@ -399,55 +377,51 @@ hypotheses about <span class="inlinecode"><span class="id" type="var">beautiful<
 </div>
 
 <div class="doc">
-<a name="lab240"></a><h1 class="section">Using Evidence in Proofs</h1>
-<a name="lab241"></a><h2 class="section">Induction over Evidence</h2>
+<a name="lab240"></a><h1 class="section">在证明中使用证据</h1>
+<a name="lab241"></a><h2 class="section">针对证据的归纳法</h2>
 
 <div class="paragraph"> </div>
 
- Besides <i>constructing</i> evidence that numbers are beautiful, we can
-    also <i>reason about</i> such evidence. 
+ 除了 <i>构造</i> 某些数字是beautiful的证据以外，我们还能够对这些证据
+     <i>进行推理</i> 。
 <div class="paragraph"> </div>
 
- The fact that we introduced <span class="inlinecode"><span class="id" type="var">beautiful</span></span> with an <span class="inlinecode"><span class="id" type="keyword">Inductive</span></span>
-    declaration tells Coq not only that the constructors <span class="inlinecode"><span class="id" type="var">b_0</span></span>, <span class="inlinecode"><span class="id" type="var">b_3</span></span>,
-    <span class="inlinecode"><span class="id" type="var">b_5</span></span> and <span class="inlinecode"><span class="id" type="var">b_sum</span></span> are ways to build evidence, but also that these
-    four constructors are the <i>only</i> ways to build evidence that
-    numbers are beautiful. 
+ 我们用<span class="inlinecode"><span class="id" type="keyword">Inductive</span></span>定义引入了<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的这一事实在向Coq声明了<span class="inlinecode"><span class="id" type="var">b_0</span></span>、<span class="inlinecode"><span class="id" type="var">b_3</span></span>、
+    <span class="inlinecode"><span class="id" type="var">b_5</span></span>以及<span class="inlinecode"><span class="id" type="var">b_sum</span></span>是构造证据的方式的同时也声明了这四个构造子是构造能够证实某
+    个数字拥有beautiful这一性质的证据的 <i>唯一</i> 的方法。
 <div class="paragraph"> </div>
 
- In other words, if someone gives us evidence <span class="inlinecode"><span class="id" type="var">E</span></span> for the assertion
-    <span class="inlinecode"><span class="id" type="var">beautiful</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span>, then we know that <span class="inlinecode"><span class="id" type="var">E</span></span> must have one of four shapes:
+ 也就是说，如果有人给出了断言<span class="inlinecode"><span class="id" type="var">beautiful</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span>的证据<span class="inlinecode"><span class="id" type="var">E</span></span>，那么我们可以知道
+    <span class="inlinecode"><span class="id" type="var">E</span></span>一定有着下面四种形式中的其中一种：
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> <span class="inlinecode"><span class="id" type="var">E</span></span> is <span class="inlinecode"><span class="id" type="var">b_0</span></span> (and <span class="inlinecode"><span class="id" type="var">n</span></span> is <span class="inlinecode"><span class="id" type="var">O</span></span>),
+<li> <span class="inlinecode"><span class="id" type="var">E</span></span>是<span class="inlinecode"><span class="id" type="var">b_0</span></span>，且<span class="inlinecode"><span class="id" type="var">n</span></span>为<span class="inlinecode">0</span>；
 
 </li>
-<li> <span class="inlinecode"><span class="id" type="var">E</span></span> is <span class="inlinecode"><span class="id" type="var">b_3</span></span> (and <span class="inlinecode"><span class="id" type="var">n</span></span> is <span class="inlinecode">3</span>), 
+<li> <span class="inlinecode"><span class="id" type="var">E</span></span>是<span class="inlinecode"><span class="id" type="var">b_3</span></span>，且<span class="inlinecode"><span class="id" type="var">n</span></span>为<span class="inlinecode">3</span>；
 
 </li>
-<li> <span class="inlinecode"><span class="id" type="var">E</span></span> is <span class="inlinecode"><span class="id" type="var">b_5</span></span> (and <span class="inlinecode"><span class="id" type="var">n</span></span> is <span class="inlinecode">5</span>), or 
+<li> <span class="inlinecode"><span class="id" type="var">E</span></span>是<span class="inlinecode"><span class="id" type="var">b_5</span></span>，且<span class="inlinecode"><span class="id" type="var">n</span></span>为<span class="inlinecode">5</span>；
 
 </li>
-<li> <span class="inlinecode"><span class="id" type="var">E</span></span> is <span class="inlinecode"><span class="id" type="var">b_sum</span></span> <span class="inlinecode"><span class="id" type="var">n1</span></span> <span class="inlinecode"><span class="id" type="var">n2</span></span> <span class="inlinecode"><span class="id" type="var">E1</span></span> <span class="inlinecode"><span class="id" type="var">E2</span></span> (and <span class="inlinecode"><span class="id" type="var">n</span></span> is <span class="inlinecode"><span class="id" type="var">n1</span>+<span class="id" type="var">n2</span></span>, where <span class="inlinecode"><span class="id" type="var">E1</span></span> is
-        evidence that <span class="inlinecode"><span class="id" type="var">n1</span></span> is beautiful and <span class="inlinecode"><span class="id" type="var">E2</span></span> is evidence that <span class="inlinecode"><span class="id" type="var">n2</span></span>
-        is beautiful). 
+<li> <span class="inlinecode"><span class="id" type="var">E</span></span>是<span class="inlinecode"><span class="id" type="var">b_sum</span></span> <span class="inlinecode"><span class="id" type="var">n1</span></span> <span class="inlinecode"><span class="id" type="var">n2</span></span> <span class="inlinecode"><span class="id" type="var">E1</span></span> <span class="inlinecode"><span class="id" type="var">E2</span></span>，其中<span class="inlinecode"><span class="id" type="var">n</span></span>为<span class="inlinecode"><span class="id" type="var">n1</span>+<span class="id" type="var">n2</span></span>，<span class="inlinecode"><span class="id" type="var">E1</span></span>是证明<span class="inlinecode"><span class="id" type="var">n1</span></span>beautiful
+        的证据，<span class="inlinecode"><span class="id" type="var">E2</span></span>是证明<span class="inlinecode"><span class="id" type="var">n2</span></span>beautiful的证据。
 </li>
 </ul>
 
 <div class="paragraph"> </div>
 
 <a name="lab242"></a><h3 class="section"> </h3>
- This permits us to <i>analyze</i> any hypothesis of the form <span class="inlinecode"><span class="id" type="var">beautiful</span></span>
-    <span class="inlinecode"><span class="id" type="var">n</span></span> to see how it was constructed, using the tactics we already
-    know.  In particular, we can use the <span class="inlinecode"><span class="id" type="tactic">induction</span></span> tactic that we
-    have already seen for reasoning about inductively defined <i>data</i>
-    to reason about inductively defined <i>evidence</i>.
+ 这允许我们使用我们已经知道的证明策略对任何有着<span class="inlinecode"><span class="id" type="var">beautiful</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span>形式的前提进
+    行 <i>分析</i> 以知道这些前提是怎样构造的。具体地说，我们能够用之前我们已经看
+    到被用在对归纳定义的<i>数据</i> 进行推理的<span class="inlinecode"><span class="id" type="tactic">induction</span></span>策略来对归纳定义的 <i>证据</i> 进
+    行推理。
 
 <div class="paragraph"> </div>
 
-    To illustrate this, let's define another property of numbers: 
+    为了说明这一点，让我们来定义另外一种数字的性质：
 </div>
 <div class="code code-tight">
 
@@ -462,8 +436,7 @@ hypotheses about <span class="inlinecode"><span class="id" type="var">beautiful<
 
 <div class="doc">
 <a name="lab243"></a><h4 class="section">Exercise: 1 star (gorgeous_tree)</h4>
- Write out the definition of <span class="inlinecode"><span class="id" type="var">gorgeous</span></span> numbers using inference rule
-    notation.
+ 使用推理规则的表示法写出<span class="inlinecode"><span class="id" type="var">gorgeous</span></span>数字的定义。
 
 <div class="paragraph"> </div>
 
@@ -487,10 +460,9 @@ hypotheses about <span class="inlinecode"><span class="id" type="var">beautiful<
 <div class="paragraph"> </div>
 
 <a name="lab245"></a><h3 class="section"> </h3>
- It seems intuitively obvious that, although <span class="inlinecode"><span class="id" type="var">gorgeous</span></span> and
-    <span class="inlinecode"><span class="id" type="var">beautiful</span></span> are presented using slightly different rules, they are
-    actually the same property in the sense that they are true of the
-    same numbers.  Indeed, we can prove this. 
+ 就直观上而言这看上去十分明显：即使<span class="inlinecode"><span class="id" type="var">gorgeous</span></span>和<span class="inlinecode"><span class="id" type="var">beautiful</span></span>是由稍微有些不同
+    的两组规则表示的，它们实际上说明了同一种性质：拥有前者的数字都同时拥有
+    后者，反之亦然。诚然，我们能够证明这一点。
 </div>
 <div class="code code-tight">
 
@@ -500,28 +472,24 @@ hypotheses about <span class="inlinecode"><span class="id" type="var">beautiful<
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id" type="tactic">intros</span>. <span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n'</span>].<br/>
 &nbsp;&nbsp;&nbsp;- <span class="comment">(*&nbsp;n&nbsp;=&nbsp;0&nbsp;*)</span> <span class="id" type="tactic">apply</span> <span class="id" type="var">b_0</span>.<br/>
-&nbsp;&nbsp;&nbsp;- <span class="comment">(*&nbsp;n&nbsp;=&nbsp;S&nbsp;n'&nbsp;*)</span> <span class="comment">(*&nbsp;We&nbsp;are&nbsp;stuck!&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;- <span class="comment">(*&nbsp;n&nbsp;=&nbsp;S&nbsp;n'&nbsp;*)</span> <span class="comment">(*&nbsp;我们在这里卡住了！&nbsp;*)</span><br/>
 <span class="id" type="keyword">Abort</span>.<br/>
 
 <br/>
 </div>
 
 <div class="doc">
-The problem here is that doing induction on <span class="inlinecode"><span class="id" type="var">n</span></span> doesn't yield a
-    useful induction hypothesis. Knowing how the property we are
-    interested in behaves on the predecessor of <span class="inlinecode"><span class="id" type="var">n</span></span> doesn't help us
-    prove that it holds for <span class="inlinecode"><span class="id" type="var">n</span></span>. Instead, we would like to be able to
-    have induction hypotheses that mention other numbers, such as <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">-</span>
-    <span class="inlinecode">3</span> and <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">-</span> <span class="inlinecode">5</span>. This is given precisely by the shape of the
-    constructors for <span class="inlinecode"><span class="id" type="var">gorgeous</span></span>. 
+这里的问题在于进行基于<span class="inlinecode"><span class="id" type="var">n</span></span>的归纳并不能产出一个有用的归纳前提：知道某个性
+    质是否被<span class="inlinecode"><span class="id" type="var">n</span></span>的前继所具有并不能帮助我们证明<span class="inlinecode"><span class="id" type="var">n</span></span>本身是否具有这个性质。但是作为
+    替代地，我们希望能够得到有关其他数字的归纳前提，比如说<span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">-</span> <span class="inlinecode">3</span>和<span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">-</span> <span class="inlinecode">5</span>。这将由
+    <span class="inlinecode"><span class="id" type="var">gorgeous</span></span>的构造子的形式精确地给出。
 <div class="paragraph"> </div>
 
 <a name="lab246"></a><h3 class="section"> </h3>
 
 <div class="paragraph"> </div>
 
- Let's see what happens if we try to prove this by induction on the evidence <span class="inlinecode"><span class="id" type="var">H</span></span>
-   instead of on <span class="inlinecode"><span class="id" type="var">n</span></span>. 
+ 让我们看看当我们试图通过基于证据<span class="inlinecode"><span class="id" type="var">H</span></span>的归纳来进行这一证明时将会发生什么。
 </div>
 <div class="code code-tight">
 
@@ -541,7 +509,7 @@ The problem here is that doing induction on <span class="inlinecode"><span class
 <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
-<span class="comment">(*&nbsp;These&nbsp;exercises&nbsp;also&nbsp;require&nbsp;the&nbsp;use&nbsp;of&nbsp;induction&nbsp;on&nbsp;the&nbsp;evidence.&nbsp;*)</span><br/>
+<span class="comment">(*&nbsp;这些练习也需要对证据使用归纳法。*)</span><br/>
 
 <br/>
 </div>
@@ -575,8 +543,8 @@ The problem here is that doing induction on <span class="inlinecode"><span class
 <div class="paragraph"> </div>
 
 <a name="lab249"></a><h4 class="section">Exercise: 3 stars, optional (g_times2)</h4>
- Prove the <span class="inlinecode"><span class="id" type="var">g_times2</span></span> theorem below without using <span class="inlinecode"><span class="id" type="var">gorgeous__beautiful</span></span>.
-    You might find the following helper lemma useful. 
+ 在不使用<span class="inlinecode"><span class="id" type="var">gorgeous__beautiful</span></span>的情况下证明<span class="inlinecode"><span class="id" type="var">g_times2</span></span>这一定理。
+    你也许会发现下面的引理在证明过程中十分有用。
 </div>
 <div class="code code-tight">
 
@@ -597,8 +565,7 @@ The problem here is that doing induction on <span class="inlinecode"><span class
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
- Here is a proof that the inductive definition of evenness implies
-the computational one. 
+ 下面是“具有归纳定义的偶数性是具有计算上的偶数性的充分条件”这一事实的证明。
 </div>
 <div class="code code-tight">
 
@@ -618,8 +585,7 @@ the computational one.
 
 <div class="doc">
 <a name="lab250"></a><h4 class="section">Exercise: 1 star (ev__even)</h4>
- Could this proof also be carried out by induction on <span class="inlinecode"><span class="id" type="var">n</span></span> instead
-    of <span class="inlinecode"><span class="id" type="var">E</span></span>?  If not, why not? 
+ 这个证明能够通过对<span class="inlinecode"><span class="id" type="var">n</span></span>进行归纳完成吗？如果不能，为什么？
 </div>
 <div class="code code-tight">
 
@@ -631,13 +597,12 @@ the computational one.
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
- Intuitively, the induction principle for evidence <span class="inlinecode"><span class="id" type="var">ev</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> is
-    similar to induction on <span class="inlinecode"><span class="id" type="var">n</span></span>, but restricts our attention to only
-    those numbers for which evidence <span class="inlinecode"><span class="id" type="var">ev</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> could be generated. 
+ 直观上，对证据<span class="inlinecode"><span class="id" type="var">ev</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span>的归纳法与对<span class="inlinecode"><span class="id" type="var">n</span></span>的归纳法相似，但是它限制了我们的注意范
+    围，让我们只关注可以让证据<span class="inlinecode"><span class="id" type="var">ev</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span>被生成的数字。 
 <div class="paragraph"> </div>
 
 <a name="lab251"></a><h4 class="section">Exercise: 1 star (l_fails)</h4>
- The following proof attempt will not succeed.
+ 以下的对证明的尝试不会成功。
 
 <div class="paragraph"> </div>
 
@@ -652,8 +617,8 @@ the computational one.
 <div class="paragraph"> </div>
 
 </div>
-   Intuitively, we expect the proof to fail because not every
-   number is even. However, what exactly causes the proof to fail?
+   我们会直觉性地认为这个证明会无法被完成，因为并不是所有数字都是偶数。
+   但是究竟是什么实际上导致了这一证明的失败？
 
 <div class="paragraph"> </div>
 
@@ -661,7 +626,7 @@ the computational one.
  <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
- Here's another exercise requiring induction on evidence. <a name="lab252"></a><h4 class="section">Exercise: 2 stars (ev_sum)</h4>
+ 下面是需要对证据进行归纳的又一个练习。<a name="lab252"></a><h4 class="section">Exercise: 2 stars (ev_sum)</h4>
 
 </div>
 <div class="code code-space">
@@ -682,15 +647,14 @@ the computational one.
 </div>
 
 <div class="doc">
-<a name="lab253"></a><h2 class="section">Inversion on Evidence</h2>
+<a name="lab253"></a><h2 class="section">对证据进行反演</h2>
 
 <div class="paragraph"> </div>
 
- Having evidence for a proposition is useful while proving, because we 
-   can <i>look</i> at that evidence for more information. For example, consider 
-    proving that, if <span class="inlinecode"><span class="id" type="var">n</span></span> is even, then <span class="inlinecode"><span class="id" type="var">pred</span></span> <span class="inlinecode">(<span class="id" type="var">pred</span></span> <span class="inlinecode"><span class="id" type="var">n</span>)</span> is
-    too.  In this case, we don't need to do an inductive proof.  Instead 
-    the <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> tactic provides all of the information that we need.
+ 证明的时候持有某个命题的证据是十分有用的，因为我们可以通过对这些证据的
+     <i>观察</i> 得到更多的信息。假设现在正在证明“若<span class="inlinecode"><span class="id" type="var">n</span></span>是偶数则<span class="inlinecode"><span class="id" type="var">pred</span></span> <span class="inlinecode">(<span class="id" type="var">pred</span></span> <span class="inlinecode"><span class="id" type="var">n</span>)</span>为偶数”
+    这一命题，在这一情况下我们并不需要使用归纳法：<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>策略已经能够提供
+    我们所需的全部信息。
 
 <div class="paragraph"> </div>
 
@@ -711,7 +675,7 @@ the computational one.
 
 <div class="doc">
 <a name="lab254"></a><h4 class="section">Exercise: 1 star, optional (ev_minus2_n)</h4>
- What happens if we try to use <span class="inlinecode"><span class="id" type="tactic">destruct</span></span> on <span class="inlinecode"><span class="id" type="var">n</span></span> instead of <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> on <span class="inlinecode"><span class="id" type="var">E</span></span>? 
+ 假如我们试图以对<span class="inlinecode"><span class="id" type="var">n</span></span>使用<span class="inlinecode"><span class="id" type="tactic">destruct</span></span>代替对<span class="inlinecode"><span class="id" type="var">E</span></span>的<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>，那么会发生什么？ 
 </div>
 <div class="code code-tight">
 
@@ -724,8 +688,7 @@ the computational one.
 <div class="paragraph"> </div>
 
 <a name="lab255"></a><h3 class="section"> </h3>
- Here is another example, in which <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> helps narrow down to
-the relevant cases. 
+ 这里是另外一个展示了<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>能够缩小相关情况的范围的例子。 
 </div>
 <div class="code code-tight">
 
@@ -741,46 +704,38 @@ the relevant cases.
 </div>
 
 <div class="doc">
-<a name="lab256"></a><h2 class="section">The Inversion Tactic Revisited</h2>
+<a name="lab256"></a><h2 class="section">再访反演策略</h2>
 
 <div class="paragraph"> </div>
 
- These uses of <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> may seem a bit mysterious at first.
-    Until now, we've only used <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> on equality
-    propositions, to utilize injectivity of constructors or to
-    discriminate between different constructors.  But we see here
-    that <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> can also be applied to analyzing evidence
-    for inductively defined propositions.
+ 刚开始的时候这些<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>的应用看上去可能会有一点奇怪。
+    至今为止我们只是为了利用构造子的单射性或区分不同的构造子而在等价性命题上使用过
+    <span class="inlinecode"><span class="id" type="tactic">inversion</span></span>而已。但是我们现在知道了<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>也可以被用于分析归纳定义的命
+    题的证据。
 
 <div class="paragraph"> </div>
 
-    (You might also expect that <span class="inlinecode"><span class="id" type="tactic">destruct</span></span> would be a more suitable
-    tactic to use here. Indeed, it is possible to use <span class="inlinecode"><span class="id" type="tactic">destruct</span></span>, but 
-    it often throws away useful information, and the <span class="inlinecode"><span class="id" type="var">eqn</span>:</span> qualifier
-    doesn't help much in this case.)    
+    （你也许会认为<span class="inlinecode"><span class="id" type="tactic">destruct</span></span>在这里会是个更加适合的策略。诚然，使用<span class="inlinecode"><span class="id" type="tactic">destruct</span></span>
+    是可能的，但是它常常会去掉有用的信息，而且在这里<span class="inlinecode"><span class="id" type="var">eqn</span>:</span>限定符并不能对挽救
+    这一点起太大的作用。）  
 
 <div class="paragraph"> </div>
 
-    Here's how <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> works in general.  Suppose the name
-    <span class="inlinecode"><span class="id" type="var">I</span></span> refers to an assumption <span class="inlinecode"><span class="id" type="var">P</span></span> in the current context, where
-    <span class="inlinecode"><span class="id" type="var">P</span></span> has been defined by an <span class="inlinecode"><span class="id" type="keyword">Inductive</span></span> declaration.  Then,
-    for each of the constructors of <span class="inlinecode"><span class="id" type="var">P</span></span>, <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> <span class="inlinecode"><span class="id" type="var">I</span></span> generates
-    a subgoal in which <span class="inlinecode"><span class="id" type="var">I</span></span> has been replaced by the exact,
-    specific conditions under which this constructor could have
-    been used to prove <span class="inlinecode"><span class="id" type="var">P</span></span>.  Some of these subgoals will be
-    self-contradictory; <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> throws these away.  The ones
-    that are left represent the cases that must be proved to
-    establish the original goal.
+    <span class="inlinecode"><span class="id" type="tactic">inversion</span></span>的一般工作模式：假设<span class="inlinecode"><span class="id" type="var">I</span></span>是指向一个存在于当前上下文中的假设<span class="inlinecode"><span class="id" type="var">P</span></span>的标
+    识符，那么对于<span class="inlinecode"><span class="id" type="var">P</span></span>的每一个构造子，<span class="inlinecode"><span class="id" type="tactic">inversion</span></span> <span class="inlinecode"><span class="id" type="var">I</span></span>将会生成对应的子目标；而且在
+    这些子目标中，<span class="inlinecode"><span class="id" type="var">I</span></span>被这个构造子的能够被用于证明<span class="inlinecode"><span class="id" type="var">P</span></span>时的特定情况代替。有些子目
+    标是自我矛盾的，而<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>会去掉他们；剩下的子目标则是我们所必须证
+    明以构建原初的目标的。
 
 <div class="paragraph"> </div>
 
-    In this particular case, the <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> analyzed the construction
-    <span class="inlinecode"><span class="id" type="var">ev</span></span> <span class="inlinecode">(<span class="id" type="var">S</span></span> <span class="inlinecode">(<span class="id" type="var">S</span></span> <span class="inlinecode"><span class="id" type="var">n</span>))</span>, determined that this could only have been
-    constructed using <span class="inlinecode"><span class="id" type="var">ev_SS</span></span>, and generated a new subgoal with the
-    arguments of that constructor as new hypotheses.  (It also
-    produced an auxiliary equality, which happens to be useless here.)
-    We'll begin exploring this more general behavior of inversion in
-    what follows. 
+    在这个例子中，<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>分析了<span class="inlinecode"><span class="id" type="var">ev</span></span> <span class="inlinecode">(<span class="id" type="var">S</span></span> <span class="inlinecode">(<span class="id" type="var">S</span></span> <span class="inlinecode"><span class="id" type="var">n</span>))</span>的构造，确定了它只能由
+    <span class="inlinecode"><span class="id" type="var">ev_SS</span></span>构造而来，并生成了一个包含了这个构造子的参数作为新的前提的子目标（它同时
+    也生成了一个辅助等式，而在这个例子中它并没有用处。）
+
+<div class="paragraph"> </div>
+
+    我们会在接下来开始探索inversion的更一般的行为。 
 <div class="paragraph"> </div>
 
 <a name="lab257"></a><h4 class="section">Exercise: 1 star (inversion_practice)</h4>
@@ -796,8 +751,7 @@ the relevant cases.
 </div>
 
 <div class="doc">
-The <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> tactic can also be used to derive goals by showing
-    the absurdity of a hypothesis. 
+<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>策略也可以被用于显示某个前提的荒谬来证明当前的目标。 
 </div>
 <div class="code code-tight">
 
@@ -813,8 +767,7 @@ The <span class="inlinecode"><span class="id" type="tactic">inversion</span></sp
 <div class="paragraph"> </div>
 
 <a name="lab258"></a><h4 class="section">Exercise: 3 stars, advanced (ev_ev__ev)</h4>
- Finding the appropriate thing to do induction on is a
-    bit tricky here: 
+ 在这个练习中找到适合进行归纳的对象可能有点困难： 
 </div>
 <div class="code code-tight">
 
@@ -830,9 +783,8 @@ The <span class="inlinecode"><span class="id" type="tactic">inversion</span></sp
 <div class="paragraph"> </div>
 
 <a name="lab259"></a><h4 class="section">Exercise: 3 stars, optional (ev_plus_plus)</h4>
- Here's an exercise that just requires applying existing lemmas.  No
-    induction or even case analysis is needed, but some of the rewriting
-    may be tedious. 
+ 这里是一个只需要应用已经存在的引理的练习。不需要任何的归纳法或分类讨论，
+    只是有些重写步骤会稍显冗长。 
 </div>
 <div class="code code-tight">
 
@@ -852,43 +804,35 @@ The <span class="inlinecode"><span class="id" type="tactic">inversion</span></sp
 </div>
 
 <div class="doc">
-<a name="lab260"></a><h1 class="section">Discussion and Variations</h1>
-<a name="lab261"></a><h2 class="section">Computational vs. Inductive Definitions</h2>
+<a name="lab260"></a><h1 class="section">讨论和变形</h1>
+<a name="lab261"></a><h2 class="section">计算性定义 vs. 归纳性定义</h2>
 
 <div class="paragraph"> </div>
 
- We have seen that the proposition "<span class="inlinecode"><span class="id" type="var">n</span></span> is even" can be
-    phrased in two different ways &mdash; indirectly, via a boolean testing
-    function <span class="inlinecode"><span class="id" type="var">evenb</span></span>, or directly, by inductively describing what
-    constitutes evidence for evenness.  These two ways of defining
-    evenness are about equally easy to state and work with.  Which we
-    choose is basically a question of taste.
+ 我们已经能够看到“<span class="inlinecode"><span class="id" type="var">n</span></span>是偶数”这一命题能够从两种方向解释——间接地通过一个
+    布尔测试函数<span class="inlinecode"><span class="id" type="var">evenb</span></span>定义，或者直接归纳性地解释什么可以组成能够证实偶数性
+    的证据。这两种不同的定义偶数性的方式同样地容易阐述，也同样地容易讨论。
+    因此在这里，选择哪种方式仅仅是个人选择。
 
 <div class="paragraph"> </div>
 
-    However, for many other properties of interest, the direct
-    inductive definition is preferable, since writing a testing
-    function may be awkward or even impossible.  
+    然而对于许多其他的我们关心的性质而言一般推荐使用直接的归纳定义，因为有
+    时编写一个测试函数会十分困难，或者甚至不可能。
 
 <div class="paragraph"> </div>
 
-    One such property is <span class="inlinecode"><span class="id" type="var">beautiful</span></span>.  This is a perfectly sensible
-    definition of a set of numbers, but we cannot translate its
-    definition directly into a Coq Fixpoint (or into a recursive
-    function in any other common programming language).  We might be
-    able to find a clever way of testing this property using a
-    <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> (indeed, it is not too hard to find one in this case),
-    but in general this could require arbitrarily deep thinking.  In
-    fact, if the property we are interested in is uncomputable, then
-    we cannot define it as a <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> no matter how hard we try,
-    because Coq requires that all <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span>s correspond to
-    terminating computations.
+    <span class="inlinecode"><span class="id" type="var">beautiful</span></span>就是这样的一种性质。它作为一个数集的定义是完全可被理解的，
+    但是我们无法将其转换成一个Coq Fixpoint（或者转换成任何常见的编程语言里的
+    一个递归函数）。我们也许能够找到某种取巧的使用Fixpoint的检测这种性质的
+    方法（诚然，就这个例子而言，得出这样的方法并不困难），然而就一般而言，
+    这会需要十分深刻的思考。事实上，假如我们所关心的性质是不可计算的，那么
+    无论我们如何努力，我们都无法用<span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span>定义它，因为Coq要求每一个
+    <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span>都要对应某个将会停机的运算。
 
 <div class="paragraph"> </div>
 
-    On the other hand, writing an inductive definition of what it
-    means to give evidence for the property <span class="inlinecode"><span class="id" type="var">beautiful</span></span> is
-    straightforward. 
+    另一方面，就为了定义如何给出能够证实持有<span class="inlinecode"><span class="id" type="var">beautiful</span></span>这一性质的证据而言，
+    直接写出一个归纳定义是十分直接的。 
 </div>
 <div class="code code-tight">
 
@@ -896,14 +840,13 @@ The <span class="inlinecode"><span class="id" type="tactic">inversion</span></sp
 </div>
 
 <div class="doc">
-<a name="lab262"></a><h2 class="section">Parameterized Data Structures</h2>
+<a name="lab262"></a><h2 class="section">参数化数据结构</h2>
 
 <div class="paragraph"> </div>
 
- So far, we have only looked at propositions about natural numbers. However, 
-   we can define inductive predicates about any type of data. For example, 
-   suppose we would like to characterize lists of <i>even</i> length. We can 
-   do that with the following definition.  
+ 至今为止我们只是接触过有关自然数的命题，但是我们能够定义有关任意类型的
+    数据的归纳谓词。比如说，假如我们想要将“具有 <i>偶数</i> 长度的列表”特征化，我
+    们能够通过下面的定义做到这一点： 
 </div>
 <div class="code code-tight">
 
@@ -916,8 +859,7 @@ The <span class="inlinecode"><span class="id" type="tactic">inversion</span></sp
 </div>
 
 <div class="doc">
-Of course, this proposition is equivalent to just saying that the
-length of the list is even. 
+当然这个命题与声明列表的长度为偶数等价。 
 </div>
 <div class="code code-tight">
 
@@ -933,9 +875,8 @@ length of the list is even.
 </div>
 
 <div class="doc">
-However, because evidence for <span class="inlinecode"><span class="id" type="var">ev</span></span> contains less information than
-evidence for <span class="inlinecode"><span class="id" type="var">ev_list</span></span>, the converse direction must be stated very
-carefully. 
+然而由于<span class="inlinecode"><span class="id" type="var">ev</span></span>的证据包含的信息比<span class="inlinecode"><span class="id" type="var">ev_list</span></span>的证据所包含的更少，在证明另一个方
+    向的时候必须十分小心。 
 </div>
 <div class="code code-tight">
 
@@ -958,16 +899,20 @@ carefully.
 
 <div class="doc">
 <a name="lab263"></a><h4 class="section">Exercise: 4 stars (palindromes)</h4>
- A palindrome is a sequence that reads the same backwards as
-    forwards.
+ 回文指的是一种从反方向读的结果与从正方向读相同的序列。
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> Define an inductive proposition <span class="inlinecode"><span class="id" type="var">pal</span></span> on <span class="inlinecode"><span class="id" type="var">list</span></span> <span class="inlinecode"><span class="id" type="var">X</span></span> that
-      captures what it means to be a palindrome. (Hint: You'll need
-      three cases.  Your definition should be based on the structure
-      of the list; just having a single constructor
+<li> 定义一个关于<span class="inlinecode"><span class="id" type="var">list</span></span> <span class="inlinecode"><span class="id" type="var">X</span></span>的能够说明什么是一段回文的归纳命题<span class="inlinecode"><span class="id" type="var">pal</span></span>。
+
+<div class="paragraph"> </div>
+
+      （提示：你会需要分三种情况。你的定义应该基于列表的结构。
+
+<div class="paragraph"> </div>
+
+        只用一个构造子：
 
 <div class="paragraph"> </div>
 
@@ -976,13 +921,13 @@ carefully.
 <div class="paragraph"> </div>
 
 </div>
-      may seem obvious, but will not work very well.)
+        看上去或许能够明显地解决这个问题，但是这并不能很好地工作。）
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> Prove <span class="inlinecode"><span class="id" type="var">pal_app_rev</span></span> that 
+<li> 证明<span class="inlinecode"><span class="id" type="var">pal_app_rev</span></span>：
 
 <div class="paragraph"> </div>
 
@@ -993,7 +938,7 @@ carefully.
 </div>
 
 </li>
-<li> Prove <span class="inlinecode"><span class="id" type="var">pal_rev</span></span> that 
+<li> 证明<span class="inlinecode"><span class="id" type="var">pal_rev</span></span>：
 
 <div class="paragraph"> </div>
 
@@ -1019,16 +964,14 @@ carefully.
 <div class="code code-tight">
 
 <br/>
-<span class="comment">(*&nbsp;Again,&nbsp;the&nbsp;converse&nbsp;direction&nbsp;is&nbsp;much&nbsp;more&nbsp;difficult,&nbsp;due&nbsp;to&nbsp;the<br/>
-lack&nbsp;of&nbsp;evidence.&nbsp;*)</span><br/>
+<span class="comment">(*&nbsp;由于缺乏证据，相反方向的证再一次地变得更加困难了。&nbsp;&nbsp;*)</span><br/>
 
 <br/>
 </div>
 
 <div class="doc">
 <a name="lab264"></a><h4 class="section">Exercise: 5 stars, optional (palindrome_converse)</h4>
- Using your definition of <span class="inlinecode"><span class="id" type="var">pal</span></span> from the previous exercise, prove
-    that
+ 使用在之前的练习中你给出的<span class="inlinecode"><span class="id" type="var">pal</span></span>的定义进行证明： 
 
 <div class="paragraph"> </div>
 
@@ -1054,16 +997,17 @@ lack&nbsp;of&nbsp;evidence.&nbsp;*)</span><br/>
 </div>
 
 <div class="doc">
-<a name="lab265"></a><h2 class="section">Relations</h2>
+<a name="lab265"></a><h2 class="section">关系</h2>
 
 <div class="paragraph"> </div>
 
- A proposition parameterized by a number (such as <span class="inlinecode"><span class="id" type="var">ev</span></span> or
-    <span class="inlinecode"><span class="id" type="var">beautiful</span></span>) can be thought of as a <i>property</i> &mdash; i.e., it defines
-    a subset of <span class="inlinecode"><span class="id" type="var">nat</span></span>, namely those numbers for which the proposition
-    is provable.  In the same way, a two-argument proposition can be
-    thought of as a <i>relation</i> &mdash; i.e., it defines a set of pairs for
-    which the proposition is provable. 
+
+<div class="paragraph"> </div>
+
+    一个附带了一个数字作为其参数的命题（比如<span class="inlinecode"><span class="id" type="var">ev</span></span>或者<span class="inlinecode"><span class="id" type="var">beautiful</span></span>）能够被看作是
+    一种 <i>性质</i> ——它定义了一个<span class="inlinecode"><span class="id" type="var">nat</span></span>的子集，这个子集中包含了所有能够被证明拥有
+    这一性质的数字。同样地，一个有两个参数的命题能够被看作是一种 <i>关系</i> ——
+    它定义了一个包含所有能够被证明存在这一关系的序对的集合。 
 </div>
 <div class="code code-tight">
 
@@ -1073,15 +1017,12 @@ lack&nbsp;of&nbsp;evidence.&nbsp;*)</span><br/>
 </div>
 
 <div class="doc">
-One useful example is the "less than or equal to"
-    relation on numbers. 
+其中一个十分有用的例子是数字之间的“小于等于”的关系。 
 <div class="paragraph"> </div>
 
- The following definition should be fairly intuitive.  It
-    says that there are two ways to give evidence that one number is
-    less than or equal to another: either observe that they are the
-    same number, or give evidence that the first is less than or equal
-    to the predecessor of the second. 
+ 以下的定义应该足够符合直觉。它说明存在两种给出证实某个数字小于或等于另
+    外一个数字的证据的方式：声明它们相等，或者声明其中一个数字小于或等于另
+    外一个数字的前继。 
 </div>
 <div class="code code-tight">
 
@@ -1097,21 +1038,23 @@ One useful example is the "less than or equal to"
 </div>
 
 <div class="doc">
-Proofs of facts about <span class="inlinecode">≤</span> using the constructors <span class="inlinecode"><span class="id" type="var">le_n</span></span> and
-    <span class="inlinecode"><span class="id" type="var">le_S</span></span> follow the same patterns as proofs about properties, like
-    <span class="inlinecode"><span class="id" type="var">ev</span></span> in chapter <span class="inlinecode"><span class="id" type="keyword">Prop</span></span>.  We can <span class="inlinecode"><span class="id" type="tactic">apply</span></span> the constructors to prove <span class="inlinecode">≤</span>
-    goals (e.g., to show that <span class="inlinecode">3≤3</span> or <span class="inlinecode">3≤6</span>), and we can use
-    tactics like <span class="inlinecode"><span class="id" type="tactic">inversion</span></span> to extract information from <span class="inlinecode">≤</span>
-    hypotheses in the context (e.g., to prove that <span class="inlinecode">(2</span> <span class="inlinecode">≤</span> <span class="inlinecode">1)</span> <span class="inlinecode"><span style="font-family: arial;">&rarr;</span></span> <span class="inlinecode">2+2=5</span>.) 
+
+<div class="paragraph"> </div>
+
+    使用构造子<span class="inlinecode"><span class="id" type="var">le_n</span></span>和<span class="inlinecode"><span class="id" type="var">le_S</span></span>证明关于<span class="inlinecode">≤</span>的事实的方法和证明与性质（比如说<span class="inlinecode"><span class="id" type="keyword">Prop</span></span>一章
+    中的<span class="inlinecode"><span class="id" type="var">ev</span></span>）相关的事实的方法相同。我们可以对构造子使用<span class="inlinecode"><span class="id" type="tactic">apply</span></span>以证明包含<span class="inlinecode">≤</span>的
+    目标（举例而言，证明<span class="inlinecode">3≤3</span>或者<span class="inlinecode">3≤6</span>），也可以使用像<span class="inlinecode"><span class="id" type="tactic">inversion</span></span>之类的证明策略
+    来从存在于上下文中的包含<span class="inlinecode">≤</span>的前提提取出信息（如证明<span class="inlinecode">(2</span> <span class="inlinecode">≤</span> <span class="inlinecode">1)</span> <span class="inlinecode"><span style="font-family: arial;">&rarr;</span></span> <span class="inlinecode">2</span> <span class="inlinecode">+</span> <span class="inlinecode">2</span> <span class="inlinecode">=</span> <span class="inlinecode">5</span>）。  
 <div class="paragraph"> </div>
 
 <a name="lab266"></a><h3 class="section"> </h3>
- Here are some sanity checks on the definition.  (Notice that,
-    although these are the same kind of simple "unit tests" as we gave
-    for the testing functions we wrote in the first few lectures, we
-    must construct their proofs explicitly &mdash; <span class="inlinecode"><span class="id" type="tactic">simpl</span></span> and
-    <span class="inlinecode"><span class="id" type="tactic">reflexivity</span></span> don't do the job, because the proofs aren't just a
-    matter of simplifying computations.) 
+
+<div class="paragraph"> </div>
+
+    这里有一些针对这个定义的正常性检查。（注意，即使这些与在之前的课程中为
+    了测试我们写的函数而写的简单的“单元测试”是同一种事情，我们也必须构造出
+    明晰的证明——<span class="inlinecode"><span class="id" type="tactic">simpl</span></span>和<span class="inlinecode"><span class="id" type="tactic">reflexivity</span></span>并不会完成这一工作，因为证明并不是只需
+    通过简化就能完成的计算。） 
 </div>
 <div class="code code-tight">
 
@@ -1141,8 +1084,7 @@ Proofs of facts about <span class="inlinecode">≤</span> using the constructors
 
 <div class="doc">
 <a name="lab267"></a><h3 class="section"> </h3>
- The "strictly less than" relation <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">&lt;</span> <span class="inlinecode"><span class="id" type="var">m</span></span> can now be defined
-    in terms of <span class="inlinecode"><span class="id" type="var">le</span></span>. 
+ 现在“小于”关系（<span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">&lt;</span> <span class="inlinecode"><span class="id" type="var">m</span></span>）能够借助<span class="inlinecode"><span class="id" type="var">le</span></span>进行定义了。 
 </div>
 <div class="code code-tight">
 
@@ -1156,7 +1098,7 @@ Proofs of facts about <span class="inlinecode">≤</span> using the constructors
 </div>
 
 <div class="doc">
-Here are a few more simple relations on numbers: 
+这里有一些简单的数字之间的关系： 
 </div>
 <div class="code code-tight">
 
@@ -1178,8 +1120,7 @@ Here are a few more simple relations on numbers:
 
 <div class="doc">
 <a name="lab268"></a><h4 class="section">Exercise: 2 stars (total_relation)</h4>
- Define an inductive binary relation <span class="inlinecode"><span class="id" type="var">total_relation</span></span> that holds
-    between every pair of natural numbers. 
+ 定义一个每一对自然数之间都具有的归纳二元关系<span class="inlinecode"><span class="id" type="var">total_relation</span></span>。
 </div>
 <div class="code code-tight">
 
@@ -1192,8 +1133,7 @@ Here are a few more simple relations on numbers:
 <div class="paragraph"> </div>
 
 <a name="lab269"></a><h4 class="section">Exercise: 2 stars (empty_relation)</h4>
- Define an inductive binary relation <span class="inlinecode"><span class="id" type="var">empty_relation</span></span> (on numbers)
-    that never holds. 
+ 定义一个不可能被具有的关于数字的归纳二元关系<span class="inlinecode"><span class="id" type="var">empty_relation</span></span>。
 </div>
 <div class="code code-tight">
 
@@ -1206,9 +1146,11 @@ Here are a few more simple relations on numbers:
 <div class="paragraph"> </div>
 
 <a name="lab270"></a><h4 class="section">Exercise: 2 stars, optional (le_exercises)</h4>
- Here are a number of facts about the <span class="inlinecode">≤</span> and <span class="inlinecode">&lt;</span> relations that
-    we are going to need later in the course.  The proofs make good
-    practice exercises. 
+ 这里有一些在后来的课程中所需要的关于<span class="inlinecode">≤</span>和<span class="inlinecode">&lt;</span>的事实。
+
+<div class="paragraph"> </div>
+
+    试着证明它们，这将会是很好的练习。 
 </div>
 <div class="code code-tight">
 
@@ -1267,14 +1209,14 @@ Here are a few more simple relations on numbers:
 &nbsp;&nbsp;<span class="id" type="var">n</span> ≤ <span class="id" type="var">m</span> <span style="font-family: arial;">&rarr;</span><br/>
 &nbsp;&nbsp;<span class="id" type="var">ble_nat</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> = <span class="id" type="var">true</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Hint:&nbsp;This&nbsp;may&nbsp;be&nbsp;easiest&nbsp;to&nbsp;prove&nbsp;by&nbsp;induction&nbsp;on&nbsp;<span class="inlinecode"><span class="id" type="var">m</span></span>.&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="comment">(*&nbsp;提示：对<span class="inlinecode"><span class="id" type="var">m</span></span>使用归纳法可能是证明这一事实的最容易的方法。*)</span><br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;FILL&nbsp;IN&nbsp;HERE&nbsp;*)</span> <span class="id" type="var">Admitted</span>.<br/>
 
 <br/>
 <span class="id" type="keyword">Theorem</span> <span class="id" type="var">ble_nat_true_trans</span> : <span style="font-family: arial;">&forall;</span><span class="id" type="var">n</span> <span class="id" type="var">m</span> <span class="id" type="var">o</span>,<br/>
 &nbsp;&nbsp;<span class="id" type="var">ble_nat</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> = <span class="id" type="var">true</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">ble_nat</span> <span class="id" type="var">m</span> <span class="id" type="var">o</span> = <span class="id" type="var">true</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">ble_nat</span> <span class="id" type="var">n</span> <span class="id" type="var">o</span> = <span class="id" type="var">true</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Hint:&nbsp;This&nbsp;theorem&nbsp;can&nbsp;be&nbsp;easily&nbsp;proved&nbsp;without&nbsp;using&nbsp;<span class="inlinecode"><span class="id" type="tactic">induction</span></span>.&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="comment">(*&nbsp;提示：这个定理的证明，不使用<span class="inlinecode"><span class="id" type="tactic">induction</span></span>就能轻易地完成。&nbsp;*)</span><br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;FILL&nbsp;IN&nbsp;HERE&nbsp;*)</span> <span class="id" type="var">Admitted</span>.<br/>
 
 <br/>
@@ -1303,9 +1245,8 @@ Here are a few more simple relations on numbers:
 </div>
 
 <div class="doc">
-We can define three-place relations, four-place relations,
-    etc., in just the same way as binary relations.  For example,
-    consider the following three-place relation on numbers: 
+我们能够像定义二元关系一样定义三元关系或四元关系等等，例如下面的关于数
+    字的三元关系： 
 </div>
 <div class="code code-tight">
 
@@ -1325,7 +1266,7 @@ We can define three-place relations, four-place relations,
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> Which of the following propositions are provable?
+<li> 下面的命题中哪一个是可被证明的？
 <ul class="doclist">
 <li> <span class="inlinecode"><span class="id" type="var">R</span></span> <span class="inlinecode">1</span> <span class="inlinecode">1</span> <span class="inlinecode">2</span>
 
@@ -1342,17 +1283,15 @@ We can define three-place relations, four-place relations,
 </ul>
 
 </li>
-<li> If we dropped constructor <span class="inlinecode"><span class="id" type="var">c5</span></span> from the definition of <span class="inlinecode"><span class="id" type="var">R</span></span>,
-      would the set of provable propositions change?  Briefly (1
-      sentence) explain your answer.
+<li> 如果我们从<span class="inlinecode"><span class="id" type="var">R</span></span>的定义中去掉了构造子<span class="inlinecode"><span class="id" type="var">c5</span></span>，定义所描述的可证明的命题的集合
+      改变了吗？用一句话给出你的答案。
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> If we dropped constructor <span class="inlinecode"><span class="id" type="var">c4</span></span> from the definition of <span class="inlinecode"><span class="id" type="var">R</span></span>,
-      would the set of provable propositions change?  Briefly (1
-      sentence) explain your answer.
+<li> 如果我们去掉构造子<span class="inlinecode"><span class="id" type="var">c4</span></span>，定义所描述的可证明的命题的集合改变了吗？
+      用一句话给出你的答案。
 
 </li>
 </ul>
@@ -1365,10 +1304,10 @@ We can define three-place relations, four-place relations,
 <div class="paragraph"> </div>
 
 <a name="lab273"></a><h4 class="section">Exercise: 3 stars, optional (R_fact)</h4>
- Relation <span class="inlinecode"><span class="id" type="var">R</span></span> actually encodes a familiar function.  State and prove two
-    theorems that formally connects the relation and the function. 
-    That is, if <span class="inlinecode"><span class="id" type="var">R</span></span> <span class="inlinecode"><span class="id" type="var">m</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode"><span class="id" type="var">o</span></span> is true, what can we say about <span class="inlinecode"><span class="id" type="var">m</span></span>,
-    <span class="inlinecode"><span class="id" type="var">n</span></span>, and <span class="inlinecode"><span class="id" type="var">o</span></span>, and vice versa?
+ 实际上关系<span class="inlinecode"><span class="id" type="var">R</span></span>定义了一个熟悉的函数。声明并证明这两个连接这一关系和所定义
+    的函数的定理。也即是说，如果<span class="inlinecode"><span class="id" type="var">R</span></span> <span class="inlinecode"><span class="id" type="var">m</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode"><span class="id" type="var">o</span></span>为真，那么我们能够声称<span class="inlinecode"><span class="id" type="var">m</span></span>，<span class="inlinecode"><span class="id" type="var">n</span></span>和<span class="inlinecode"><span class="id" type="var">o</span></span>
+    之间存在着什么样的关系？以及如果<span class="inlinecode"><span class="id" type="var">m</span></span>，<span class="inlinecode"><span class="id" type="var">n</span></span>和<span class="inlinecode"><span class="id" type="var">o</span></span>存在这一关系，那么我们是否
+    能够证明<span class="inlinecode"><span class="id" type="var">R</span></span> <span class="inlinecode"><span class="id" type="var">m</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode"><span class="id" type="var">o</span></span>？
 
 </div>
 <div class="code code-tight">
@@ -1390,9 +1329,8 @@ We can define three-place relations, four-place relations,
 
 <div class="doc">
 <a name="lab274"></a><h4 class="section">Exercise: 4 stars, advanced (subsequence)</h4>
- A list is a <i>subsequence</i> of another list if all of the elements
-    in the first list occur in the same order in the second list,
-    possibly with some extra elements in between. For example,
+ 如果一个列表中的所有元素在另一个列表中按照相同的顺序（其中可能插有其他
+    元素）出现，那么这个列表是另一个列表的 <i>子序列</i> 。例如：
 
 <div class="paragraph"> </div>
 
@@ -1401,7 +1339,7 @@ We can define three-place relations, four-place relations,
 <div class="paragraph"> </div>
 
 </div>
-    is a subsequence of each of the lists
+    是以下列表的子序列：
 
 <div class="paragraph"> </div>
 
@@ -1413,7 +1351,7 @@ We can define three-place relations, four-place relations,
 <div class="paragraph"> </div>
 
 </div>
-    but it is <i>not</i> a subsequence of any of the lists
+    而 <i>不是</i> 以下任何一个列表的子序列：
 
 <div class="paragraph"> </div>
 
@@ -1428,33 +1366,22 @@ We can define three-place relations, four-place relations,
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> Define an inductive proposition <span class="inlinecode"><span class="id" type="var">subseq</span></span> on <span class="inlinecode"><span class="id" type="var">list</span></span> <span class="inlinecode"><span class="id" type="var">nat</span></span> that
-      captures what it means to be a subsequence. (Hint: You'll need
-      three cases.)
-
-<div class="paragraph"> </div>
-
+<li> 定义一个关于<span class="inlinecode"><span class="id" type="var">list</span></span> <span class="inlinecode"><span class="id" type="var">nat</span></span>的能够准确描述什么是子序列的归纳命题<span class="inlinecode"><span class="id" type="var">subseq</span></span>。
+      （提示：你需要分三种不同的情况。）
 
 </li>
-<li> Prove <span class="inlinecode"><span class="id" type="var">subseq_refl</span></span> that subsequence is reflexive, that is,
-      any list is a subsequence of itself.
-
-<div class="paragraph"> </div>
-
+<li> 证明<span class="inlinecode"><span class="id" type="var">subseq_refl</span></span>：子序列这一关系具有自反性，即证明任意一个列表都是
+      自身的子序列。
 
 </li>
-<li> Prove <span class="inlinecode"><span class="id" type="var">subseq_app</span></span> that for any lists <span class="inlinecode"><span class="id" type="var">l1</span></span>, <span class="inlinecode"><span class="id" type="var">l2</span></span>, and <span class="inlinecode"><span class="id" type="var">l3</span></span>,
-      if <span class="inlinecode"><span class="id" type="var">l1</span></span> is a subsequence of <span class="inlinecode"><span class="id" type="var">l2</span></span>, then <span class="inlinecode"><span class="id" type="var">l1</span></span> is also a subsequence
-      of <span class="inlinecode"><span class="id" type="var">l2</span></span> <span class="inlinecode">++</span> <span class="inlinecode"><span class="id" type="var">l3</span></span>.
-
-<div class="paragraph"> </div>
-
+<li> 证明<span class="inlinecode"><span class="id" type="var">subseq_app</span></span>：对于任意列表<span class="inlinecode"><span class="id" type="var">l1</span></span>，<span class="inlinecode"><span class="id" type="var">l2</span></span>和<span class="inlinecode"><span class="id" type="var">l3</span></span>，如果<span class="inlinecode"><span class="id" type="var">l1</span></span>是<span class="inlinecode"><span class="id" type="var">l2</span></span>的一个子序列，
+      那么<span class="inlinecode"><span class="id" type="var">l1</span></span>是<span class="inlinecode"><span class="id" type="var">l2</span></span> <span class="inlinecode">++</span> <span class="inlinecode"><span class="id" type="var">l3</span></span>的一个子序列。
 
 </li>
-<li> (Optional, harder) Prove <span class="inlinecode"><span class="id" type="var">subseq_trans</span></span> that subsequence is
-      transitive &mdash; that is, if <span class="inlinecode"><span class="id" type="var">l1</span></span> is a subsequence of <span class="inlinecode"><span class="id" type="var">l2</span></span> and <span class="inlinecode"><span class="id" type="var">l2</span></span>
-      is a subsequence of <span class="inlinecode"><span class="id" type="var">l3</span></span>, then <span class="inlinecode"><span class="id" type="var">l1</span></span> is a subsequence of <span class="inlinecode"><span class="id" type="var">l3</span></span>.
-      Hint: choose your induction carefully!
+<li> （可选的，比较困难）证明<span class="inlinecode"><span class="id" type="var">subseq_trans</span></span>：子序列这一关系具有传递性，
+      即当<span class="inlinecode"><span class="id" type="var">l1</span></span>是<span class="inlinecode"><span class="id" type="var">l2</span></span>的一个子序列且<span class="inlinecode"><span class="id" type="var">l2</span></span>是<span class="inlinecode"><span class="id" type="var">l3</span></span>的一个子序列时，<span class="inlinecode"><span class="id" type="var">l1</span></span>也是<span class="inlinecode"><span class="id" type="var">l3</span></span>的一
+      个子序
+      列。提示：小心地选择你进行归纳的对象！
 
 </li>
 </ul>
@@ -1471,7 +1398,7 @@ We can define three-place relations, four-place relations,
 <div class="paragraph"> </div>
 
 <a name="lab275"></a><h4 class="section">Exercise: 2 stars, optional (R_provability)</h4>
- Suppose we give Coq the following definition:
+ 假设我们向Coq给出下面的定义：
 
 <div class="paragraph"> </div>
 
@@ -1483,7 +1410,7 @@ We can define three-place relations, four-place relations,
 <div class="paragraph"> </div>
 
 </div>
-    Which of the following propositions are provable?
+    那么下述命题中哪些是可证实的？
 
 <div class="paragraph"> </div>
 
@@ -1509,13 +1436,12 @@ We can define three-place relations, four-place relations,
 </div>
 
 <div class="doc">
-<a name="lab276"></a><h1 class="section">Programming with Propositions</h1>
+<a name="lab276"></a><h1 class="section">使用命题进行编程</h1>
 
 <div class="paragraph"> </div>
 
- As we have seen, a <i>proposition</i> is a statement expressing a factual claim,
-    like "two plus two equals four."  In Coq, propositions are written
-    as expressions of type <span class="inlinecode"><span class="id" type="keyword">Prop</span></span>. . 
+ 与我们已经看到的一样， <i>命题</i> ，例如“二加二等于四”，是一种表达了对某个事
+          实的某种宣称的语句。在Coq中，命题用类型为<span class="inlinecode"><span class="id" type="keyword">Prop</span></span>的表达式表示。
 </div>
 <div class="code code-tight">
 
@@ -1536,9 +1462,8 @@ We can define three-place relations, four-place relations,
 
 <div class="doc">
 <a name="lab277"></a><h3 class="section"> </h3>
- Both provable and unprovable claims are perfectly good
-    propositions.  Simply <i>being</i> a proposition is one thing; being
-    <i>provable</i> is something else! 
+ 可证的宣称与不可证的宣称都是完全合法的命题； <i>是不是</i> 一个命题是一回事，
+    而 <i>是否可证</i> 则又是另外一回事了。
 </div>
 <div class="code code-tight">
 
@@ -1554,13 +1479,12 @@ We can define three-place relations, four-place relations,
 </div>
 
 <div class="doc">
-Both <span class="inlinecode">2</span> <span class="inlinecode">+</span> <span class="inlinecode">2</span> <span class="inlinecode">=</span> <span class="inlinecode">4</span> and <span class="inlinecode">2</span> <span class="inlinecode">+</span> <span class="inlinecode">2</span> <span class="inlinecode">=</span> <span class="inlinecode">5</span> are legal expressions
-    of type <span class="inlinecode"><span class="id" type="keyword">Prop</span></span>. 
+<span class="inlinecode">2</span> <span class="inlinecode">+</span> <span class="inlinecode">2</span> <span class="inlinecode">=</span> <span class="inlinecode">4</span>与<span class="inlinecode">2</span> <span class="inlinecode">+</span> <span class="inlinecode">2</span> <span class="inlinecode">=</span> <span class="inlinecode">5</span>都是合法的类型为<span class="inlinecode"><span class="id" type="keyword">Prop</span></span>的表达式。 
 <div class="paragraph"> </div>
 
 <a name="lab278"></a><h3 class="section"> </h3>
- We've mainly seen one place that propositions can appear in Coq: in
-    <span class="inlinecode"><span class="id" type="keyword">Theorem</span></span> (and <span class="inlinecode"><span class="id" type="keyword">Lemma</span></span> and <span class="inlinecode"><span class="id" type="keyword">Example</span></span>) declarations. 
+ 至今为止我们主要在Coq中命题能够出现的其中一种地方看到它们：在
+    <span class="inlinecode"><span class="id" type="keyword">Theorem</span></span>（以及<span class="inlinecode"><span class="id" type="keyword">Lemma</span></span>和<span class="inlinecode"><span class="id" type="keyword">Example</span></span>）定义中。 
 </div>
 <div class="code code-tight">
 
@@ -1573,9 +1497,8 @@ Both <span class="inlinecode">2</span> <span class="inlinecode">+</span> <span c
 </div>
 
 <div class="doc">
-But they can be used in many other ways.  For example, we have also seen that
-    we can give a name to a proposition using a <span class="inlinecode"><span class="id" type="keyword">Definition</span></span>, just as we have
-    given names to expressions of other sorts. 
+但是它们也有许多其他的使用方式。比如说，我们已经知道我们可以像给其他类
+    型的表达式赋予名字一样用<span class="inlinecode"><span class="id" type="keyword">Definition</span></span>来给某个命题赋予一个名字。 
 </div>
 <div class="code code-tight">
 
@@ -1588,8 +1511,7 @@ But they can be used in many other ways.  For example, we have also seen that
 </div>
 
 <div class="doc">
-We can later use this name in any situation where a proposition is
-    expected &mdash; for example, as the claim in a <span class="inlinecode"><span class="id" type="keyword">Theorem</span></span> declaration. 
+在这之后我们能够在任何需要一个命题的地方使用这个名字，例如在一个<span class="inlinecode"><span class="id" type="keyword">Theorem</span></span>定义中： 
 </div>
 <div class="code code-tight">
 
@@ -1603,32 +1525,29 @@ We can later use this name in any situation where a proposition is
 
 <div class="doc">
 <a name="lab279"></a><h3 class="section"> </h3>
- We've seen several ways of constructing propositions.  
+ 我们已经知道构造命题的几种不同的方式：
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> We can define a new proposition primitively using <span class="inlinecode"><span class="id" type="keyword">Inductive</span></span>.
+<li> 我们能够通过<span class="inlinecode"><span class="id" type="keyword">Inductive</span></span>定义一个新的命题
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> Given two expressions <span class="inlinecode"><span class="id" type="var">e1</span></span> and <span class="inlinecode"><span class="id" type="var">e2</span></span> of the same type, we can
-         form the proposition <span class="inlinecode"><span class="id" type="var">e1</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" type="var">e2</span></span>, which states that their
-         values are equal.
+<li> 给定两个相同类型的表达式<span class="inlinecode"><span class="id" type="var">e1</span></span>和<span class="inlinecode"><span class="id" type="var">e2</span></span>，我们能够构造命题<span class="inlinecode"><span class="id" type="var">e1</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" type="var">e2</span></span>；这宣称它
+         们的值相等。
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> We can combine propositions using implication and
-         quantification. 
+<li> 我们能够通过蕴含和量化来组合命题。 
 </li>
 </ul>
 <a name="lab280"></a><h3 class="section"> </h3>
- We have also seen <i>parameterized propositions</i>, such as <span class="inlinecode"><span class="id" type="var">even</span></span> and
-    <span class="inlinecode"><span class="id" type="var">beautiful</span></span>. 
+ 我们也已经看到类似于<span class="inlinecode"><span class="id" type="var">even</span></span>和<span class="inlinecode"><span class="id" type="var">beautiful</span></span>的 <i>参数化命题</i> 。 
 </div>
 <div class="code code-tight">
 
@@ -1645,15 +1564,23 @@ We can later use this name in any situation where a proposition is
 
 <div class="doc">
 <a name="lab281"></a><h3 class="section"> </h3>
- The type of <span class="inlinecode"><span class="id" type="var">even</span></span>, i.e., <span class="inlinecode"><span class="id" type="var">nat</span><span style="font-family: arial;">&rarr;</span><span class="id" type="keyword">Prop</span></span>, can be pronounced in
-    three equivalent ways: (1) "<span class="inlinecode"><span class="id" type="var">even</span></span> is a <i>function</i> from numbers to
-    propositions," (2) "<span class="inlinecode"><span class="id" type="var">even</span></span> is a <i>family</i> of propositions, indexed
-    by a number <span class="inlinecode"><span class="id" type="var">n</span></span>," or (3) "<span class="inlinecode"><span class="id" type="var">even</span></span> is a <i>property</i> of numbers."  
+ <span class="inlinecode"><span class="id" type="var">even</span></span>的类型，也即是<span class="inlinecode"><span class="id" type="var">nat</span></span> <span class="inlinecode"><span style="font-family: arial;">&rarr;</span></span> <span class="inlinecode"><span class="id" type="keyword">Prop</span></span>，可以从三种等价的角度解读：
+
 <div class="paragraph"> </div>
 
- Propositions &mdash; including parameterized propositions &mdash; are
-    first-class citizens in Coq.  For example, we can define functions
-    from numbers to propositions... 
+              (1) “<span class="inlinecode"><span class="id" type="var">even</span></span>是一个从数字映射到命题的 <i>函数</i> 。”
+
+<div class="paragraph"> </div>
+
+              (2) “<span class="inlinecode"><span class="id" type="var">even</span></span>是一个与自然数<span class="inlinecode"><span class="id" type="var">n</span></span>一一对应的命题的集合。”
+
+<div class="paragraph"> </div>
+
+              (3) “<span class="inlinecode"><span class="id" type="var">even</span></span>是一个有关数字的 <i>性质</i> 。”  
+<div class="paragraph"> </div>
+
+ 在Coq中，命题——包括参数化的命题——是一等公民。举例而言，我们能够定
+    义从数字映射至命题的函数…… 
 </div>
 <div class="code code-tight">
 
@@ -1665,7 +1592,7 @@ We can later use this name in any situation where a proposition is
 </div>
 
 <div class="doc">
-... and then partially apply them: 
+……然后将它们部分应用： 
 </div>
 <div class="code code-tight">
 
@@ -1676,8 +1603,7 @@ We can later use this name in any situation where a proposition is
 </div>
 
 <div class="doc">
-We can even pass propositions &mdash; including parameterized
-    propositions &mdash; as arguments to functions: 
+我们甚至能够传递命题——包括参数化的命题——作为函数的参数： 
 </div>
 <div class="code code-tight">
 
@@ -1690,14 +1616,12 @@ We can even pass propositions &mdash; including parameterized
 
 <div class="doc">
 <a name="lab282"></a><h3 class="section"> </h3>
- Here are two more examples of passing parameterized propositions
-    as arguments to a function.  
+ 这里有两个以参数化命题作为参数传递给函数的例子。
 
 <div class="paragraph"> </div>
 
-    The first function, <span class="inlinecode"><span class="id" type="var">true_for_all_numbers</span></span>, takes a proposition
-    <span class="inlinecode"><span class="id" type="var">P</span></span> as argument and builds the proposition that <span class="inlinecode"><span class="id" type="var">P</span></span> is true for
-    all natural numbers. 
+    第一个函数<span class="inlinecode"><span class="id" type="var">true_for_all_numbers</span></span>取一个命题<span class="inlinecode"><span class="id" type="var">P</span></span>作为其参数，然后构建宣称<span class="inlinecode"><span class="id" type="var">P</span></span>对于
+    所有自然数都成立的命题。 
 </div>
 <div class="code code-tight">
 
@@ -1709,10 +1633,9 @@ We can even pass propositions &mdash; including parameterized
 </div>
 
 <div class="doc">
-The second, <span class="inlinecode"><span class="id" type="var">preserved_by_S</span></span>, takes <span class="inlinecode"><span class="id" type="var">P</span></span> and builds the proposition
-    that, if <span class="inlinecode"><span class="id" type="var">P</span></span> is true for some natural number <span class="inlinecode"><span class="id" type="var">n'</span></span>, then it is also
-    true by the successor of <span class="inlinecode"><span class="id" type="var">n'</span></span> &mdash; i.e. that <span class="inlinecode"><span class="id" type="var">P</span></span> is <i>preserved by
-    successor</i>: 
+第二个函数<span class="inlinecode"><span class="id" type="var">preserved_by_S</span></span>会在取命题<span class="inlinecode"><span class="id" type="var">P</span></span>作为参数后构建这样一种命题：它宣称
+    如果<span class="inlinecode"><span class="id" type="var">P</span></span>对于某个自然数<span class="inlinecode"><span class="id" type="var">n'</span></span>为真，那么它对于<span class="inlinecode"><span class="id" type="var">n'</span></span>的后继也为真——也即是说<span class="inlinecode"><span class="id" type="var">P</span></span> <i>通过
+    后继被保持</i> ： 
 </div>
 <div class="code code-tight">
 
@@ -1725,8 +1648,7 @@ The second, <span class="inlinecode"><span class="id" type="var">preserved_by_S<
 
 <div class="doc">
 <a name="lab283"></a><h3 class="section"> </h3>
- Finally, we can put these ingredients together to define
-a proposition stating that induction is valid for natural numbers: 
+ 最后，我们可以将这些成分组合起来定义自然数的归纳规则： 
 </div>
 <div class="code code-tight">
 
@@ -1742,11 +1664,9 @@ a proposition stating that induction is valid for natural numbers:
 
 <div class="doc">
 <a name="lab284"></a><h4 class="section">Exercise: 3 stars (combine_odd_even)</h4>
- Complete the definition of the <span class="inlinecode"><span class="id" type="var">combine_odd_even</span></span> function
-    below. It takes as arguments two properties of numbers <span class="inlinecode"><span class="id" type="var">Podd</span></span> and
-    <span class="inlinecode"><span class="id" type="var">Peven</span></span>. As its result, it should return a new property <span class="inlinecode"><span class="id" type="var">P</span></span> such
-    that <span class="inlinecode"><span class="id" type="var">P</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> is equivalent to <span class="inlinecode"><span class="id" type="var">Podd</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> when <span class="inlinecode"><span class="id" type="var">n</span></span> is odd, and
-    equivalent to <span class="inlinecode"><span class="id" type="var">Peven</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span> otherwise. 
+ 完成下面函数<span class="inlinecode"><span class="id" type="var">combine_odd_even</span></span>的定义。它取两个有关数字的性质<span class="inlinecode"><span class="id" type="var">Podd</span></span>和<span class="inlinecode"><span class="id" type="var">Peven</span></span>，
+    而它应该返回一个在<span class="inlinecode"><span class="id" type="var">n</span></span>为奇数时等价于<span class="inlinecode"><span class="id" type="var">Peven</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span>，在<span class="inlinecode"><span class="id" type="var">n</span></span>为偶数时等价于<span class="inlinecode"><span class="id" type="var">Podd</span></span> <span class="inlinecode"><span class="id" type="var">n</span></span>
+的命题<span class="inlinecode"><span class="id" type="var">P</span></span>。 
 </div>
 <div class="code code-tight">
 
@@ -1758,8 +1678,7 @@ a proposition stating that induction is valid for natural numbers:
 </div>
 
 <div class="doc">
-To test your definition, see whether you can prove the following
-    facts: 
+看看你是否能够证明下述的事实以测试你的定义： 
 </div>
 <div class="code code-tight">
 
@@ -1802,12 +1721,10 @@ To test your definition, see whether you can prove the following
 </div>
 
 <div class="doc">
-One more quick digression, for adventurous souls: if we can define
-    parameterized propositions using <span class="inlinecode"><span class="id" type="keyword">Definition</span></span>, then can we also
-    define them using <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span>?  Of course we can!  However, this
-    kind of "recursive parameterization" doesn't correspond to
-    anything very familiar from everyday mathematics.  The following
-    exercise gives a slightly contrived example. 
+这里有一个给热衷冒险的人准备的额外挑战：如果我们可以使用<span class="inlinecode"><span class="id" type="keyword">Definition</span></span>定义
+    参数化命题，那么我们是否可以用<span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span>定义它们？当然可以！然而这种“递
+    归参数化”并不与我们非常熟悉的日常的数学的任何一部分相对应。下面的练习
+    给出了一个稍微有些不自然的例子。 
 <div class="paragraph"> </div>
 
 <a name="lab285"></a><h4 class="section">Exercise: 4 stars, optional (true_upto_n__true_everywhere)</h4>

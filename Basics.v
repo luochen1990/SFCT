@@ -436,12 +436,12 @@ Fixpoint exp (base power : nat) : nat :=
     Translate this into Coq. *)
 
 Fixpoint factorial (n:nat) : nat := 
-(* FILL IN HERE *) admit.
+(* 请补充 *) admit.
 
 Example test_factorial1:          (factorial 3) = 6.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_factorial2:          (factorial 5) = (mult 10 12).
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 
 (** [] *)
 
@@ -517,14 +517,14 @@ Proof. simpl. reflexivity.  Qed.
     this one, define it in terms of a previously defined function. *)
 
 Definition blt_nat (n m : nat) : bool :=
-  (* FILL IN HERE *) admit.
+  (* 请补充 *) admit.
 
 Example test_blt_nat1:             (blt_nat 2 2) = false.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_blt_nat2:             (blt_nat 2 4) = true.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_blt_nat3:             (blt_nat 4 2) = false.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 
 (** [] *)
 
@@ -696,7 +696,7 @@ Proof.
 Theorem plus_id_exercise : forall n m o : nat,
   n = m -> m = o -> n + m = m + o.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* 请补充 *) Admitted.
 (** [] *)
 
 (** As we've seen in earlier examples, the [Admitted] command
@@ -726,7 +726,7 @@ Theorem mult_S_1 : forall n m : nat,
   m = S n -> 
   m * (1 + n) = m * m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* 请补充 *) Admitted.
 (** [] *)
 
 
@@ -906,14 +906,14 @@ Qed.
 Theorem andb_true_elim2 : forall b c : bool,
   andb b c = true -> c = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* 请补充 *) Admitted.
 (** [] *)
 
 (** **** Exercise: 1 star (zero_nbeq_plus_1)  *)
 Theorem zero_nbeq_plus_1 : forall n : nat,
   beq_nat 0 (n + 1) = false.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* 请补充 *) Admitted.
 
 (** [] *)
 
@@ -929,13 +929,13 @@ Theorem identity_fn_applied_twice :
   (forall (x : bool), f x = x) ->
   forall (b : bool), f (f b) = b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* 请补充 *) Admitted.
 
 (** Now state and prove a theorem [negation_fn_applied_twice] similar
     to the previous one but where the second hypothesis says that the
     function [f] has the property that [f x = negb x].*)
 
-(* FILL IN HERE *)
+(* 请补充 *)
 (** [] *)
 
 (** **** Exercise: 2 stars (andb_eq_orb)  *)
@@ -948,7 +948,7 @@ Theorem andb_eq_orb :
   (andb b c = orb b c) ->
   b = c.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* 请补充 *) Admitted.
 (** [] *)
 
 (** **** Exercise: 3 stars (binary)  *)
@@ -987,7 +987,7 @@ Proof.
         then incrementing. 
 *)
 
-(* FILL IN HERE *)
+(* 请补充 *)
 (** [] *)
 
 (* ###################################################################### *)
@@ -1058,7 +1058,7 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     _does_ terminate on all inputs, but that Coq will reject because
     of this restriction. *)
 
-(* FILL IN HERE *)
+(* 请补充 *)
 (** [] *)
 
 (** $Date$ *)

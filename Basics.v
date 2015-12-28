@@ -166,57 +166,52 @@ Proof. simpl. reflexivity.  Qed.
 Example test_orb4:  (orb true  true)  = true.
 Proof. simpl. reflexivity.  Qed.
 
-(** _A note on notation_: In .v files, we use square brackets to
-    delimit fragments of Coq code within comments; this convention,
-    also used by the [coqdoc] documentation tool, keeps them visually
-    separate from the surrounding text.  In the html version of the
-    files, these pieces of text appear in a [different font]. *)
+(** _关于标记方式的说明_：在.v文件里，我们用方括号来界定注释中的
+    Coq代码片段；这种习惯，也用于[coqdoc]文档工具里，这使得代码与其
+    左右的文字在视觉上分离开。在HTML版的文件里，这部分文字会以
+    [不同字体]的形式出现。*)
 
-(** The values [Admitted] and [admit] can be used to fill
-    a hole in an incomplete definition or proof.  We'll use them in the
-    following exercises.  In general, your job in the exercises is 
-    to replace [admit] or [Admitted] with real definitions or proofs. *)
+(** 文字[Admitted]和[admit]被用来填充不完整的定义或证明。在后续的
+    例子中我们就会用到。通常，你的练习作业就是将[Admitted]和[admit]
+    替换为实际的定义和证明。*)
 
-(** **** Exercise: 1 star (nandb)  *)
-(** Complete the definition of the following function, then make
-    sure that the [Example] assertions below can each be verified by
-    Coq.  *)
+(** **** 练习：1星级 (nandb)  *)
+(** 完成以下函数的定义，并确保下列[Example]中的断言每一个都能被
+    Coq验证通过。*)
 
-(** This function should return [true] if either or both of
-    its inputs are [false]. *)
+(** 当其中一个输入或两个输入都为[false]时，下面的函数返回[true]。*)
 
 Definition nandb (b1:bool) (b2:bool) : bool :=
-  (* FILL IN HERE *) admit.
+  (* 请补充 *) admit.
 
-(** Remove "[Admitted.]" and fill in each proof with 
+(** 删除"[Admitted.]"并且在以下每一个证明中填写 
     "[Proof. simpl. reflexivity. Qed.]" *)
 
 Example test_nandb1:               (nandb true false) = true.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_nandb2:               (nandb false false) = true.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_nandb3:               (nandb false true) = true.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_nandb4:               (nandb true true) = false.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star (andb3)  *)
-(** Do the same for the [andb3] function below. This function should
-    return [true] when all of its inputs are [true], and [false]
-    otherwise. *)
+(** **** 练习: 1星级 (andb3)  *)
+(** 与前面的做法一样来完成下面的[andb3]函数。此函数应该在其所有
+    输入都为[true]时返回[true]，否则返回[false]。*)
 
 Definition andb3 (b1:bool) (b2:bool) (b3:bool) : bool :=
-  (* FILL IN HERE *) admit.
+  (* 请补充 *) admit.
 
 Example test_andb31:                 (andb3 true true true) = true.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_andb32:                 (andb3 false true true) = false.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_andb33:                 (andb3 true false true) = false.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 Example test_andb34:                 (andb3 true true false) = false.
-(* FILL IN HERE *) Admitted.
+(* 请补充 *) Admitted.
 (** [] *)
 
 (* ###################################################################### *)

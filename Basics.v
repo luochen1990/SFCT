@@ -215,89 +215,69 @@ Example test_andb34:                 (andb3 true true false) = false.
 (** [] *)
 
 (* ###################################################################### *)
-(** ** Function Types *)
+(** ** 函数类型 *)
 
-(** The [Check] command causes Coq to print the type of an
-    expression.  For example, the type of [negb true] is [bool]. *)
+(** [Check]命令让Coq显示一个表达式的类型。比如：
+    [negb true]的类型是[bool]。*)
 
 Check true.
 (* ===> true : bool *)
 Check (negb true).
 (* ===> negb true : bool *)
 
-(** Functions like [negb] itself are also data values, just like
-    [true] and [false].  Their types are called _function types_, and
-    they are written with arrows. *)
+(** 像[negb]这样的函数其本身也是数据值，就像[true]和[false]一样。
+    它们的类型被称为 _函数类型_，而且表示为箭头。*)
 
 Check negb.
 (* ===> negb : bool -> bool *)
 
-(** The type of [negb], written [bool -> bool] and pronounced
-    "[bool] arrow [bool]," can be read, "Given an input of type
-    [bool], this function produces an output of type [bool]."
-    Similarly, the type of [andb], written [bool -> bool -> bool], can
-    be read, "Given two inputs, both of type [bool], this function
-    produces an output of type [bool]." *)
+(** [negb]的类型，写为[bool -> bool]，读做"[bool]箭头[bool]"，
+    可被看做是"给定一个[bool]类型的输入，此函数产生一个[bool]类型的输出。"
+    同样的，[andb]的类型，写为[bool -> bool -> bool]，可被看做是
+    "给定两个输入，都是[bool]类型，此函数产生一个[bool]类型的输出。"*)
 
 (* ###################################################################### *)
-(** ** Numbers *)
+(** ** 数 *)
 
-(** _Technical digression_: Coq provides a fairly sophisticated
-    _module system_, to aid in organizing large developments.  In this
-    course we won't need most of its features, but one is useful: If
-    we enclose a collection of declarations between [Module X] and
-    [End X] markers, then, in the remainder of the file after the
-    [End], these definitions will be referred to by names like [X.foo]
-    instead of just [foo].  Here, we use this feature to introduce the
-    definition of the type [nat] in an inner module so that it does
-    not shadow the one from the standard library. *)
+(** _技术题外话_：Coq提供了相当复杂的 _模块系统_，以帮助组织大型开发。
+    在本教程里，我们不打算使用太多这方面的特性，但是其中有一样非常有用：
+    如果我们将一组定义放在[Module X]和[End X]标记之间，那么，在文件中
+    [End]之后的地方，这些定义需要用像[X.foo]形式的名字来引用，而不能
+    仅仅用[foo]。这里，我们用此特性在一个内部模块中引入[nat]类型的定义，
+    这样就不会导致标准库中的同名定义被覆盖。*)
 
 Module Playground1.
 
-(** The types we have defined so far are examples of "enumerated
-    types": their definitions explicitly enumerate a finite set of
-    elements.  A more interesting way of defining a type is to give a
-    collection of "inductive rules" describing its elements.  For
-    example, we can define the natural numbers as follows: *)
+(** 至此为止我们所定义的所有类型，都是"可枚举类型"的例子：这些定义都是
+    显式的列举出一个有限集合中的元素。更有意思的定义类型的一种方式是
+    通过一组"归纳性规则"来描述其元素。比如，我们可以对自然数做如下定义：*)
 
 Inductive nat : Type :=
   | O : nat
   | S : nat -> nat.
 
-(** The clauses of this definition can be read: 
-      - [O] is a natural number (note that this is the letter "[O]," not
-        the numeral "[0]").
-      - [S] is a "constructor" that takes a natural number and yields
-        another one -- that is, if [n] is a natural number, then [S n]
-        is too.
+(** 此定义中的句子可以被看做是：
+      - [O]是一个自然数（注意这里是字母"[O]"，不是数字"[0]"）。
+      - [S]是一个构造器，取一个自然数而生成另一个 —— 也就是说，
+        如果[n]是一个自然数，那么[S n]也是。
 
-    Let's look at this in a little more detail.  
+    让我们来更详细的看看这个定义。
 
-    Every inductively defined set ([day], [nat], [bool], etc.) is
-    actually a set of _expressions_.  The definition of [nat] says how
-    expressions in the set [nat] can be constructed:
+    所有可归纳式定义的集合([day]、[nat]、 [bool]等等)实际上都是
+    _表达式_ 的集合。[nat]的定义说明了集合[nat]中的表达式是如何被构造的。
 
-    - the expression [O] belongs to the set [nat]; 
-    - if [n] is an expression belonging to the set [nat], then [S n]
-      is also an expression belonging to the set [nat]; and
-    - expressions formed in these two ways are the only ones belonging
-      to the set [nat].
+    - 表达式[O]属于集合[nat]；
+    - 如果[n]是属于集合[nat]的表达式，那么[S n]也是属于集合[nat]的表达式；并且，
+    - 只有这两种方式形成的表达式才属于集合[nat]。
 
-    The same rules apply for our definitions of [day] and [bool]. The
-    annotations we used for their constructors are analogous to the
-    one for the [O] constructor, and indicate that each of those
-    constructors doesn't take any arguments. *)
+    同样的规则也适用于[day]和[bool]的定义。对于它们的构造器我们使用的标记
+    形式类似于[O]构造器，表示这些构造器都不接收任何参数。*)
 
-(** These three conditions are the precise force of the
-    [Inductive] declaration.  They imply that the expression [O], the
-    expression [S O], the expression [S (S O)], the expression
-    [S (S (S O))], and so on all belong to the set [nat], while other
-    expressions like [true], [andb true false], and [S (S false)] do
-    not.
+(** 以上三个条件是形成[归纳式]声明的主要推动力。它们暗示着表达式[O]、
+    表达式[S O]、表达式[S (S O)]、表达式[ S (S (S O))]，等等等等都属于集合[nat]，
+    而像[true]、[andb true false]、[S (S false)]的表达式都不属于。
 
-    We can write simple functions that pattern match on natural
-    numbers just as we did above -- for example, the predecessor
-    function: *)
+    我们可以编写简单的函数对如前所述的自然数进行模式匹配 —— 比如，前趋函数：*)
 
 Definition pred (n : nat) : nat :=
   match n with
@@ -305,8 +285,8 @@ Definition pred (n : nat) : nat :=
     | S n' => n'
   end.
 
-(** The second branch can be read: "if [n] has the form [S n']
-    for some [n'], then return [n']."  *)
+(** 第二个分支可以被看做是："如果[n]对于某个[n']有[S n']的形式，
+    那么返回[n']。"*)
 
 End Playground1.
 

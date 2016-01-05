@@ -20,21 +20,21 @@ For more information, feel free to join the QQ Group 372347110.
 ---------------------
 How is the progress?
 
-- Preface
-- Basics
-- Induction
-- Lists
+- Preface lolisa Finished
+- Basics manbaum NeedMigration
+- Induction ruoz Finished
+- Lists zeling Finished
 - Poly
 - MoreCoq
-- Logic
-- Prop
-- MoreLogic
+- Logic bctnry Finished
+- Prop bctnry Finished
+- MoreLogic bctnry Progressing
 - ProofObjects
 - MoreInd
 - SfLib
 - Rel
 - Imp
-- ImpParser
+- ImpParser zeling MergeConflict
 - ImpCEvalFun
 - Extraction
 - Equiv
@@ -42,7 +42,7 @@ How is the progress?
 - Hoare2
 - HoareAsLogic
 - Smallstep
-- Auto
+- Auto dramforever Finished
 - Types
 - Stlc
 - StlcProp

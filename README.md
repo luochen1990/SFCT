@@ -1,7 +1,7 @@
 # SFCT
-Software Foundation Chinese Translation
+Software Foundations Chinese Translation
 
 ---------------------
-How to contribute?
+What is this?
 
-Made an issue with the chapter you intended to translate. Be ware to read through the open issue list to make sure no one is doing the same work as yours!
+This is the chinese translation of Software Foundations.

@@ -297,35 +297,28 @@ Definition minustwo (n : nat) : nat :=
     | S (S n') => n'
   end.
 
-(** Because natural numbers are such a pervasive form of data,
-    Coq provides a tiny bit of built-in magic for parsing and printing
-    them: ordinary arabic numerals can be used as an alternative to
-    the "unary" notation defined by the constructors [S] and [O].  Coq
-    prints numbers in arabic form by default: *)
+(** 由于自然数被使用的非常普遍，Coq对自然数进行词法分析和输出时搞了点小魔术：
+    一般的阿拉伯数字被看做是对[S]和[O]构造器所定义的"一进制"自然数表示法的替代品，
+    Coq在缺省情况下也把自然数输出为阿拉伯数字形式。*)
 
 Check (S (S (S (S O)))).
 Compute (minustwo 4).
 
-(** The constructor [S] has the type [nat -> nat], just like the
-    functions [minustwo] and [pred]: *)
+(** 构造器[S]具有类型[nat -> nat]，如同函数[minustwo]和[pred]：*)
 
 Check S.
 Check pred.
 Check minustwo.
 
-(** These are all things that can be applied to a number to yield a
-    number.  However, there is a fundamental difference: functions
-    like [pred] and [minustwo] come with _computation rules_ -- e.g.,
-    the definition of [pred] says that [pred 2] can be simplified to
-    [1] -- while the definition of [S] has no such behavior attached.
-    Although it is like a function in the sense that it can be applied
-    to an argument, it does not _do_ anything at all! *)
+(** 以上所有这些都是作用在一个数上面并产生另一个数，但其中有个重要区别：
+    像[pred]和[minustwo]这样的函数带有 _计算规则_ —— 也就是说，
+    [pred]的定义意思是[pred 2]可被简化为[1] —— 然而[S]的定义却没有
+    附带这种计算行为。尽管它看上去像是一个函数作用到一个参数上的感觉，
+    但它完全没有 _执行_ 任何计算。*)
 
-(** For most function definitions over numbers, pure pattern
-    matching is not enough: we also need recursion.  For example, to
-    check that a number [n] is even, we may need to recursively check
-    whether [n-2] is even.  To write such functions, we use the
-    keyword [Fixpoint]. *)
+(** 对于定义在数上的大部分函数来说，单纯的模式匹配是不够的：
+    还需要递归。比如，想要判断一个数[n]偶数，我们需要递归的判断
+    [n-2]是偶数。为了写出这样的函数，可以使用[Fixpoint]关键字。*)
 
 Fixpoint evenb (n:nat) : bool :=
   match n with
@@ -334,8 +327,8 @@ Fixpoint evenb (n:nat) : bool :=
   | S (S n') => evenb n'
   end.
 
-(** We can define [oddb] by a similar [Fixpoint] declaration, but here
-    is a simpler definition that will be a bit easier to work with: *)
+(** 我们可以使用类似的[Fixpoint]声明来定义[odd]函数，但有个更简单的
+    定义能让我们做起来更容易：*)
 
 Definition oddb (n:nat) : bool   :=   negb (evenb n).
 
@@ -344,9 +337,8 @@ Proof. simpl. reflexivity.  Qed.
 Example test_oddb2:    (oddb (S (S (S (S O))))) = false.
 Proof. simpl. reflexivity.  Qed.
 
-(** Naturally, we can also define multi-argument functions by
-    recursion.  (Once again, we use a module to avoid polluting the
-    namespace.) *)
+(** 当然，我们也能用递归定义具有多个参数的函数。(这里我们还是用模块
+    来防止污染名字空间。)*)
 
 Module Playground2.
 
@@ -356,24 +348,21 @@ Fixpoint plus (n : nat) (m : nat) : nat :=
     | S n' => S (plus n' m)
   end.
 
-(** Adding three to two now gives us five, as we'd expect. *)
+(** 将三加到二上会得到五，就如我们所期望的。*)
 
 Compute (plus (S (S (S O))) (S (S O))).
 
-(** The simplification that Coq performs to reach this conclusion can
-    be visualized as follows: *)
+(** 为得出此结论，Coq所执行的化简步骤如下所示：*)
 
 (*  [plus (S (S (S O))) (S (S O))]    
-==> [S (plus (S (S O)) (S (S O)))] by the second clause of the [match]
-==> [S (S (plus (S O) (S (S O))))] by the second clause of the [match]
-==> [S (S (S (plus O (S (S O)))))] by the second clause of the [match]
-==> [S (S (S (S (S O))))]          by the first clause of the [match]
+==> [S (plus (S (S O)) (S (S O)))] 使用第二个[match]子句
+==> [S (S (plus (S O) (S (S O))))] 使用第二个[match]子句
+==> [S (S (S (plus O (S (S O)))))] 使用第二个[match]子句
+==> [S (S (S (S (S O))))]          使用第一个[match]子句
 *)
 
-(** As a notational convenience, if two or more arguments have
-    the same type, they can be written together.  In the following
-    definition, [(n m : nat)] means just the same as if we had written
-    [(n : nat) (m : nat)]. *)
+(** 为了书写方便，如果两个或更多参数具有相同的类型，可以写在一起。
+    下面的定义里，[(n m : nat)]表示与写成[(n : nat) (m : nat)]相同的意思。*)
 
 Fixpoint mult (n m : nat) : nat :=
   match n with
@@ -384,8 +373,7 @@ Fixpoint mult (n m : nat) : nat :=
 Example test_mult1: (mult 3 3) = 9.
 Proof. simpl. reflexivity.  Qed.
 
-(** You can match two expressions at once by putting a comma
-    between them: *)
+(** 你可以通过在两个表达式之间添加一个逗号来同时匹配两个表达式：*)
 
 Fixpoint minus (n m:nat) : nat :=
   match n, m with
@@ -394,10 +382,8 @@ Fixpoint minus (n m:nat) : nat :=
   | S n', S m' => minus n' m'
   end.
 
-(** The _ in the first line is a _wildcard pattern_.  Writing _ in a
-    pattern is the same as writing some variable that doesn't get used
-    on the right-hand side.  This avoids the need to invent a bogus
-    variable name. *)
+(** 第一行里的 _ 是一个 _通配符_。在模式中使用 _ 就如同写一个变量但在
+    匹配的右端不使用该变量。这可以防止不得不去声明一些无用变量名。*)
 
 End Playground2.
 
@@ -407,13 +393,13 @@ Fixpoint exp (base power : nat) : nat :=
     | S p => mult base (exp base p)
   end.
 
-(** **** Exercise: 1 star (factorial)  *)
-(** Recall the standard factorial function:
+(** **** 练习: 1 星级 (factorial)  *)
+(** 回想一下标准的阶乘函数：
 <<
     factorial(0)  =  1 
     factorial(n)  =  n * factorial(n-1)     (if n>0)
 >>
-    Translate this into Coq. *)
+    把它翻译成Coq语言。*)
 
 Fixpoint factorial (n:nat) : nat := 
 (* 请补充 *) admit.
@@ -425,9 +411,7 @@ Example test_factorial2:          (factorial 5) = (mult 10 12).
 
 (** [] *)
 
-(** We can make numerical expressions a little easier to read and
-    write by introducing "notations" for addition, multiplication, and
-    subtraction. *)
+(** 我们可以通过引入加法、乘法和减法的"表示法"以使得数字表达式更易读一些。*)
 
 Notation "x + y" := (plus x y)  
                        (at level 50, left associativity) 

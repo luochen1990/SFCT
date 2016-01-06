@@ -425,23 +425,18 @@ Notation "x * y" := (mult x y)
 
 Check ((0 + 1) + 1).
 
-(** (The [level], [associativity], and [nat_scope] annotations
-   control how these notations are treated by Coq's parser.  The
-   details are not important, but interested readers can refer to the
-   "More on Notation" subsection in the "Advanced Material" section at
-   the end of this chapter.) *)
+(** ([level]、[associativity]和[nat_scope]标记控制了Coq语法分析器如何处理
+    上述表示法。细节不重要，有兴趣的读者可以参考本章末尾"进阶资料"部分
+    中的"关于表示法的更多内容"一节。) *)
 
-(** Note that these do not change the definitions we've already
-    made: they are simply instructions to the Coq parser to accept [x
-    + y] in place of [plus x y] and, conversely, to the Coq
-    pretty-printer to display [plus x y] as [x + y]. *)
+(** 注意，这些并不会影响我们以前已经定义的那些：它们只是指导Coq语法分析器
+    接受用[x + y]来代替[plus x y]，另外反过来，在Coq美化输出时将[plus x y]
+    显示为[x + y]。*)
 
-(** When we say that Coq comes with nothing built-in, we really
-    mean it: even equality testing for numbers is a user-defined
-    operation! *)
-(** The [beq_nat] function tests [nat]ural numbers for [eq]uality,
-    yielding a [b]oolean.  Note the use of nested [match]es (we could
-    also have used a simultaneous match, as we did in [minus].)  *)
+(** 我们说Coq不包含任何内置定义时，我们实际上是指：甚至像数值的相等性测试
+    也是用户定义的操作！*)
+(** [beq_nat]函数测试[nat]自然数的[eq]相等性，返回一个[b]布尔值。
+    注意嵌套匹配[match]的使用(我们也可以使用同时匹配，与[minus]中的做法一样)。*)
 
 Fixpoint beq_nat (n m : nat) : bool :=
   match n with
@@ -455,8 +450,7 @@ Fixpoint beq_nat (n m : nat) : bool :=
             end
   end.
 
-(** Similarly, the [ble_nat] function tests [nat]ural numbers for
-    [l]ess-or-[e]qual, yielding a [b]oolean. *)
+(** 类似的，[ble_nat]函数测试[nat]自然数的小于[l]或等于[e]，返回一个[b]布尔值。*)
 
 Fixpoint ble_nat (n m : nat) : bool :=
   match n with
@@ -475,10 +469,9 @@ Proof. simpl. reflexivity.  Qed.
 Example test_ble_nat3:             (ble_nat 4 2) = false.
 Proof. simpl. reflexivity.  Qed.
 
-(** **** Exercise: 2 stars (blt_nat)  *)
-(** The [blt_nat] function tests [nat]ural numbers for [l]ess-[t]han,
-    yielding a [b]oolean.  Instead of making up a new [Fixpoint] for
-    this one, define it in terms of a previously defined function. *)
+(** **** 练习: 2 星级 (blt_nat)  *)
+(** [blt_nat]函数测试[nat]自然数的小于[lt]，产生一个[b]布尔值。
+    这次不必完全重新定义一个[Fixpoint]，可以利用前面已经定义的函数来定义。*)
 
 Definition blt_nat (n m : nat) : bool :=
   (* 请补充 *) admit.
@@ -493,22 +486,17 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
 (** [] *)
 
 (* ###################################################################### *)
-(** * Proof by Simplification *)
+(** * 基于化简的证明 *)
 
-(** Now that we've defined a few datatypes and functions, let's
-    turn to the question of how to state and prove properties of their
-    behavior.  Actually, in a sense, we've already started doing this:
-    each [Example] in the previous sections makes a precise claim
-    about the behavior of some function on some particular inputs.
-    The proofs of these claims were always the same: use [simpl] to
-    simplify both sides of the equation, then use [reflexivity] to
-    check that both sides contain identical values.
-
-    The same sort of "proof by simplification" can be used to prove
-    more interesting properties as well.  For example, the fact that
-    [0] is a "neutral element" for [+] on the left can be proved just
-    by observing that [0 + n] reduces to [n] no matter what [n] is, a
-    fact that can be read directly off the definition of [plus].*)
+(** 至此我们已经定义了一些数据类型和函数，让我们把问题转到如何表述
+    和证明它们行为的特性。实际在某种意义上，我们已经开始做了一些了：
+    前面几节里的[Example]就给出了一些函数在一些特定输入上行为的
+    准确断言。对于这些断言的证明都一样：使用[simpl]来化简等式两边，
+    然后用[reflexivity]来检查两边具有相同的值。
+    
+    这类"基于化简的证明"还可以用来证明更多有趣的特性。比如，对于[0]出现在左边时
+    是加法[+]的"零元"，可通过观察[0 + n]不论[n]值为多少都可化简为[n]而得到证明，
+    一个仅需要读一遍[plus]的定义就能得到的事实。*)
 
 Theorem plus_O_n : forall n : nat, 0 + n = n.
 Proof.

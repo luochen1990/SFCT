@@ -502,59 +502,44 @@ Theorem plus_O_n : forall n : nat, 0 + n = n.
 Proof.
   intros n. simpl. reflexivity.  Qed.
 
-(** (_Note_: You may notice that the above statement looks
-    different in the original source file and the final html output. In Coq
-    files, we write the [forall] universal quantifier using the
-    "_forall_" reserved identifier. This gets printed as an
-    upside-down "A", the familiar symbol used in logic.)  *)
+(** (_注意_：你可能发现上述内容在源文件里和在HTML输出里看上去不太一样。
+    在Coq文件里，我们用"_forall_"保留标识符来表示[forall]全称量词。
+    显示出来则像倒立的"A"，与在逻辑中使用的符号一样。) *)
 
-(** This is a good place to mention that [reflexivity] is
-    actually more powerful than it might look at first sight. In the
-    previous examples, the calls to [simpl] were actually not needed,
-    because [reflexivity] can perform some simplification
-    automatically when checking that two sides are equal; [simpl] was
-    just added for explanation purposes. For instance, here is another
-    proof of the same theorem: *)
+(** 这里顺便说一下，[reflexivity]其实要比其字面意思更强大。在前面的例子里，
+    对[simpl]的调用完全是不必要的，因为[reflexivity]在检查等式两边是否相等时
+    会自动做一些化简；那些增加的[simpl]只是为了解释说明。比如，下面是对
+    同一个定理的另一个证明：*)
 
 Theorem plus_O_n' : forall n : nat, 0 + n = n.
 Proof.
   intros n. reflexivity. Qed.
 
-(** As a matter of fact, it will be useful later to know that
-    [reflexivity] actually does somewhat more simplification than
-    [simpl] does -- for example, it tries "unfolding" defined terms,
-    replacing them with their right-hand sides.  The reason for this
-    difference is that, when reflexivity succeeds, the whole goal is
-    finished and we don't need to look at whatever expanded
-    expressions [reflexivity] has found; by contrast, [simpl] is used
-    in situations where we may have to read and understand the new
-    goal, so we would not want it blindly expanding definitions. *)
+(** 事实上，要了解[reflexivity]某种程度上做了比[simpl]更多的化简，这对
+    以后很有用 —— 比如，它会尝试"展开"所定义的项，用其定义右端的值替代该项。
+    产生这种差别的原因是，当自反性成立时，整个证明目标就完成了，而且
+    我们没必要再去看看[reflexivity]展开了什么表达式；与此不同的是，
+    [simpl]用于我们必须去观察和理解新产生的证明目标的场景，因此我们不会
+    期望它盲目的展开一些定义。*)
 
-(** The form of the theorem we just stated and its proof are
-    almost exactly the same as the examples above; there are just a
-    few differences.
+(** 我们刚刚声明的定理及其证明与前面例子的基本相同，但也有一些差异。
 
-    First, we've used the keyword [Theorem] instead of
-    [Example].  Indeed, the difference is purely a matter of
-    style; the keywords [Example] and [Theorem] (and a few others,
-    including [Lemma], [Fact], and [Remark]) mean exactly the same
-    thing to Coq.
+    首先，我们使用了关键字[Theorem]而不是[Example]。说实话，这种差别
+    纯粹是风格而已；在Coq中，关键字[Example]、[Theorem](以及其他一些，
+    包括[Lemma]、[Fact]和[Remark])都是表示完全一样的东西。
 
-    Second, we've added the quantifier [forall n:nat], so that our
-    theorem talks about _all_ natural numbers [n].  In order to prove
-    theorems of this form, we need to to be able to reason by
-    _assuming_ the existence of an arbitrary natural number [n].  This
-    is achieved in the proof by [intros n], which moves the quantifier
-    from the goal to a "context" of current assumptions. In effect, we
-    start the proof by saying "OK, suppose [n] is some arbitrary number."
+    其次，我们增加了量词[forall n:nat]，因此我们的定理讨论了_所有的_
+    自然数[n]。为了证明这种形式的定理，我们需要能够依据一个
+    任意自然数的存在性_假定_来推理。在证明中，这是用[intros n]来实现的，
+    它将量词从证明目标移动到当前假设的"上下文"中。达到的效果就是，
+    我们说"OK，假设[n]是任意一个自然数"，然后我们开始证明。
 
-    The keywords [intros], [simpl], and [reflexivity] are examples of
-    _tactics_.  A tactic is a command that is used between [Proof] and
-    [Qed] to tell Coq how it should check the correctness of some
-    claim we are making.  We will see several more tactics in the rest
-    of this lecture, and yet more in future lectures.
+    关键字[intros]、[simpl]和[reflexivity]都是_策略_的例子。策略是
+    一条可用在[Proof](证明)和[Qed](证明完毕)之间的命令，它告诉Coq
+    如何去检查我们所做的一些断言的正确性。在课程的后面部分以及未来的
+    讲座里我们会见到更多的策略。
 
-    Other similar theorems can be proved with the same pattern. *)
+    其他类似的定理可以用相同的模式进行证明。*)
 
 Theorem plus_1_l : forall n:nat, 1 + n = S n. 
 Proof.

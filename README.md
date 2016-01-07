@@ -57,4 +57,4 @@ How is the progress?
 - UseTactics
 - UseAuto
 - PE
-- Postscript lolisa Progressing
+- Postscript lolisa Finished

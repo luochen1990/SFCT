@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href="coqdoc.css" rel="stylesheet" type="text/css"/>
-<title>Basics: Functional Programming in Coq</title>
+<title>Basics</title>
 <script type="text/javascript" src="jquery-1.8.3.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </head>
@@ -18,59 +18,55 @@
 
 <div id="main">
 
-<h1 class="libtitle">Basics<span class="subtitle">Functional Programming in Coq</span></h1>
+<h1 class="libtitle">Basics</h1>
 
 <div class="code code-tight">
 </div>
 
 <div class="doc">
+<a name="lab16"></a><h1 class="section">基础知识: Coq中的函数式编程</h1>
 
 </div>
-<div class="code code-tight">
+<div class="code code-space">
 
 <br/>
+<span class="comment">(*<br/>
+&nbsp;&nbsp;&nbsp;<span class="inlinecode"><span class="id" type="var">Admitted</span></span>是Coq的"紧急出口"，就是说接受一个定义而暂不证明。我们用它<br/>
+&nbsp;&nbsp;&nbsp;来代表学习过程中的'空白'，这些空白应该由你的作业练习来补上。在实际<br/>
+&nbsp;&nbsp;&nbsp;运用中，当你一步步地完成一个大型证明时<span class="inlinecode"><span class="id" type="var">Admitted</span></span>也非常有用。&nbsp;*)</span><br/>
+<span class="id" type="keyword">Definition</span> <span class="id" type="var">admit</span> {<span class="id" type="var">T</span>: <span class="id" type="keyword">Type</span>} : <span class="id" type="var">T</span>. <span class="id" type="var">Admitted</span>.<br/>
 
 <br/>
 </div>
 
 <div class="doc">
-<a name="lab16"></a><h1 class="section">Introduction</h1>
+<a name="lab17"></a><h1 class="section">简介</h1>
 
 <div class="paragraph"> </div>
 
- The functional programming style brings programming closer to
-    simple, everyday mathematics: If a procedure or method has no side
-    effects, then pretty much all you need to understand about it is
-    how it maps inputs to outputs &mdash; that is, you can think of it as
-    just a concrete method for computing a mathematical function.
-    This is one sense of the word "functional" in "functional
-    programming."  The direct connection between programs and simple
-    mathematical objects supports both formal proofs of correctness
-    and sound informal reasoning about program behavior.
+ 函数式编程风格使得编程更接近简单的、日常的数学：当一个过程或方法
+    没有副作用，那么所有你需要去理解的也就是如何将输入对应到输出而已 ——
+    或者说，你可以把它当做是一个用来计算数学函数的具体方法。这也就是
+    "函数式编程"中"函数式"一词的含义之一。程序与简单数学对象之间的关联
+    同时支撑了有关程序行为正确性的形式化证明以及非形式化合理论证。
 
 <div class="paragraph"> </div>
 
-    The other sense in which functional programming is "functional" is
-    that it emphasizes the use of functions (or methods) as
-    <i>first-class</i> values &mdash; i.e., values that can be passed as
-    arguments to other functions, returned as results, stored in data
-    structures, etc.  The recognition that functions can be treated as
-    data in this way enables a host of useful and powerful idioms.
+    函数式编程中'函数式'一词的另一个含义是它强调把函数(或方法)作为
+    <i>第一等_ 的值 —— 换言之，这个值可以作为参数传递给其他函数，可以作为
+    结果返回，也可以存储在数据结构中，等等。这种把函数当做数据的认可
+    形式使得很多既有用且强大的用法成为可能。
 
 <div class="paragraph"> </div>
 
-    Other common features of functional languages include <i>algebraic
-    data types</i> and <i>pattern matching</i>, which make it easy to construct
-    and manipulate rich data structures, and sophisticated
-    <i>polymorphic type systems</i> that support abstraction and code
-    reuse.  Coq shares all of these features.
+    其他一些常见的函数式语言的特性包括 <i>代数数据类型_ 和 <i>模式匹配_
+    (使得构造和处理更丰富的数据结构更简单)，以及复杂的 <i>多态类型系统_
+    (用来支持抽象和代码复用)。Coq提供所有这些特性。
 
 <div class="paragraph"> </div>
 
-    The first half of this chapter introduces the most essential
-    elements of Coq's functional programming language.  The second
-    half introduces some basic <i>tactics</i> that can be used to prove
-    simple properties of Coq programs.
+    这一章的前半部分介绍了Coq函数式编程语言的最基本的元素，后半部分
+    介绍了可被用于证明Coq程序一些简单特点的基本 <i>策略_ 。
 
 </div>
 <div class="code code-tight">
@@ -79,31 +75,20 @@
 </div>
 
 <div class="doc">
-<a name="lab17"></a><h1 class="section">Enumerated Types</h1>
+<a name="lab18"></a><h1 class="section">可枚举类型</h1>
 
 <div class="paragraph"> </div>
 
- One unusual aspect of Coq is that its set of built-in
-    features is <i>extremely</i> small.  For example, instead of providing
-    the usual palette of atomic data types (booleans, integers,
-    strings, etc.), Coq offers an extremely powerful mechanism for
-    defining new data types from scratch &mdash; so powerful that all these
-    familiar types arise as instances.  
-
-<div class="paragraph"> </div>
-
-    Naturally, the Coq distribution comes with an extensive standard
-    library providing definitions of booleans, numbers, and many
-    common data structures like lists and hash tables.  But there is
-    nothing magic or primitive about these library definitions: they
-    are ordinary user code.  To illustrate this, we will explicitly
-    recapitulate all the definitions we need in this course, rather
-    than just getting them implicitly from the library.
-
-<div class="paragraph"> </div>
-
-    To see how this mechanism works, let's start with a very simple
-    example. 
+ Coq一个不寻常的地方就是它内置的特性集合 <i>极其_ 之小。比如，Coq不提供
+    通常的原子数据类型(如布尔值、整数、字符串等等)，而是提供一种极其强大的
+    可从头定义新数据类型的机制 —— 强大到以上这些常见的类型都是它定义产生出的
+    实例。
+    当然，Coq发行版也同时提供了一个内容丰富的标准库，包含了布尔值、数值，
+    以及如列表、杂凑表等很多常用的数据结构。但是这些库中的定义并没有
+    任何地方特殊或者是语言里原生的：它们都是普普通通的用户代码。为了说明
+    这个，我们在整个教程里显式的重新定义了所有我们所需要的数据类型，
+    而不是隐式的使用库里那些。
+    来看看这个机制是如何工作的，让我们从一个非常简单的例子开始。
 </div>
 <div class="code code-tight">
 
@@ -111,12 +96,11 @@
 </div>
 
 <div class="doc">
-<a name="lab18"></a><h2 class="section">Days of the Week</h2>
+<a name="lab19"></a><h2 class="section">一周里的日子</h2>
 
 <div class="paragraph"> </div>
 
- The following declaration tells Coq that we are defining
-    a new set of data values &mdash; a <i>type</i>. 
+ 下面的声明形式告诉Coq我们在定义一个新的数值集合 —— 一个 <i>类型_ 。
 </div>
 <div class="code code-tight">
 
@@ -134,14 +118,9 @@
 </div>
 
 <div class="doc">
-The type is called <span class="inlinecode"><span class="id" type="var">day</span></span>, and its members are <span class="inlinecode"><span class="id" type="var">monday</span></span>,
-    <span class="inlinecode"><span class="id" type="var">tuesday</span></span>, etc.  The second and following lines of the definition
-    can be read "<span class="inlinecode"><span class="id" type="var">monday</span></span> is a <span class="inlinecode"><span class="id" type="var">day</span></span>, <span class="inlinecode"><span class="id" type="var">tuesday</span></span> is a <span class="inlinecode"><span class="id" type="var">day</span></span>, etc."
-
-<div class="paragraph"> </div>
-
-    Having defined <span class="inlinecode"><span class="id" type="var">day</span></span>, we can write functions that operate on
-    days. 
+这个类型叫做<span class="inlinecode"><span class="id" type="var">day</span></span>, 它的成员包括<span class="inlinecode"><span class="id" type="var">monday</span></span>、<span class="inlinecode"><span class="id" type="var">tuesday</span></span>等等。定义从第二行起，
+    包括后面的行，可以被读作"<span class="inlinecode"><span class="id" type="var">monday</span></span>是一个<span class="inlinecode"><span class="id" type="var">day</span></span>"，"<span class="inlinecode"><span class="id" type="var">tuesday</span></span>是一个<span class="inlinecode"><span class="id" type="var">day</span></span>"，以此类推。
+    在定义了<span class="inlinecode"><span class="id" type="var">day</span></span>类型以后, 我们就可以来写一些函数操作day了. 
 </div>
 <div class="code code-tight">
 
@@ -161,22 +140,18 @@ The type is called <span class="inlinecode"><span class="id" type="var">day</spa
 </div>
 
 <div class="doc">
-One thing to note is that the argument and return types of
-    this function are explicitly declared.  Like most functional
-    programming languages, Coq can often figure out these types for
-    itself when they are not given explicitly &mdash; i.e., it performs
-    some <i>type inference</i> &mdash; but we'll always include them to make
-    reading easier. 
+注意，这里函数的参数以及返回值是被显式声明的。其实像大多数函数式
+    编程语言一样，如果没有显式给出，Coq自己通常也可以得出这些类型
+    —— 也就是说，它会做一些 <i>类型推断_ —— 但这里我们都会声明它们，
+    这样可使得阅读起来方便些。
 <div class="paragraph"> </div>
 
- Having defined a function, we should check that it works on
-    some examples.  There are actually three different ways to do this
-    in Coq.  
+ 在定义完函数后，我们用一些例子来检验它。实际上，在Coq中可以用三种
+    不同方式来做这件事。
 
 <div class="paragraph"> </div>
 
-    First, we can use the command <span class="inlinecode"><span class="id" type="var">Compute</span></span> to evaluate a
-    compound expression involving <span class="inlinecode"><span class="id" type="var">next_weekday</span></span>.  
+    第一，我们可以用命令<span class="inlinecode"><span class="id" type="var">Compute</span></span>来计算一个包含<span class="inlinecode"><span class="id" type="var">next_weekday</span></span>的合成表达式。
 </div>
 <div class="code code-tight">
 
@@ -190,16 +165,13 @@ One thing to note is that the argument and return types of
 </div>
 
 <div class="doc">
-If you have a computer handy, this would be an excellent
-    moment to fire up the Coq interpreter under your favorite IDE &mdash;
-    either CoqIde or Proof General &mdash; and try this for yourself.  Load
-    this file (<span class="inlinecode"><span class="id" type="var">Basics.v</span></span>) from the book's accompanying Coq sources,
-    find the above example, submit it to Coq, and observe the
-    result. 
+如果你手边就有电脑，那现在是一个好机会来打开Coq解释器并选用一个你
+    喜欢的IDE —— CoqIde 或是 Proof General 都可以 —— 然后自己试一试。
+    从这本书附带的Coq源码中载入<span class="inlinecode"><span class="id" type="var">Basics.v</span></span>文件，找到上述例子，提交到Coq，
+    然后查看结果。
 <div class="paragraph"> </div>
 
- Second, we can record what we <i>expect</i> the result to be in
-    the form of a Coq example: 
+ 第二，我们可以用Coq例子的形式来记录我们所期望的结果是什么： 
 </div>
 <div class="code code-tight">
 
@@ -211,11 +183,9 @@ If you have a computer handy, this would be an excellent
 </div>
 
 <div class="doc">
-This declaration does two things: it makes an
-    assertion (that the second weekday after <span class="inlinecode"><span class="id" type="var">saturday</span></span> is <span class="inlinecode"><span class="id" type="var">tuesday</span></span>),
-    and it gives the assertion a name that can be used to refer to it
-    later.  Having made the assertion, we can also ask Coq to verify it,
-    like this: 
+这个声明形式做了两件事：一是它做了一个断言(即：<span class="inlinecode"><span class="id" type="var">saturday</span></span>之后的
+    第二个工作日是<span class="inlinecode"><span class="id" type="var">tuesday</span></span>)；二是它给这个断言起了个名字，以便于以后
+    用此名字来引用此断言。 定义好断言后，我们还能要求Coq来验证它，像这样：
 </div>
 <div class="code code-tight">
 
@@ -226,92 +196,55 @@ This declaration does two things: it makes an
 </div>
 
 <div class="doc">
-The details are not important for now (we'll come back to
-    them in a bit), but essentially this can be read as "The assertion
-    we've just made can be proved by observing that both sides of the
-    equality evaluate to the same thing, after some simplification." 
-<div class="paragraph"> </div>
-
- Third, we can ask Coq to <i>extract</i>, from our <span class="inlinecode"><span class="id" type="keyword">Definition</span></span>, a
-    program in some other, more conventional, programming
-    language (OCaml, Scheme, or Haskell) with a high-performance
-    compiler.  This facility is very interesting, since it gives us a
-    way to construct <i>fully certified</i> programs in mainstream
-    languages.  Indeed, this is one of the main uses for which Coq was
-    developed.  We'll come back to this topic in later chapters.  More
-    information can also be found in the Coq'Art book by Bertot and
-    Casteran, as well as the Coq reference manual. 
+在这里一些细节不重要(后面我们还会回顾它)，重要的是这可以是说
+    "进行一些化简后，通过观察等式两边计算得到相同的东西，我们刚刚给出的
+    断言就可以被验证了。"  第三，我们可以让Coq从我们的<span class="inlinecode"><span class="id" type="keyword">Definition</span></span>中 <i>提炼出_ 一个其他编程
+    语言(诸如OCaml、Scheme、Haskell等)的程序，这些语言有着高性能的
+    编译器。这个能力非常有用，因为它能够提供给我们一种使用主流编程语言来
+    构造 <i>经过充分验证的_ 程序的方式。实际上，这也是Coq被开发出来以后
+    最主要的一种使用方式。后面的章节我们会再回来说这个内容。更多内容
+    可以在Bertot和Casteran编写的Coq's Art一书中找到，或者是Coq参考手册。
 </div>
 <div class="code code-tight">
-
-<br/>
 </div>
 
 <div class="doc">
-<a name="lab19"></a><h2 class="section">Booleans</h2>
-
-<div class="paragraph"> </div>
-
- In a similar way, we can define the standard type <span class="inlinecode"><span class="id" type="var">bool</span></span> of
-    booleans, with members <span class="inlinecode"><span class="id" type="var">true</span></span> and <span class="inlinecode"><span class="id" type="var">false</span></span>. 
+<a name="lab20"></a><h2 class="section">布尔值</h2>
+ 用类似的方式，我们可以定义标准类型<span class="inlinecode"><span class="id" type="var">bool</span></span>表示布尔值，它包含
+    <span class="inlinecode"><span class="id" type="var">true</span></span>和<span class="inlinecode"><span class="id" type="var">false</span></span>两个成员。
 </div>
 <div class="code code-tight">
-
-<br/>
 <span class="id" type="keyword">Inductive</span> <span class="id" type="var">bool</span> : <span class="id" type="keyword">Type</span> :=<br/>
 &nbsp;&nbsp;| <span class="id" type="var">true</span> : <span class="id" type="var">bool</span><br/>
 &nbsp;&nbsp;| <span class="id" type="var">false</span> : <span class="id" type="var">bool</span>.<br/>
-
-<br/>
 </div>
 
 <div class="doc">
-Although we are rolling our own booleans here for the sake
-    of building up everything from scratch, Coq does, of course,
-    provide a default implementation of the booleans in its standard
-    library, together with a multitude of useful functions and
-    lemmas.  (Take a look at <span class="inlinecode"><span class="id" type="var">Coq.Init.Datatypes</span></span> in the Coq library
-    documentation if you're interested.)  Whenever possible, we'll
-    name our own definitions and theorems so that they exactly
-    coincide with the ones in the standard library. 
-<div class="paragraph"> </div>
-
- Functions over booleans can be defined in the same way as
-    above: 
+尽管我们为了所谓"一切从头来"而在这里搞出我们自己的布尔类型，实际上，
+    Coq在其标准库中也提供了布尔类型的缺省实现，同时提供大量有用的函数和
+    定理。(有兴趣的话可参见Coq库文档中的<span class="inlinecode"><span class="id" type="var">Coq.Init.Datatypes</span></span>。)尽可能地，
+    我们会将我们自己的定义和定理的命名做成与标准库中的命名完全一致。 布尔值上的函数可用与上文相同的方式来定义：
 </div>
 <div class="code code-tight">
-
-<br/>
 <span class="id" type="keyword">Definition</span> <span class="id" type="var">negb</span> (<span class="id" type="var">b</span>:<span class="id" type="var">bool</span>) : <span class="id" type="var">bool</span> := <br/>
 &nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">b</span> <span class="id" type="keyword">with</span><br/>
 &nbsp;&nbsp;| <span class="id" type="var">true</span> ⇒ <span class="id" type="var">false</span><br/>
 &nbsp;&nbsp;| <span class="id" type="var">false</span> ⇒ <span class="id" type="var">true</span><br/>
 &nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
-
-<br/>
 <span class="id" type="keyword">Definition</span> <span class="id" type="var">andb</span> (<span class="id" type="var">b1</span>:<span class="id" type="var">bool</span>) (<span class="id" type="var">b2</span>:<span class="id" type="var">bool</span>) : <span class="id" type="var">bool</span> := <br/>
 &nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">b1</span> <span class="id" type="keyword">with</span> <br/>
 &nbsp;&nbsp;| <span class="id" type="var">true</span> ⇒ <span class="id" type="var">b2</span> <br/>
 &nbsp;&nbsp;| <span class="id" type="var">false</span> ⇒ <span class="id" type="var">false</span><br/>
 &nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
-
-<br/>
 <span class="id" type="keyword">Definition</span> <span class="id" type="var">orb</span> (<span class="id" type="var">b1</span>:<span class="id" type="var">bool</span>) (<span class="id" type="var">b2</span>:<span class="id" type="var">bool</span>) : <span class="id" type="var">bool</span> := <br/>
 &nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">b1</span> <span class="id" type="keyword">with</span> <br/>
 &nbsp;&nbsp;| <span class="id" type="var">true</span> ⇒ <span class="id" type="var">true</span><br/>
 &nbsp;&nbsp;| <span class="id" type="var">false</span> ⇒ <span class="id" type="var">b2</span><br/>
 &nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
-
-<br/>
 </div>
 
 <div class="doc">
-The last two illustrate the syntax for multi-argument
-    function definitions. 
-<div class="paragraph"> </div>
-
- The following four "unit tests" constitute a complete
-    specification &mdash; a truth table &mdash; for the <span class="inlinecode"><span class="id" type="var">orb</span></span> function: 
+后面两个演示了具有多个参数的函数的定义语法。 下面四个"单元测试"构成了针对<span class="inlinecode"><span class="id" type="var">orb</span></span>函数的完整规范 —— 真值表：
 </div>
 <div class="code code-tight">
 
@@ -342,7 +275,7 @@ The last two illustrate the syntax for multi-argument
     to replace <span class="inlinecode"><span class="id" type="var">admit</span></span> or <span class="inlinecode"><span class="id" type="var">Admitted</span></span> with real definitions or proofs. 
 <div class="paragraph"> </div>
 
-<a name="lab20"></a><h4 class="section">Exercise: 1 star (nandb)</h4>
+<a name="lab21"></a><h4 class="section">Exercise: 1 star (nandb)</h4>
  Complete the definition of the following function, then make
     sure that the <span class="inlinecode"><span class="id" type="keyword">Example</span></span> assertions below can each be verified by
     Coq.  
@@ -381,7 +314,7 @@ Remove "<span class="inlinecode"><span class="id" type="var">Admitted</span>.</s
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab21"></a><h4 class="section">Exercise: 1 star (andb3)</h4>
+<a name="lab22"></a><h4 class="section">Exercise: 1 star (andb3)</h4>
  Do the same for the <span class="inlinecode"><span class="id" type="var">andb3</span></span> function below. This function should
     return <span class="inlinecode"><span class="id" type="var">true</span></span> when all of its inputs are <span class="inlinecode"><span class="id" type="var">true</span></span>, and <span class="inlinecode"><span class="id" type="var">false</span></span>
     otherwise. 
@@ -412,7 +345,7 @@ Remove "<span class="inlinecode"><span class="id" type="var">Admitted</span>.</s
 </div>
 
 <div class="doc">
-<a name="lab22"></a><h2 class="section">Function Types</h2>
+<a name="lab23"></a><h2 class="section">Function Types</h2>
 
 <div class="paragraph"> </div>
 
@@ -458,7 +391,7 @@ The type of <span class="inlinecode"><span class="id" type="var">negb</span></sp
 </div>
 
 <div class="doc">
-<a name="lab23"></a><h2 class="section">Numbers</h2>
+<a name="lab24"></a><h2 class="section">Numbers</h2>
 
 <div class="paragraph"> </div>
 
@@ -776,7 +709,7 @@ The _ in the first line is a <i>wildcard pattern</i>.  Writing _ in a
 </div>
 
 <div class="doc">
-<a name="lab24"></a><h4 class="section">Exercise: 1 star (factorial)</h4>
+<a name="lab25"></a><h4 class="section">Exercise: 1 star (factorial)</h4>
  Recall the standard factorial function:
 <pre>
     factorial(0)  =  1 
@@ -893,7 +826,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
 </div>
 
 <div class="doc">
-<a name="lab25"></a><h4 class="section">Exercise: 2 stars (blt_nat)</h4>
+<a name="lab26"></a><h4 class="section">Exercise: 2 stars (blt_nat)</h4>
  The <span class="inlinecode"><span class="id" type="var">blt_nat</span></span> function tests <span class="inlinecode"><span class="id" type="var">nat</span></span>ural numbers for <span class="inlinecode"><span class="id" type="var">l</span></span>ess-<span class="inlinecode"><span class="id" type="var">t</span></span>han,
     yielding a <span class="inlinecode"><span class="id" type="var">b</span></span>oolean.  Instead of making up a new <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> for
     this one, define it in terms of a previously defined function. 
@@ -924,7 +857,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
 </div>
 
 <div class="doc">
-<a name="lab26"></a><h1 class="section">Proof by Simplification</h1>
+<a name="lab27"></a><h1 class="section">Proof by Simplification</h1>
 
 <div class="paragraph"> </div>
 
@@ -1096,7 +1029,7 @@ for proving this goal.
 </div>
 
 <div class="doc">
-<a name="lab27"></a><h1 class="section">Proof by Rewriting</h1>
+<a name="lab28"></a><h1 class="section">Proof by Rewriting</h1>
 
 <div class="paragraph"> </div>
 
@@ -1166,7 +1099,7 @@ The first line of the proof moves the universally quantified
     makes in Coq's behavior.) 
 <div class="paragraph"> </div>
 
-<a name="lab28"></a><h4 class="section">Exercise: 1 star (plus_id_exercise)</h4>
+<a name="lab29"></a><h4 class="section">Exercise: 1 star (plus_id_exercise)</h4>
  Remove "<span class="inlinecode"><span class="id" type="var">Admitted</span>.</span>" and fill in the proof. 
 </div>
 <div class="code code-tight">
@@ -1212,7 +1145,7 @@ The first line of the proof moves the universally quantified
 </div>
 
 <div class="doc">
-<a name="lab29"></a><h4 class="section">Exercise: 2 stars (mult_S_1)</h4>
+<a name="lab30"></a><h4 class="section">Exercise: 2 stars (mult_S_1)</h4>
 
 </div>
 <div class="code code-space">
@@ -1232,7 +1165,7 @@ The first line of the proof moves the universally quantified
 </div>
 
 <div class="doc">
-<a name="lab30"></a><h1 class="section">Proof by Case Analysis</h1>
+<a name="lab31"></a><h1 class="section">Proof by Case Analysis</h1>
 
 <div class="paragraph"> </div>
 
@@ -1460,7 +1393,7 @@ Since curly braces mark both the beginning and the end of a
 </div>
 
 <div class="doc">
-<a name="lab31"></a><h4 class="section">Exercise: 2 stars (andb_true_elim2)</h4>
+<a name="lab32"></a><h4 class="section">Exercise: 2 stars (andb_true_elim2)</h4>
  Prove <span class="inlinecode"><span class="id" type="var">andb_true_elim2</span></span>, marking cases (and subcases) with bullets
     when you use <span class="inlinecode"><span class="id" type="tactic">destruct</span></span>. 
 </div>
@@ -1477,7 +1410,7 @@ Since curly braces mark both the beginning and the end of a
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab32"></a><h4 class="section">Exercise: 1 star (zero_nbeq_plus_1)</h4>
+<a name="lab33"></a><h4 class="section">Exercise: 1 star (zero_nbeq_plus_1)</h4>
 
 </div>
 <div class="code code-space">
@@ -1498,11 +1431,11 @@ Since curly braces mark both the beginning and the end of a
 </div>
 
 <div class="doc">
-<a name="lab33"></a><h1 class="section">More Exercises</h1>
+<a name="lab34"></a><h1 class="section">More Exercises</h1>
 
 <div class="paragraph"> </div>
 
-<a name="lab34"></a><h4 class="section">Exercise: 2 stars (boolean_functions)</h4>
+<a name="lab35"></a><h4 class="section">Exercise: 2 stars (boolean_functions)</h4>
  Use the tactics you have learned so far to prove the following 
     theorem about boolean functions. 
 </div>
@@ -1534,7 +1467,7 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab35"></a><h4 class="section">Exercise: 2 stars (andb_eq_orb)</h4>
+<a name="lab36"></a><h4 class="section">Exercise: 2 stars (andb_eq_orb)</h4>
  Prove the following theorem.  (You may want to first prove a
     subsidiary lemma or two. Alternatively, remember that you do
     not have to introduce all hypotheses at the same time.) 
@@ -1554,7 +1487,7 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab36"></a><h4 class="section">Exercise: 3 stars (binary)</h4>
+<a name="lab37"></a><h4 class="section">Exercise: 3 stars (binary)</h4>
  Consider a different, more efficient representation of natural
     numbers using a binary rather than unary system.  That is, instead
     of saying that each natural number is either zero or the successor
@@ -1630,7 +1563,7 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
 </div>
 
 <div class="doc">
-<a name="lab37"></a><h1 class="section">More on Notation (Advanced)</h1>
+<a name="lab38"></a><h1 class="section">More on Notation (Advanced)</h1>
 
 <div class="paragraph"> </div>
 
@@ -1683,7 +1616,7 @@ For each notation symbol in Coq, we can specify its <i>precedence
     the standard library). 
 <div class="paragraph"> </div>
 
-<a name="lab38"></a><h1 class="section"><span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> and Structural Recursion (Advanced)</h1>
+<a name="lab39"></a><h1 class="section"><span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> and Structural Recursion (Advanced)</h1>
 
 </div>
 <div class="code code-space">
@@ -1716,7 +1649,7 @@ When Coq checks this definition, it notes that <span class="inlinecode"><span cl
     necessary to write functions in slightly unnatural ways. 
 <div class="paragraph"> </div>
 
-<a name="lab39"></a><h4 class="section">Exercise: 2 stars, optional (decreasing)</h4>
+<a name="lab40"></a><h4 class="section">Exercise: 2 stars, optional (decreasing)</h4>
  To get a concrete sense of this, find a way to write a sensible
     <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> definition (of a simple function on numbers, say) that
     <i>does</i> terminate on all inputs, but that Coq will reject because

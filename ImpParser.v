@@ -374,7 +374,7 @@ Eval compute in parse "
 
 (*
 Eval compute in parse "
-    SKIP;;a
+    SKIP;;
     z:=x*y*(x*x);;
     WHILE x==x DO
       IF z <= z*z && not x == 2 THEN

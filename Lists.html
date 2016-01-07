@@ -36,7 +36,7 @@
 </div>
 
 <div class="doc">
-<a name="lab59"></a><h1 class="section">二元组</h1>
+<a name="lab63"></a><h1 class="section">二元组</h1>
 
 <div class="paragraph"> </div>
 
@@ -66,7 +66,7 @@
 </div>
 
 <div class="doc">
-<a name="lab60"></a><h3 class="section"> </h3>
+<a name="lab64"></a><h3 class="section"> </h3>
 
 <div class="paragraph"> </div>
 
@@ -93,7 +93,7 @@
 </div>
 
 <div class="doc">
-<a name="lab61"></a><h3 class="section"> </h3>
+<a name="lab65"></a><h3 class="section"> </h3>
 
 <div class="paragraph"> </div>
 
@@ -136,7 +136,7 @@
 </div>
 
 <div class="doc">
-<a name="lab62"></a><h3 class="section"> </h3>
+<a name="lab66"></a><h3 class="section"> </h3>
 
 <div class="paragraph"> </div>
 
@@ -170,7 +170,7 @@
 </div>
 
 <div class="doc">
-<a name="lab63"></a><h3 class="section"> </h3>
+<a name="lab67"></a><h3 class="section"> </h3>
  我们必须要像Coq展示<span class="inlinecode"><span class="id" type="var">p</span></span>的具体结构，这样<span class="inlinecode"><span class="id" type="tactic">simpl</span></span>才能对<span class="inlinecode"><span class="id" type="var">fst</span></span>和<span class="inlinecode"><span class="id" type="var">snd</span></span>做模式匹配。 
     通过destruct可以达到这个目的。需要注意的是，不像自然数，destruct不会生成一个额外的子目标，因为一共只有一种方式可以构造二元组。 
 </div>
@@ -186,7 +186,7 @@
 </div>
 
 <div class="doc">
-<a name="lab64"></a><h4 class="section">Exercise: 1 star (snd_fst_is_swap)</h4>
+<a name="lab68"></a><h4 class="section">Exercise: 1 star (snd_fst_is_swap)</h4>
 
 </div>
 <div class="code code-space">
@@ -200,7 +200,7 @@
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab65"></a><h4 class="section">Exercise: 1 star, optional (fst_swap_is_snd)</h4>
+<a name="lab69"></a><h4 class="section">Exercise: 1 star, optional (fst_swap_is_snd)</h4>
 
 </div>
 <div class="code code-space">
@@ -219,7 +219,7 @@
 </div>
 
 <div class="doc">
-<a name="lab66"></a><h1 class="section">数的列表</h1>
+<a name="lab70"></a><h1 class="section">数的列表</h1>
 
 <div class="paragraph"> </div>
 
@@ -247,7 +247,7 @@
 </div>
 
 <div class="doc">
-<a name="lab67"></a><h3 class="section"> </h3>
+<a name="lab71"></a><h3 class="section"> </h3>
  就像二元组一样，用我们已经熟悉的编程的记号来写下一个列表会显得更为方便。下面两个声明让我们可以用<span class="inlinecode">::</span>来作中缀cons操作符，用方括号来做<span class="inlinecode"><span class="id" type="var">�</span>��<span class="id" type="var">�</span>��</span>符号来构造列表 
 </div>
 <div class="code code-tight">
@@ -291,7 +291,7 @@ Notation "x + y" := (plus x y)
    上面第二和第三个<span class="inlinecode"><span class="id" type="keyword">Notation</span></span>申明引入了标准的方括号记号来表示列表；第三个声明的右边部分展示了在Coq中申明n元记号的语法以及如何把它们翻译成嵌套的二元构造器的序列。 
 <div class="paragraph"> </div>
 
-<a name="lab68"></a><h3 class="section">Repeat</h3>
+<a name="lab72"></a><h3 class="section">Repeat</h3>
  很多有用的函数可以用来操作列表。比如<span class="inlinecode"><span class="id" type="tactic">repeat</span></span>函数接受一个数<span class="inlinecode"><span class="id" type="var">n</span></span>和<span class="inlinecode"><span class="id" type="var">count</span></span>，返回一个长为<span class="inlinecode"><span class="id" type="var">count</span></span>，每个元素都是<span class="inlinecode"><span class="id" type="var">n</span></span>的列表。 
 </div>
 <div class="code code-tight">
@@ -307,7 +307,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab69"></a><h3 class="section">Length</h3>
+<a name="lab73"></a><h3 class="section">Length</h3>
  <span class="inlinecode"><span class="id" type="var">length</span></span>函数用来计算列表的长度。 
 </div>
 <div class="code code-tight">
@@ -323,7 +323,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab70"></a><h3 class="section">Append</h3>
+<a name="lab74"></a><h3 class="section">Append</h3>
  <span class="inlinecode"><span class="id" type="var">app</span></span>函数用来把两个列表联接起来。 
 </div>
 <div class="code code-tight">
@@ -365,7 +365,7 @@ Notation "x + y" := (plus x y)
     当然，空列表没有第一个元素，所以我们必须传入一个默认值，让这个值成为这种情况下的返回值。  
 <div class="paragraph"> </div>
 
-<a name="lab71"></a><h3 class="section">Head (with default) and Tail</h3>
+<a name="lab75"></a><h3 class="section">Head (with default) and Tail</h3>
 
 </div>
 <div class="code code-space">
@@ -394,7 +394,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab72"></a><h4 class="section">Exercise: 2 stars (list_funs)</h4>
+<a name="lab76"></a><h4 class="section">Exercise: 2 stars (list_funs)</h4>
  完成以下<span class="inlinecode"><span class="id" type="var">nonzeros</span></span>，<span class="inlinecode"><span class="id" type="var">oddmembers</span></span>和<span class="inlinecode"><span class="id" type="var">countoddmembers</span></span>的定义，
     你可以查看测试函数来理解这些函数应该做什么 
 </div>
@@ -433,7 +433,7 @@ Notation "x + y" := (plus x y)
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab73"></a><h4 class="section">Exercise: 3 stars, advanced (alternate)</h4>
+<a name="lab77"></a><h4 class="section">Exercise: 3 stars, advanced (alternate)</h4>
  完成<span class="inlinecode"><span class="id" type="var">alternate</span></span>的定义，它把两个列表像拉链一样"拉"起来并成为一个列表，
     从两个列表中交替地取出元素。查看后面的tests来获得更加详细的例子。
 
@@ -468,7 +468,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab74"></a><h2 class="section">Bags via Lists</h2>
+<a name="lab78"></a><h2 class="section">Bags via Lists</h2>
 
 <div class="paragraph"> </div>
 
@@ -484,7 +484,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab75"></a><h4 class="section">Exercise: 3 stars (bag_functions)</h4>
+<a name="lab79"></a><h4 class="section">Exercise: 3 stars (bag_functions)</h4>
  完成下列<span class="inlinecode"><span class="id" type="var">count</span></span>, <span class="inlinecode"><span class="id" type="var">sum</span></span>, <span class="inlinecode"><span class="id" type="var">add</span></span> 以及 <span class="inlinecode"><span class="id" type="var">member</span></span> 的定义 
 </div>
 <div class="code code-tight">
@@ -552,7 +552,7 @@ Notation "x + y" := (plus x y)
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab76"></a><h4 class="section">Exercise: 3 stars, optional (bag_more_functions)</h4>
+<a name="lab80"></a><h4 class="section">Exercise: 3 stars, optional (bag_more_functions)</h4>
  你可以把下面这些和<span class="inlinecode"><span class="id" type="var">bag</span></span>有关的函数当做额外的练习 
 </div>
 <div class="code code-tight">
@@ -601,7 +601,7 @@ Notation "x + y" := (plus x y)
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab77"></a><h4 class="section">Exercise: 3 stars (bag_theorem)</h4>
+<a name="lab81"></a><h4 class="section">Exercise: 3 stars (bag_theorem)</h4>
  写下一个你认为有趣的关于<span class="inlinecode"><span class="id" type="var">bags</span></span>的定理<span class="inlinecode"><span class="id" type="var">bag_theorem</span></span>，要涉及到<span class="inlinecode"><span class="id" type="var">count</span></span>和<span class="inlinecode"><span class="id" type="var">add</span></span>。
     证明他。注意，这个问题是开放的，很有可能你会遇到你写下了正确的定理，
     但是其证明涉及到了你现在还没有学到的技巧。如果你陷入麻烦了，欢迎提问。 
@@ -621,7 +621,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab78"></a><h1 class="section">有关列表的推理</h1>
+<a name="lab82"></a><h1 class="section">有关列表的推理</h1>
 
 <div class="paragraph"> </div>
 
@@ -651,9 +651,9 @@ Notation "x + y" := (plus x y)
 &nbsp;&nbsp;<span class="id" type="var">pred</span> (<span class="id" type="var">length</span> <span class="id" type="var">l</span>) = <span class="id" type="var">length</span> (<span class="id" type="var">tl</span> <span class="id" type="var">l</span>).<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span> <span class="id" type="var">l</span>. <span class="id" type="tactic">destruct</span> <span class="id" type="var">l</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">l'</span>].<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l&nbsp;=&nbsp;nil".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l = nil".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l&nbsp;=&nbsp;cons&nbsp;n&nbsp;l'".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l = cons n l'".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>. <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
@@ -672,7 +672,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab79"></a><h2 class="section">一点点说教</h2>
+<a name="lab83"></a><h2 class="section">一点点说教</h2>
 
 <div class="paragraph"> </div>
 
@@ -685,7 +685,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab80"></a><h2 class="section">列表上的归纳</h2>
+<a name="lab84"></a><h2 class="section">列表上的归纳</h2>
 
 <div class="paragraph"> </div>
 
@@ -728,9 +728,9 @@ Notation "x + y" := (plus x y)
 &nbsp;&nbsp;(<span class="id" type="var">l1</span> ++ <span class="id" type="var">l2</span>) ++ <span class="id" type="var">l3</span> = <span class="id" type="var">l1</span> ++ (<span class="id" type="var">l2</span> ++ <span class="id" type="var">l3</span>).<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span> <span class="id" type="var">l1</span> <span class="id" type="var">l2</span> <span class="id" type="var">l3</span>. <span class="id" type="tactic">induction</span> <span class="id" type="var">l1</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">l1'</span>].<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l1&nbsp;=&nbsp;nil".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l1 = nil".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l1&nbsp;=&nbsp;cons&nbsp;n&nbsp;l1'".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l1 = cons n l1'".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>. <span class="id" type="tactic">rewrite</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">IHl1'</span>. <span class="id" type="tactic">reflexivity</span>. <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
@@ -743,7 +743,7 @@ Notation "x + y" := (plus x y)
     需要包含更多地提示，比如提醒他们第二种情况下的归纳假设到底是什么，来帮助读者明白当前的情况。 
 <div class="paragraph"> </div>
 
-<a name="lab81"></a><h3 class="section">非形式化的版本</h3>
+<a name="lab85"></a><h3 class="section">非形式化的版本</h3>
 
 <div class="paragraph"> </div>
 
@@ -777,7 +777,7 @@ Notation "x + y" := (plus x y)
 
 <div class="paragraph"> </div>
 
-<a name="lab82"></a><h3 class="section">另一个例子</h3>
+<a name="lab86"></a><h3 class="section">另一个例子</h3>
 
 <div class="paragraph"> </div>
 
@@ -791,16 +791,16 @@ Notation "x + y" := (plus x y)
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;WORKED&nbsp;IN&nbsp;CLASS&nbsp;*)</span><br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span> <span class="id" type="var">l1</span> <span class="id" type="var">l2</span>. <span class="id" type="tactic">induction</span> <span class="id" type="var">l1</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">l1'</span>].<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l1&nbsp;=&nbsp;nil".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l1 = nil".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l1&nbsp;=&nbsp;cons".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l1 = cons".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>. <span class="id" type="tactic">rewrite</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">IHl1'</span>. <span class="id" type="tactic">reflexivity</span>. <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
 </div>
 
 <div class="doc">
-<a name="lab83"></a><h3 class="section">反转列表</h3>
+<a name="lab87"></a><h3 class="section">反转列表</h3>
  作为一个更为深入的例子，来说明在列表上使用归纳证明，假设我们定义一个"右侧cons"的函数
     <span class="inlinecode"><span class="id" type="var">snoc</span></span>。 像这样： 
 </div>
@@ -838,7 +838,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab84"></a><h3 class="section">有关反转的证明</h3>
+<a name="lab88"></a><h3 class="section">有关反转的证明</h3>
  现在我们用我们新定义的<span class="inlinecode"><span class="id" type="var">snoc</span></span>和<span class="inlinecode"><span class="id" type="var">rec</span></span>来证明一些列表的定理。
     与我们目前已经见到过的归纳证明相比，手头这个是一个更具挑战性
     的定理：就是反转一个列表并不会改变他的长度。当我们初次尝试时
@@ -851,9 +851,9 @@ Notation "x + y" := (plus x y)
 &nbsp;&nbsp;<span class="id" type="var">length</span> (<span class="id" type="var">rev</span> <span class="id" type="var">l</span>) = <span class="id" type="var">length</span> <span class="id" type="var">l</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span> <span class="id" type="var">l</span>. <span class="id" type="tactic">induction</span> <span class="id" type="var">l</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">l'</span>].<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l&nbsp;=&nbsp;<span class="inlinecode"></span>".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l = []".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l&nbsp;=&nbsp;n&nbsp;::&nbsp;l'".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l = n :: l'".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;这是一个比较棘手的情况。我们从普通的化简开始。&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;现在我们好像卡在什么地方了：目标是要证明涉及<span class="inlinecode"><span class="id" type="var">snoc</span></span>的等式，<br/>
@@ -877,9 +877,9 @@ Notation "x + y" := (plus x y)
 &nbsp;&nbsp;<span class="id" type="var">length</span> (<span class="id" type="var">snoc</span> <span class="id" type="var">l</span> <span class="id" type="var">n</span>) = <span class="id" type="var">S</span> (<span class="id" type="var">length</span> <span class="id" type="var">l</span>).<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span> <span class="id" type="var">n</span> <span class="id" type="var">l</span>. <span class="id" type="tactic">induction</span> <span class="id" type="var">l</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n'</span> <span class="id" type="var">l'</span>].<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l&nbsp;=&nbsp;nil".*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l = nil".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l&nbsp;=&nbsp;cons&nbsp;n'&nbsp;l'".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l = cons n' l'".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>. <span class="id" type="tactic">rewrite</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">IHl'</span>. <span class="id" type="tactic">reflexivity</span>. <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
@@ -900,9 +900,9 @@ Notation "x + y" := (plus x y)
 &nbsp;&nbsp;<span class="id" type="var">length</span> (<span class="id" type="var">rev</span> <span class="id" type="var">l</span>) = <span class="id" type="var">length</span> <span class="id" type="var">l</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span> <span class="id" type="var">l</span>. <span class="id" type="tactic">induction</span> <span class="id" type="var">l</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">l'</span>].<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l&nbsp;=&nbsp;nil".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l = nil".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"l&nbsp;=&nbsp;cons".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "l = cons".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>. <span class="id" type="tactic">rewrite</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">length_snoc</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">IHl'</span>. <span class="id" type="tactic">reflexivity</span>. <span class="id" type="keyword">Qed</span>.<br/>
 
@@ -1004,7 +1004,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab85"></a><h2 class="section"><span class="inlinecode"><span class="id" type="var">SearchAbout</span></span></h2>
+<a name="lab89"></a><h2 class="section"><span class="inlinecode"><span class="id" type="var">SearchAbout</span></span></h2>
 
 <div class="paragraph"> </div>
 
@@ -1041,11 +1041,11 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab86"></a><h2 class="section">列表练习, 第一部分</h2>
+<a name="lab90"></a><h2 class="section">列表练习, 第一部分</h2>
 
 <div class="paragraph"> </div>
 
-<a name="lab87"></a><h4 class="section">练习: 三星 (list_exercises)</h4>
+<a name="lab91"></a><h4 class="section">练习: 三星 (list_exercises)</h4>
  更多的关于列表的习题 
 </div>
 <div class="code code-tight">
@@ -1108,7 +1108,7 @@ Notation "x + y" := (plus x y)
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab88"></a><h4 class="section">练习: 两星 (beq_natlist)</h4>
+<a name="lab92"></a><h4 class="section">练习: 两星 (beq_natlist)</h4>
  填写<span class="inlinecode"><span class="id" type="var">beq_natlist</span></span>的定义，它通过比较列表中的数字来判断是否相等。证明对一切列表<span class="inlinecode"><span class="id" type="var">l</span></span>，
     <span class="inlinecode"><span class="id" type="var">beq_natlist</span></span> <span class="inlinecode"><span class="id" type="var">l</span></span> <span class="inlinecode"><span class="id" type="var">l</span></span> 返回 <span class="inlinecode"><span class="id" type="var">true</span></span>。 
 </div>
@@ -1142,11 +1142,11 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab89"></a><h2 class="section">列表练习, 第二部分</h2>
+<a name="lab93"></a><h2 class="section">列表练习, 第二部分</h2>
 
 <div class="paragraph"> </div>
 
-<a name="lab90"></a><h4 class="section">练习: 两星 (list_design)</h4>
+<a name="lab94"></a><h4 class="section">练习: 两星 (list_design)</h4>
  设计练习：
 
 <div class="paragraph"> </div>
@@ -1171,7 +1171,7 @@ Notation "x + y" := (plus x y)
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab91"></a><h4 class="section">练习: 三星, 进阶 (bag_proofs)</h4>
+<a name="lab95"></a><h4 class="section">练习: 三星, 进阶 (bag_proofs)</h4>
  下面是关于你之前对于背包的一些定义的定理。 
 </div>
 <div class="code code-tight">
@@ -1195,9 +1195,9 @@ Notation "x + y" := (plus x y)
 &nbsp;&nbsp;<span class="id" type="var">ble_nat</span> <span class="id" type="var">n</span> (<span class="id" type="var">S</span> <span class="id" type="var">n</span>) = <span class="id" type="var">true</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span> <span class="id" type="var">n</span>. <span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n'</span>].<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"0".&nbsp;&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "0".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>. <span class="id" type="tactic">reflexivity</span>.<br/>
-&nbsp;&nbsp;<span class="comment">(*&nbsp;Case&nbsp;"S&nbsp;n'".&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">Case</span> "S n'".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>. <span class="id" type="tactic">rewrite</span> <span class="id" type="var">IHn'</span>. <span class="id" type="tactic">reflexivity</span>. <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
@@ -1211,7 +1211,7 @@ Notation "x + y" := (plus x y)
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab92"></a><h4 class="section">练习: 三星, 可选 (bag_count_sum)</h4>
+<a name="lab96"></a><h4 class="section">练习: 三星, 可选 (bag_count_sum)</h4>
  写下一个涉及到<span class="inlinecode"><span class="id" type="var">count</span></span>和<span class="inlinecode"><span class="id" type="var">sum</span></span>的，关于<span class="inlinecode"><span class="id" type="var">bag_count_sum</span></span>的定理，并证明。
 </div>
 <div class="code code-tight">
@@ -1224,7 +1224,7 @@ Notation "x + y" := (plus x y)
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab93"></a><h4 class="section">练习: 四星, 进阶 (rev_injective)</h4>
+<a name="lab97"></a><h4 class="section">练习: 四星, 进阶 (rev_injective)</h4>
  证明<span class="inlinecode"><span class="id" type="var">rev</span></span>是一个单射，也就是说，
       forall (l1 l2 : natlist), rev l1 = rev l2 -&gt; l1 = l2.
     有一种简单和一种困难的方法来解决这个问题。
@@ -1245,7 +1245,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab94"></a><h1 class="section">可能的失败</h1>
+<a name="lab98"></a><h1 class="section">可能的失败</h1>
 
 <div class="paragraph"> </div>
 
@@ -1270,7 +1270,7 @@ Notation "x + y" := (plus x y)
 </div>
 
 <div class="doc">
-<a name="lab95"></a><h3 class="section"> </h3>
+<a name="lab99"></a><h3 class="section"> </h3>
  另一方面，如果我们让它的类型成为<span class="inlinecode"><span class="id" type="var">nat</span></span> <span class="inlinecode"><span style="font-family: arial;">&rarr;</span></span> <span class="inlinecode"><span class="id" type="var">natlist</span></span> <span class="inlinecode"><span style="font-family: arial;">&rarr;</span></span> <span class="inlinecode"><span class="id" type="var">natoption</span></span>，
     那么当列表不够长时，我们就能返回<span class="inlinecode"><span class="id" type="var">None</span></span>，当列表有足够的元素时返回<span class="inlinecode"><span class="id" type="var">Some</span></span> <span class="inlinecode"><span class="id" type="var">a</span></span>，
     其中<span class="inlinecode"><span class="id" type="var">a</span></span>出现在列表的第<span class="inlinecode"><span class="id" type="var">n</span></span>位。 
@@ -1307,7 +1307,7 @@ Notation "x + y" := (plus x y)
 这个例子同样是可以用来介绍Coq语言的一个小特性——条件表达式…… 
 <div class="paragraph"> </div>
 
-<a name="lab96"></a><h3 class="section"> </h3>
+<a name="lab100"></a><h3 class="section"> </h3>
 
 </div>
 <div class="code code-space">
@@ -1344,7 +1344,7 @@ Coq的条件语句就和其他语言中的一样，无非加上了一点小小�
 </div>
 
 <div class="doc">
-<a name="lab97"></a><h4 class="section">练习：两星 (hd_opt)</h4>
+<a name="lab101"></a><h4 class="section">练习：两星 (hd_opt)</h4>
  使用相同的想法，修正之前的<span class="inlinecode"><span class="id" type="var">hd</span></span>函数来使我们不需要为<span class="inlinecode"><span class="id" type="var">nil</span></span>提供一个默认的元素。  
 </div>
 <div class="code code-tight">
@@ -1370,7 +1370,7 @@ Coq的条件语句就和其他语言中的一样，无非加上了一点小小�
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab98"></a><h4 class="section">练习: 一星, 可选 (option_elim_hd)</h4>
+<a name="lab102"></a><h4 class="section">练习: 一星, 可选 (option_elim_hd)</h4>
  这个练习让你把新的<span class="inlinecode"><span class="id" type="var">hd_opt</span></span>和旧的<span class="inlinecode"><span class="id" type="var">hd</span></span>联系起来 
 </div>
 <div class="code code-tight">
@@ -1391,7 +1391,7 @@ Coq的条件语句就和其他语言中的一样，无非加上了一点小小�
 </div>
 
 <div class="doc">
-<a name="lab99"></a><h1 class="section">字典</h1>
+<a name="lab103"></a><h1 class="section">字典</h1>
 
 <div class="paragraph"> </div>
 
@@ -1446,7 +1446,7 @@ Coq的条件语句就和其他语言中的一样，无非加上了一点小小�
 </div>
 
 <div class="doc">
-<a name="lab100"></a><h4 class="section">练习: 一星 (dictionary_invariant1)</h4>
+<a name="lab104"></a><h4 class="section">练习: 一星 (dictionary_invariant1)</h4>
  完成下列证明 
 </div>
 <div class="code code-tight">
@@ -1462,7 +1462,7 @@ Coq的条件语句就和其他语言中的一样，无非加上了一点小小�
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab101"></a><h4 class="section">练习: 一星 (dictionary_invariant2)</h4>
+<a name="lab105"></a><h4 class="section">练习: 一星 (dictionary_invariant2)</h4>
  完成下列证明 
 </div>
 <div class="code code-tight">

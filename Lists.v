@@ -365,9 +365,9 @@ Theorem tl_length_pred : forall l:natlist,
   pred (length l) = length (tl l).
 Proof.
   intros l. destruct l as [| n l'].
-  (* Case "l = nil". *)
+  Case "l = nil".
     reflexivity.
-  (* Case "l = cons n l'". *)
+  Case "l = cons n l'". 
     reflexivity.  Qed.
 
 (** 这里，如此解决[nil]这种情况是因为我们定义了[tl nil = nil]。至于[destruct]策略中的[as]注解
@@ -406,9 +406,9 @@ Theorem app_assoc : forall l1 l2 l3 : natlist,
   (l1 ++ l2) ++ l3 = l1 ++ (l2 ++ l3).   
 Proof.
   intros l1 l2 l3. induction l1 as [| n l1'].
-  (* Case "l1 = nil". *)
+  Case "l1 = nil".
     reflexivity.
-  (* Case "l1 = cons n l1'". *)
+  Case "l1 = cons n l1'".
     simpl. rewrite -> IHl1'. reflexivity.  Qed.
 
 (** 再一次强调，当你把Coq的证明当做静态的文档的话你可能不会有特别多的收获——如果你
@@ -444,9 +444,9 @@ Theorem app_length : forall l1 l2 : natlist,
 Proof.
   (* WORKED IN CLASS *)
   intros l1 l2. induction l1 as [| n l1'].
-  (* Case "l1 = nil". *)
+  Case "l1 = nil".
     reflexivity.
-  (* Case "l1 = cons". *)
+  Case "l1 = cons".
     simpl. rewrite -> IHl1'. reflexivity.  Qed.
 
 
@@ -483,9 +483,9 @@ Theorem rev_length_firsttry : forall l : natlist,
   length (rev l) = length l.
 Proof.
   intros l. induction l as [| n l'].
-  (* Case "l = []". *)
+  Case "l = []".
     reflexivity.
-  (* Case "l = n :: l'". *)
+  Case "l = n :: l'".
     (* 这是一个比较棘手的情况。我们从普通的化简开始。 *)
     simpl. 
     (* 现在我们好像卡在什么地方了：目标是要证明涉及[snoc]的等式，
@@ -502,9 +502,9 @@ Theorem length_snoc : forall n : nat, forall l : natlist,
   length (snoc l n) = S (length l).
 Proof.
   intros n l. induction l as [| n' l'].
-  (* Case "l = nil".*)
+  Case "l = nil".
     reflexivity.
-  (* Case "l = cons n' l'". *)
+  Case "l = cons n' l'".
     simpl. rewrite -> IHl'. reflexivity.  Qed.
 
 
@@ -518,9 +518,9 @@ Theorem rev_length : forall l : natlist,
   length (rev l) = length l.
 Proof.
   intros l. induction l as [| n l'].
-  (* Case "l = nil". *)
+  Case "l = nil".
     reflexivity.
-  (* Case "l = cons". *)
+  Case "l = cons".
     simpl. rewrite -> length_snoc. 
     rewrite -> IHl'. reflexivity.  Qed.
 
@@ -690,9 +690,9 @@ Theorem ble_n_Sn : forall n,
   ble_nat n (S n) = true.
 Proof.
   intros n. induction n as [| n'].
-  (* Case "0".  *)
+  Case "0".  
     simpl.  reflexivity.
-  (* Case "S n'". *)
+  Case "S n'".
     simpl.  rewrite IHn'.  reflexivity.  Qed.
 
 Theorem remove_decreases_count: forall (s : bag),

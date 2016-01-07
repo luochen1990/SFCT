@@ -35,31 +35,23 @@
 </div>
 
 <div class="doc">
-Up to now, we've continued to use a quite restricted set of 
-Coq's tactic facilities. In this chapter, we'll learn more about 
-two very powerful features of Coq's tactic language: 
-proof search via the <span class="inlinecode"><span class="id" type="tactic">auto</span></span> and <span class="inlinecode"><span class="id" type="tactic">eauto</span></span> tactics, and
-automated forward reasoning via the <span class="inlinecode"><span class="id" type="keyword">Ltac</span></span> hypothesis matching
-machinery. Using these features together with Ltac's scripting facilities
-will enable us to make our proofs startlingly short!  Used properly,
-they can also make proofs more maintainable and robust in the face
-of incremental changes to underlying definitions. 
+到现在，我们一直用的是 Coq 的策略系统中的非常有限的一部分。在这章中，
+    我们会学习 Coq 的策略语言的两个强大的功能：使用 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 和 <span class="inlinecode"><span class="id" type="tactic">eauto</span></span>
+    进行证明搜索，和使用 <span class="inlinecode"><span class="id" type="keyword">Ltac</span></span> 的前提搜索功能进行自动化正向推理。
+    这些功能和 Ltac 的脚本功能可以使我们能把证明搞的很短。
+    适当使用这些功能，我们也可以把我们的证明可维护性更好，在以后增量修改
+    底层的定义后也可以更健壮。
 
 <div class="paragraph"> </div>
 
-There's a third major source of automation we haven't
-fully studied yet, namely built-in decision procedures for specific
-kinds of problems: <span class="inlinecode"><span class="id" type="tactic">omega</span></span> is one example, but there are others.
-This topic will be defered for a while longer. 
+    还有第三种主要自动化的的方式，我们还没有完全了解，这就是自带的
+    对某些特定种类问题决策算法：<span class="inlinecode"><span class="id" type="tactic">omega</span></span> 是这样的一个例子，不过还有其他的。
+    我们将稍微多推迟一下这个话题。
 
 <div class="paragraph"> </div>
 
-
-<div class="paragraph"> </div>
-
- Our motivating example will be this proof, repeated with 
-    just a few small changes from <span class="inlinecode"><span class="id" type="var">Imp</span></span>.  We will try to simplify
-    this proof in several stages. 
+ 我们的动机例子将是这个证明，加上几个在 <span class="inlinecode"><span class="id" type="var">Imp</span></span> 里的小的改动。
+    我们将分几个阶段将它简化。
 </div>
 <div class="code code-tight">
 
@@ -80,30 +72,30 @@ This topic will be defered for a while longer.
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_Ass&nbsp;*)</span> <span class="id" type="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_Seq&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">assert</span> (<span class="id" type="var">st'</span> = <span class="id" type="var">st'0</span>) <span class="id" type="keyword">as</span> <span class="id" type="var">EQ1</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="comment">(*&nbsp;Proof&nbsp;of&nbsp;assertion&nbsp;*)</span> <span class="id" type="tactic">apply</span> <span class="id" type="var">IHE1_1</span>; <span class="id" type="tactic">assumption</span>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="comment">(*&nbsp;断言的证明&nbsp;*)</span> <span class="id" type="tactic">apply</span> <span class="id" type="var">IHE1_1</span>; <span class="id" type="tactic">assumption</span>. }<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <span class="id" type="var">IHE1_2</span>. <span class="id" type="tactic">assumption</span>.<br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;E_IfTrue&nbsp;*)</span><br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为真&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <span class="id" type="var">IHE1</span>. <span class="id" type="tactic">assumption</span>.<br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H5</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H5</span>.<br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;E_IfFalse&nbsp;*)</span><br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H5</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H5</span>.<br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为假&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <span class="id" type="var">IHE1</span>. <span class="id" type="tactic">assumption</span>.<br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;E_WhileEnd&nbsp;*)</span><br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为假&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>.<br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H2</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H2</span>.<br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;E_WhileLoop&nbsp;*)</span><br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H4</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H4</span>.<br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为真&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">assert</span> (<span class="id" type="var">st'</span> = <span class="id" type="var">st'0</span>) <span class="id" type="keyword">as</span> <span class="id" type="var">EQ1</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="comment">(*&nbsp;Proof&nbsp;of&nbsp;assertion&nbsp;*)</span> <span class="id" type="tactic">apply</span> <span class="id" type="var">IHE1_1</span>; <span class="id" type="tactic">assumption</span>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="comment">(*&nbsp;断言的证明&nbsp;*)</span> <span class="id" type="tactic">apply</span> <span class="id" type="var">IHE1_1</span>; <span class="id" type="tactic">assumption</span>. }<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <span class="id" type="var">IHE1_2</span>. <span class="id" type="tactic">assumption</span>. <span class="id" type="keyword">Qed</span>.<br/>
 
@@ -111,16 +103,14 @@ This topic will be defered for a while longer.
 </div>
 
 <div class="doc">
-<a name="lab620"></a><h1 class="section">The <span class="inlinecode"><span class="id" type="tactic">auto</span></span> and <span class="inlinecode"><span class="id" type="tactic">eauto</span></span> tactics</h1>
+<a name="lab624"></a><h1 class="section">证明策略 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 和 <span class="inlinecode"><span class="id" type="tactic">eauto</span></span></h1>
 
 <div class="paragraph"> </div>
 
- Thus far, we have (nearly) always written proof scripts that
-    apply relevant hypotheses or lemmas by name. In particular, when
-    a chain of hypothesis applications is needed, we have specified
-    them explicitly.  (The only exceptions introduced so far are using
-    <span class="inlinecode"><span class="id" type="tactic">assumption</span></span> to find a matching unqualified hypothesis
-    or <span class="inlinecode">(<span class="id" type="var">e</span>)<span class="id" type="var">constructor</span></span> to find a matching constructor.) 
+ 话说这么久以来，我们（几乎）总是在写证明脚本时通过名字来使用有关的前提和
+    引理。特别的，当我们需要一系列的前提的应用时，我们将它们显式地把它们列出。
+    （目前讲过的仅有的例外是使用 <span class="inlinecode"><span class="id" type="tactic">assumption</span></span> 来搜索一个与目标匹配的没有量词的
+    前提和使用 <span class="inlinecode">(<span class="id" type="var">e</span>)<span class="id" type="var">constructor</span></span> 来搜索一个匹配的构造子） 
 </div>
 <div class="code code-tight">
 
@@ -135,8 +125,9 @@ This topic will be defered for a while longer.
 </div>
 
 <div class="doc">
-The <span class="inlinecode"><span class="id" type="tactic">auto</span></span> tactic frees us from this drudgery by <i>searching</i>
-   for a sequence of applications that will prove the goal 
+证明策略 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 可以使我们免于这些苦役，办法是 <i>搜索_ 一个可以
+    解决证明目标的一系列应用。
+ 
 </div>
 <div class="code code-tight">
 
@@ -151,32 +142,31 @@ The <span class="inlinecode"><span class="id" type="tactic">auto</span></span> t
 </div>
 
 <div class="doc">
-The <span class="inlinecode"><span class="id" type="tactic">auto</span></span> tactic solves goals that are solvable by any combination of 
+<span class="inlinecode"><span class="id" type="tactic">auto</span></span> 策略可以解决任何可由如下策略的组合解决的证明目标：
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> <span class="inlinecode"><span class="id" type="tactic">intros</span></span>,
+<li> <span class="inlinecode"><span class="id" type="tactic">intros</span></span>
 
 </li>
-<li> <span class="inlinecode"><span class="id" type="tactic">apply</span></span> (with a local hypothesis, by default).
+<li> <span class="inlinecode"><span class="id" type="tactic">apply</span></span>（默认使用一个当前的前提）
 
 </li>
 </ul>
+    <span class="inlinecode"><span class="id" type="tactic">eauto</span></span> 策略与 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 的效果非常相似，除了它使用的是 <span class="inlinecode"><span class="id" type="tactic">eapply</span></span>
+    而不是 <span class="inlinecode"><span class="id" type="tactic">apply</span></span>。
 
 <div class="paragraph"> </div>
 
-    The <span class="inlinecode"><span class="id" type="tactic">eauto</span></span> tactic works just like <span class="inlinecode"><span class="id" type="tactic">auto</span></span>, except that it uses
-    <span class="inlinecode"><span class="id" type="tactic">eapply</span></span> instead of <span class="inlinecode"><span class="id" type="tactic">apply</span></span>. 
+ 
 <div class="paragraph"> </div>
 
- Using <span class="inlinecode"><span class="id" type="tactic">auto</span></span> is always "safe" in the sense that it will never fail
-    and will never change the proof state: either it completely solves
-    the current goal, or it does nothing.
-
+ 使用 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 一定是“安全”的，意思是说，它不会失败，也不会改变
+    当前证明状态：<span class="inlinecode"><span class="id" type="tactic">auto</span></span> 要么完全解决它，要么什么也不做。 
 <div class="paragraph"> </div>
 
- A more complicated example: 
+ 一个更复杂的例子 
 </div>
 <div class="code code-tight">
 
@@ -196,8 +186,7 @@ The <span class="inlinecode"><span class="id" type="tactic">auto</span></span> t
 </div>
 
 <div class="doc">
-Search can take an arbitrarily long time, so there are limits to
-    how far <span class="inlinecode"><span class="id" type="tactic">auto</span></span> will search by default 
+搜索可能需要任意长的时间，所以有限制参数来控制 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 的搜索深度。 
 </div>
 <div class="code code-tight">
 
@@ -206,20 +195,18 @@ Search can take an arbitrarily long time, so there are limits to
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" type="var">P</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">Q</span>) <span style="font-family: arial;">&rarr;</span> (<span class="id" type="var">Q</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">R</span>) <span style="font-family: arial;">&rarr;</span> (<span class="id" type="var">R</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">S</span>) <span style="font-family: arial;">&rarr;</span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" type="var">S</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">T</span>) <span style="font-family: arial;">&rarr;</span> (<span class="id" type="var">T</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">U</span>) <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">P</span> <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">U</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
-&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="comment">(*&nbsp;When&nbsp;it&nbsp;cannot&nbsp;solve&nbsp;the&nbsp;goal,&nbsp;does&nbsp;nothing!&nbsp;*)</span><br/>
-&nbsp;&nbsp;<span class="id" type="tactic">auto</span> 6. <span class="comment">(*&nbsp;Optional&nbsp;argument&nbsp;says&nbsp;how&nbsp;deep&nbsp;to&nbsp;search&nbsp;(default&nbsp;depth&nbsp;is&nbsp;5)&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="comment">(*&nbsp;不能解决目标的话，什么也不会发生&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="tactic">auto</span> 6. <span class="comment">(*&nbsp;可选参数控制它的搜索深度（默认是&nbsp;5）&nbsp;*)</span><br/>
 <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
 </div>
 
 <div class="doc">
-When searching for potential proofs of the current goal, <span class="inlinecode"><span class="id" type="tactic">auto</span></span>
-    and <span class="inlinecode"><span class="id" type="tactic">eauto</span></span> consider the hypotheses in the current context
-    together with a <i>hint database</i> of other lemmas and constructors.
-    Some of the lemmas and constructors we've already seen &mdash; e.g.,
-    <span class="inlinecode"><span class="id" type="var">eq_refl</span></span>, <span class="inlinecode"><span class="id" type="var">conj</span></span>, <span class="inlinecode"><span class="id" type="var">or_introl</span></span>, and <span class="inlinecode"><span class="id" type="var">or_intror</span></span> &mdash; are installed in this hint
-    database by default. 
+当搜索当前目标可能的证明时，<span class="inlinecode"><span class="id" type="tactic">auto</span></span> 和 <span class="inlinecode"><span class="id" type="tactic">eauto</span></span> 会同时考虑当前上下文中的前提
+    和一个包含了其他引理和构造子的 <i>提示库_ 。有些我们已经见到引理和构造子已经
+    在默认的提示库里装好了，如 <span class="inlinecode"><span class="id" type="var">eq_refl</span></span> 、<span class="inlinecode"><span class="id" type="var">conj</span></span> 、 <span class="inlinecode"><span class="id" type="var">or_introl</span></span> 、 <span class="inlinecode"><span class="id" type="var">or_intror</span></span>
+ 
 </div>
 <div class="code code-tight">
 
@@ -235,22 +222,21 @@ When searching for potential proofs of the current goal, <span class="inlinecode
 </div>
 
 <div class="doc">
-If we want to see which facts <span class="inlinecode"><span class="id" type="tactic">auto</span></span> is using, we can use <span class="inlinecode"><span class="id" type="var">info_auto</span></span> instead. 
+如果我们想看 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 用到了什么，我们可以使用 <span class="inlinecode"><span class="id" type="var">info_auto</span></span> 
 </div>
 <div class="code code-tight">
 
 <br/>
 <span class="id" type="keyword">Example</span> <span class="id" type="var">auto_example_5</span>: 2 = 2.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
-&nbsp;&nbsp;<span class="id" type="var">info_auto</span>. <span class="comment">(*&nbsp;subsumes&nbsp;reflexivity&nbsp;because&nbsp;eq_refl&nbsp;is&nbsp;in&nbsp;hint&nbsp;database&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="var">info_auto</span>. <span class="comment">(*&nbsp;可以代替&nbsp;reflexivity，因为提示库里有&nbsp;eq_refl&nbsp;*)</span><br/>
 <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
 </div>
 
 <div class="doc">
-We can extend the hint database just for the purposes of one
-    application of <span class="inlinecode"><span class="id" type="tactic">auto</span></span> or <span class="inlinecode"><span class="id" type="tactic">eauto</span></span> by writing <span class="inlinecode"><span class="id" type="tactic">auto</span></span> <span class="inlinecode"><span class="id" type="keyword">using</span></span> <span class="inlinecode">...</span>. 
+我们可以为某一次 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 或 <span class="inlinecode"><span class="id" type="tactic">eauto</span></span> 的调用扩展提示库，方法是使用 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> <span class="inlinecode"><span class="id" type="keyword">using</span></span> <span class="inlinecode">...</span> 
 </div>
 <div class="code code-tight">
 
@@ -265,7 +251,7 @@ We can extend the hint database just for the purposes of one
 &nbsp;&nbsp;<span class="id" type="var">n</span> = <span class="id" type="var">m</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span>.<br/>
-&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="comment">(*&nbsp;does&nbsp;nothing:&nbsp;auto&nbsp;doesn't&nbsp;destruct&nbsp;hypotheses!&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="comment">(*&nbsp;什么都没发生：&nbsp;auto&nbsp;不会销毁一个前提&nbsp;*)</span><br/>
 &nbsp;&nbsp;<span class="id" type="tactic">auto</span> <span class="id" type="keyword">using</span> <span class="id" type="var">le_antisym</span>.<br/>
 <span class="id" type="keyword">Qed</span>.<br/>
 
@@ -273,9 +259,8 @@ We can extend the hint database just for the purposes of one
 </div>
 
 <div class="doc">
-Of course, in any given development there will also be some of our
-    own specific constructors and lemmas that are used very often in
-    proofs.  We can add these to the global hint database by writing
+当然, 在任何开发过程中我们都会有自己特有的一套构造子和引理会
+    在证明中经常用到。我们可以将这些加入全局提示库里，方法是在顶层使用：
 
 <div class="paragraph"> </div>
 
@@ -284,9 +269,8 @@ Of course, in any given development there will also be some of our
 <div class="paragraph"> </div>
 
 </div>
-    at the top level, where <span class="inlinecode"><span class="id" type="var">T</span></span> is a top-level theorem or a
-    constructor of an inductively defined proposition (i.e., anything
-    whose type is an implication).  As a shorthand, we can write
+    其中 <span class="inlinecode"><span class="id" type="var">T</span></span> 是一个顶层的定理或一个归纳定义的命题（也就是说，任何类型是一个
+    “蕴含”的命题）。我们也可以使用一个简写：
 
 <div class="paragraph"> </div>
 
@@ -295,12 +279,11 @@ Of course, in any given development there will also be some of our
 <div class="paragraph"> </div>
 
 </div>
-    to tell Coq to do a <span class="inlinecode"><span class="id" type="keyword">Hint</span></span> <span class="inlinecode"><span class="id" type="keyword">Resolve</span></span> for <i>all</i> of the constructors
-    from the inductive definition of <span class="inlinecode"><span class="id" type="var">c</span></span>.
+    告诉 Coq 对归纳定义<span class="inlinecode"><span class="id" type="var">c</span></span> 的 <i>每一个_ 构造子进行一个 <span class="inlinecode"><span class="id" type="keyword">Hint</span></span> <span class="inlinecode"><span class="id" type="keyword">Resolve</span></span>。
 
 <div class="paragraph"> </div>
 
-    It is also sometimes necessary to add
+    有时我们可能需要
 
 <div class="paragraph"> </div>
 
@@ -309,9 +292,9 @@ Of course, in any given development there will also be some of our
 <div class="paragraph"> </div>
 
 </div>
-    where <span class="inlinecode"><span class="id" type="var">d</span></span> is a defined symbol, so that <span class="inlinecode"><span class="id" type="tactic">auto</span></span> knows to expand
-    uses of <span class="inlinecode"><span class="id" type="var">d</span></span> and enable further possibilities for applying
-    lemmas that it knows about. 
+    其中，<span class="inlinecode"><span class="id" type="var">d</span></span> 是一个定义的标识符。这样，<span class="inlinecode"><span class="id" type="tactic">auto</span></span> 就知道展开用到的 <span class="inlinecode"><span class="id" type="var">d</span></span>
+    来获得更多的使用已知的引理的机会。
+
 </div>
 <div class="code code-tight">
 
@@ -325,7 +308,7 @@ Of course, in any given development there will also be some of our
 &nbsp;&nbsp;<span class="id" type="var">n</span> = <span class="id" type="var">m</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" type="tactic">intros</span>.<br/>
-&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="comment">(*&nbsp;picks&nbsp;up&nbsp;hint&nbsp;from&nbsp;database&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="comment">(*&nbsp;从提示库里得到了引理&nbsp;*)</span><br/>
 <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
@@ -334,7 +317,7 @@ Of course, in any given development there will also be some of our
 <br/>
 <span class="id" type="keyword">Example</span> <span class="id" type="var">auto_example_7</span>: <span style="font-family: arial;">&forall;</span><span class="id" type="var">x</span>, (<span class="id" type="var">x</span> ≤ 42 <span style="font-family: arial;">&and;</span> 42 ≤ <span class="id" type="var">x</span>) <span style="font-family: arial;">&rarr;</span> <span class="id" type="var">is_fortytwo</span> <span class="id" type="var">x</span>.<br/>
 <span class="id" type="keyword">Proof</span>.<br/>
-&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="comment">(*&nbsp;does&nbsp;nothing&nbsp;*)</span><br/>
+&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="comment">(*&nbsp;什么都没发生&nbsp;*)</span><br/>
 <span class="id" type="keyword">Abort</span>.<br/>
 
 <br/>
@@ -377,10 +360,9 @@ Of course, in any given development there will also be some of our
 </div>
 
 <div class="doc">
-Now let's take a pass over <span class="inlinecode"><span class="id" type="var">ceval_deterministic</span></span> using <span class="inlinecode"><span class="id" type="tactic">auto</span></span>
-    to simplify the proof script. We see that all simple sequences of hypothesis
-    applications and all uses of <span class="inlinecode"><span class="id" type="tactic">reflexivity</span></span> can be replaced by <span class="inlinecode"><span class="id" type="tactic">auto</span></span>,
-    which we add to the default tactic to be applied to each case. 
+现在我们来看看 <span class="inlinecode"><span class="id" type="var">ceval_deterministic</span></span>，并用 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 来简化证明脚本。
+    我们发现所有简单的前提的应用和 <span class="inlinecode"><span class="id" type="tactic">reflexivity</span></span> 都可以用 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 代替，
+    因此我们把它加到每个情况默认执行的策略里。
 
 </div>
 <div class="code code-tight">
@@ -400,18 +382,18 @@ Now let's take a pass over <span class="inlinecode"><span class="id" type="var">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">auto</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_IfTrue&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H5</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H5</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_IfFalse&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H5</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H5</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_WhileEnd&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H2</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H2</span>.<br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;E_WhileLoop&nbsp;*)</span><br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H4</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H4</span>.<br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为真&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">assert</span> (<span class="id" type="var">st'</span> = <span class="id" type="var">st'0</span>) <span class="id" type="keyword">as</span> <span class="id" type="var">EQ1</span> <span class="id" type="tactic">by</span> <span class="id" type="tactic">auto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">auto</span>.<br/>
@@ -421,13 +403,14 @@ Now let's take a pass over <span class="inlinecode"><span class="id" type="var">
 </div>
 
 <div class="doc">
-When we are using a particular tactic many times in a proof,
-    we can use a variant of the <span class="inlinecode"><span class="id" type="keyword">Proof</span></span> command to make that tactic
-    into a default within the proof. 
-    Saying <span class="inlinecode"><span class="id" type="keyword">Proof</span></span> <span class="inlinecode"><span class="id" type="keyword">with</span></span> <span class="inlinecode"><span class="id" type="var">t</span></span> (where <span class="inlinecode"><span class="id" type="var">t</span></span> is an arbitrary tactic) 
-    allows us to use <span class="inlinecode"><span class="id" type="var">t<sub>1</sub></span>...</span> as a shorthand for <span class="inlinecode"><span class="id" type="var">t<sub>1</sub></span>;<span class="id" type="var">t</span></span> within the proof.
-    As an illustration, here is an alternate version of the previous proof,
-    using <span class="inlinecode"><span class="id" type="keyword">Proof</span></span> <span class="inlinecode"><span class="id" type="keyword">with</span></span> <span class="inlinecode"><span class="id" type="tactic">auto</span></span>.
+如果我们在证明里反复用到某一个策略，我们可以使用一个 <span class="inlinecode"><span class="id" type="keyword">Proof</span></span> 命令的变体
+    来使这个策略称为默认策略。
+
+<div class="paragraph"> </div>
+
+    <span class="inlinecode"><span class="id" type="keyword">Proof</span></span> <span class="inlinecode"><span class="id" type="keyword">with</span></span> <span class="inlinecode"><span class="id" type="var">t</span></span>（其中 <span class="inlinecode"><span class="id" type="var">t</span></span> 是任意一个策略）使我们在证明中可以使用 <span class="inlinecode"><span class="id" type="var">t<sub>1</sub></span>...</span>
+    作为 <span class="inlinecode"><span class="id" type="var">t<sub>1</sub></span>;<span class="id" type="var">t</span></span> 的简写。作为一个示范，这是一个上一个证明的另一种写法，用到了
+    <span class="inlinecode"><span class="id" type="keyword">Proof</span></span> <span class="inlinecode"><span class="id" type="keyword">with</span></span> <span class="inlinecode"><span class="id" type="tactic">auto</span></span>。
 
 </div>
 <div class="code code-tight">
@@ -448,18 +431,18 @@ When we are using a particular tactic many times in a proof,
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">assert</span> (<span class="id" type="var">st'</span> = <span class="id" type="var">st'0</span>) <span class="id" type="keyword">as</span> <span class="id" type="var">EQ1</span>...<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>...<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_IfTrue&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H5</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H5</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_IfFalse&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H5</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H5</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_WhileEnd&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H2</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H2</span>.<br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;E_WhileLoop&nbsp;*)</span><br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H4</span>. <span class="id" type="tactic">inversion</span> <span class="id" type="var">H4</span>.<br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为真&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">assert</span> (<span class="id" type="var">st'</span> = <span class="id" type="var">st'0</span>) <span class="id" type="keyword">as</span> <span class="id" type="var">EQ1</span>...<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>...<br/>
 <span class="id" type="keyword">Qed</span>.<br/>
@@ -469,13 +452,12 @@ When we are using a particular tactic many times in a proof,
 </div>
 
 <div class="doc">
-<a name="lab621"></a><h1 class="section">Searching Hypotheses</h1>
+<a name="lab625"></a><h1 class="section">搜索前提</h1>
 
 <div class="paragraph"> </div>
 
- The proof has become simpler, but there is still an annoying amount
-    of repetition. Let's start by tackling the contradiction cases. Each
-    of them occurs in a situation where we have both
+ 证明变得简单了，但是还是有一定的恼人的重复。我们先从矛盾的情况开始。这些
+    矛盾都是因为我们同时有这两个前提：
 
 <div class="paragraph"> </div>
 
@@ -483,7 +465,7 @@ When we are using a particular tactic many times in a proof,
 
 <div class="paragraph"> </div>
 
-    and 
+    和
 
 <div class="paragraph"> </div>
 
@@ -491,24 +473,20 @@ When we are using a particular tactic many times in a proof,
 
 <div class="paragraph"> </div>
 
-    as hypotheses.  The contradiction is evident, but demonstrating it
-    is a little complicated: we have to locate the two hypotheses <span class="inlinecode"><span class="id" type="var">H1</span></span> and <span class="inlinecode"><span class="id" type="var">H2</span></span>
-    and do a <span class="inlinecode"><span class="id" type="tactic">rewrite</span></span> following by an <span class="inlinecode"><span class="id" type="tactic">inversion</span></span>.  We'd like to automate
-    this process.  
+    矛盾是显然的，但是证明有点麻烦：我们必须找到这两个假设 <span class="inlinecode"><span class="id" type="var">H1</span></span> 和 <span class="inlinecode"><span class="id" type="var">H2</span></span>，然后
+    用一个 <span class="inlinecode"><span class="id" type="tactic">rewrite</span></span> 和一个 <span class="inlinecode"><span class="id" type="tactic">inversion</span></span>。我们希望自动化这个过程。
 
 <div class="paragraph"> </div>
 
-    Note: In fact, Coq has a built-in tactic <span class="inlinecode"><span class="id" type="tactic">congruence</span></span> that will do the
-    job.  But we'll ignore the existence of this tactic for now, in order
-    to demonstrate how to build forward search tactics by hand.
+    注：事实上，Coq 有一个自带的策略 <span class="inlinecode"><span class="id" type="tactic">congruence</span></span>，可以实现这个目的。但是
+    我们暂时忽略掉它的存在，而示范如何自己动手构建正向推理的策略。
 
 <div class="paragraph"> </div>
 
 
 <div class="paragraph"> </div>
 
- As a first step, we can abstract out the piece of script in question by
-    writing a small amount of paramerized Ltac. 
+ 第一步，我们抽象出这个证明脚本中的一部分作为一个参数化的 Ltac 
 </div>
 <div class="code code-tight">
 
@@ -530,18 +508,18 @@ When we are using a particular tactic many times in a proof,
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">auto</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_IfTrue&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">rwinv</span> <span class="id" type="var">H</span> <span class="id" type="var">H5</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_IfFalse&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">rwinv</span> <span class="id" type="var">H</span> <span class="id" type="var">H5</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_WhileEnd&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">rwinv</span> <span class="id" type="var">H</span> <span class="id" type="var">H2</span>.<br/>
 &nbsp;&nbsp;<span class="comment">(*&nbsp;E_WhileLoop&nbsp;*)</span><br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">rwinv</span> <span class="id" type="var">H</span> <span class="id" type="var">H4</span>.<br/>
-&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;*)</span><br/>
+&nbsp;&nbsp;- <span class="comment">(*&nbsp;b&nbsp;求值为真&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">assert</span> (<span class="id" type="var">st'</span> = <span class="id" type="var">st'0</span>) <span class="id" type="keyword">as</span> <span class="id" type="var">EQ1</span> <span class="id" type="tactic">by</span> <span class="id" type="tactic">auto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="id" type="keyword">Qed</span>.<br/>
@@ -550,9 +528,8 @@ When we are using a particular tactic many times in a proof,
 </div>
 
 <div class="doc">
-But this is not much better.  We really want Coq to discover
-   the relevant hypotheses for us.  We can do this by using the
-   <span class="inlinecode"><span class="id" type="keyword">match</span></span> <span class="inlinecode"><span class="id" type="var">goal</span></span> <span class="inlinecode"><span class="id" type="keyword">with</span></span> <span class="inlinecode">...</span> <span class="inlinecode"><span class="id" type="keyword">end</span></span> facility of Ltac. 
+但是这并没有改进多少。我们真正希望的是 Coq 能自动发现有关的前提。
+    我们可以使用 Ltac 的 <span class="inlinecode"><span class="id" type="keyword">match</span></span> <span class="inlinecode"><span class="id" type="var">goal</span></span> <span class="inlinecode"><span class="id" type="keyword">with</span></span> <span class="inlinecode">...</span> <span class="inlinecode"><span class="id" type="keyword">end</span></span> 功能达到这个目标。 
 </div>
 <div class="code code-tight">
 
@@ -566,15 +543,13 @@ But this is not much better.  We really want Coq to discover
 </div>
 
 <div class="doc">
-In words, this <span class="inlinecode"><span class="id" type="keyword">match</span></span> <span class="inlinecode"><span class="id" type="var">goal</span></span> looks for two (distinct) hypotheses that have
-    the form of equalities with the same arbitrary expression <span class="inlinecode"><span class="id" type="var">E</span></span> on the 
-    left and conflicting boolean values on the right; if such hypotheses are
-    found, it binds <span class="inlinecode"><span class="id" type="var">H1</span></span> and <span class="inlinecode"><span class="id" type="var">H2</span></span> to their names, and applies the tactic
-    after the <span class="inlinecode">⇒</span>. 
+用中文表示，这个 <span class="inlinecode"><span class="id" type="keyword">match</span></span> <span class="inlinecode"><span class="id" type="var">goal</span></span> 搜索两个（不同）的前提，使得它们是左边是任意相同的
+    表达式 <span class="inlinecode"><span class="id" type="var">E</span></span>，右边是两个冲突的布尔值。如果找到了这样的前提，就把它们命名为 <span class="inlinecode"><span class="id" type="var">H1</span></span> 和 <span class="inlinecode"><span class="id" type="var">H2</span></span>，
+    并执行 <span class="inlinecode">⇒</span> 后面的策略。
 
 <div class="paragraph"> </div>
 
-    Adding this tactic to our default string handles all the contradiction cases. 
+    将这个策略加入我们默认执行的策略序列中，就把所有矛盾情况解决了。 
 </div>
 <div class="code code-tight">
 
@@ -593,7 +568,7 @@ In words, this <span class="inlinecode"><span class="id" type="keyword">match</s
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">auto</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_WhileLoop&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">assert</span> (<span class="id" type="var">st'</span> = <span class="id" type="var">st'0</span>) <span class="id" type="keyword">as</span> <span class="id" type="var">EQ1</span> <span class="id" type="tactic">by</span> <span class="id" type="tactic">auto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">st'0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">auto</span>. <span class="id" type="keyword">Qed</span>.<br/>
@@ -602,12 +577,10 @@ In words, this <span class="inlinecode"><span class="id" type="keyword">match</s
 </div>
 
 <div class="doc">
-Finally, let's see about the remaining cases. Each of them involves 
-    applying a conditional hypothesis to extract an equality. Currently
-    we have phrased these as assertions, so that we have to predict what
-    the resulting equality will be (although we can then use <span class="inlinecode"><span class="id" type="tactic">auto</span></span>
-    to prove it.)  An alternative is to pick the relevant
-    hypotheses to use, and then rewrite with them, as follows:
+最后我们来看看剩余的情况。每一个都用到了一个有条件的前提以得到一个等式。
+    目前我们把这些等式列为了断言，所以我们必须猜出需要的等式是什么（虽然
+    我们可以用 <span class="inlinecode"><span class="id" type="tactic">auto</span></span> 证明它们）。另一个方式是找出用到的有关的前提，然后
+    用他们重写，像这样：
 
 </div>
 <div class="code code-tight">
@@ -625,15 +598,14 @@ Finally, let's see about the remaining cases. Each of them involves
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_Seq&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> (<span class="id" type="var">IHE1_1</span> <span class="id" type="var">st'0</span> <span class="id" type="var">H1</span>) <span class="id" type="keyword">in</span> ×. <span class="id" type="tactic">auto</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_WhileLoop&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> (<span class="id" type="var">IHE1_1</span> <span class="id" type="var">st'0</span> <span class="id" type="var">H3</span>) <span class="id" type="keyword">in</span> ×. <span class="id" type="tactic">auto</span>. <span class="id" type="keyword">Qed</span>.<br/>
 
 <br/>
 </div>
 
 <div class="doc">
-Now we can automate the task of finding the relevant hypotheses to 
-    rewrite with. 
+现在我们就可以自动化找有关的用来重写的前提的这个过程了。 
 </div>
 <div class="code code-tight">
 
@@ -648,24 +620,21 @@ Now we can automate the task of finding the relevant hypotheses to
 </div>
 
 <div class="doc">
-But there are several pairs of hypotheses that have the right
-    general form, and it seems tricky to pick out the ones we actually need.
-    A key trick is to realize that we can <i>try them all</i>!
-    Here's how this works: 
+但是有许多对前提都具有这种一般形式，而挑出我们真正需要的好像比较复杂。
+    一个关键在于认识到我们可以 <i>全试一遍<i>！
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> <span class="inlinecode"><span class="id" type="tactic">rewrite</span></span> will fail given a trivial equation of the form <span class="inlinecode"><span class="id" type="var">X</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" type="var">X</span></span>.
+<li> <span class="inlinecode"><span class="id" type="tactic">rewrite</span></span> 在得到一个平凡的形如 <span class="inlinecode"><span class="id" type="var">X</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" type="var">X</span></span> 的等式时会失败。
 
 </li>
-<li> each execution of <span class="inlinecode"><span class="id" type="keyword">match</span></span> <span class="inlinecode"><span class="id" type="var">goal</span></span> will keep trying to find a valid pair of 
-        hypotheses until the tactic on the RHS of the match succeeds;
-        if there are no such pairs, it fails.
+<li> 每一个 <span class="inlinecode"><span class="id" type="keyword">match</span></span> <span class="inlinecode"><span class="id" type="var">goal</span></span> 在运行时都会不停的找可行的一对前提，直到
+        右面的策略成功。如果没有这样的一对前提就会失败。
 
 </li>
-<li> we can wrap the whole thing in a <span class="inlinecode"><span class="id" type="tactic">repeat</span></span> which will keep 
-        doing useful rewrites until only trivial ones are left. 
+<li> 我们可以把整个策略包在一个 <span class="inlinecode"><span class="id" type="tactic">repeat</span></span> 中，这样就可以一直进行有用
+        的重写，直到只剩下平凡的了。
 
 </li>
 </ul>
@@ -691,10 +660,9 @@ But there are several pairs of hypotheses that have the right
 </div>
 
 <div class="doc">
-The big pay-off in this approach is that our proof script 
-    should be robust in the face of modest changes to our language.
-    For example, we can add a <span class="inlinecode"><span class="id" type="var">REPEAT</span></span> command to the language.
-    (This was an exercise in <span class="inlinecode"><span class="id" type="var">Hoare.v</span></span>.) 
+这样做的一个重要的成果是，我们的证明脚本在一些对语言的不太大的改变
+    后仍能正常使用。比如，我们可以给这个语言增加一个 <span class="inlinecode"><span class="id" type="var">REPEAT</span></span> 命令。
+    （这是 <span class="inlinecode"><span class="id" type="var">Hoare.v</span></span>）里的一个练习） 
 </div>
 <div class="code code-tight">
 
@@ -714,10 +682,8 @@ The big pay-off in this approach is that our proof script
 </div>
 
 <div class="doc">
-<span class="inlinecode"><span class="id" type="var">REPEAT</span></span> behaves like <span class="inlinecode"><span class="id" type="var">WHILE</span></span>, except that the loop guard is
-    checked <i>after</i> each execution of the body, with the loop
-    repeating as long as the guard stays <i>false</i>.  Because of this,
-    the body will always execute at least once. 
+<span class="inlinecode"><span class="id" type="var">REPEAT</span></span> 行为和 <span class="inlinecode"><span class="id" type="var">WHILE</span></span> 类似, 只是循环条件在每次循环主体执行 <i>之后_
+    执行，当条件为 <i>假_ 时重复执行。因此，循环主体至少会执行一次。 
 </div>
 <div class="code code-tight">
 
@@ -788,12 +754,12 @@ The big pay-off in this approach is that our proof script
 &nbsp;&nbsp;<span class="id" type="tactic">induction</span> <span class="id" type="var">E1</span>;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">intros</span> <span class="id" type="var">st2</span> <span class="id" type="var">E2</span>; <span class="id" type="var">inv</span> <span class="id" type="var">E2</span>; <span class="id" type="tactic">try</span> <span class="id" type="var">find_rwinv</span>; <span class="id" type="tactic">repeat</span> <span class="id" type="var">find_eqn</span>; <span class="id" type="tactic">auto</span>.<br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_RepeatEnd&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;false&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为假（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">find_rwinv</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;oops:&nbsp;why&nbsp;didn't&nbsp;<span class="inlinecode"><span class="id" type="var">find_rwinv</span></span>&nbsp;solve&nbsp;this&nbsp;for&nbsp;us&nbsp;already?&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;answer:&nbsp;we&nbsp;did&nbsp;things&nbsp;in&nbsp;the&nbsp;wrong&nbsp;order.&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;啊呀，为什么刚才&nbsp;find_rwinv&nbsp;没有为我们解决这个呢？<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因为我们把顺序搞错了*)</span><br/>
 &nbsp;&nbsp;- <span class="comment">(*&nbsp;E_RepeatLoop&nbsp;*)</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;evaluates&nbsp;to&nbsp;true&nbsp;(contradiction)&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="comment">(*&nbsp;b&nbsp;求值为真（矛盾）&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">find_rwinv</span>.<br/>
 <span class="id" type="keyword">Qed</span>.<br/>
 
@@ -816,16 +782,12 @@ The big pay-off in this approach is that our proof script
 </div>
 
 <div class="doc">
-These examples just give a flavor of what "hyper-automation" can do...
+这些例子只是给大家看看“高级自动化”可以做到什么。
 
 <div class="paragraph"> </div>
 
-    The details of using <span class="inlinecode"><span class="id" type="keyword">match</span></span> <span class="inlinecode"><span class="id" type="var">goal</span></span> are tricky, and debugging is
-    not pleasant at all. But it is well worth adding at least simple
-    uses to your proofs to avoid tedium and "future proof" your scripts.
-
-<div class="paragraph"> </div>
-
+    <span class="inlinecode"><span class="id" type="keyword">match</span></span> <span class="inlinecode"><span class="id" type="var">goal</span></span> 在使用时的细节十分复杂，调试也很不方便。但是我们非常值得
+    在证明时至少加入简单的自动化，来避免繁琐的工作，并为未来的修改做好准备。
 
 <div class="paragraph"> </div>
 

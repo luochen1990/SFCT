@@ -24,7 +24,7 @@
 </div>
 
 <div class="doc">
-<a name="lab191"></a><h1 class="section">Logic：Coq中的逻辑系统</h1>
+<a name="lab195"></a><h1 class="section">Logic：Coq中的逻辑系统</h1>
 
 </div>
 <div class="code code-space">
@@ -49,7 +49,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab192"></a><h1 class="section">命题</h1>
+<a name="lab196"></a><h1 class="section">命题</h1>
 
 <div class="paragraph"> </div>
 
@@ -95,7 +95,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab193"></a><h1 class="section">证明与证据</h1>
+<a name="lab197"></a><h1 class="section">证明与证据</h1>
 
 <div class="paragraph"> </div>
 
@@ -120,7 +120,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 
 <div class="paragraph"> </div>
 
-<a name="lab194"></a><h3 class="section"> </h3>
+<a name="lab198"></a><h3 class="section"> </h3>
 
 </div>
 <div class="code code-space">
@@ -149,7 +149,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
     关于相等性的内容。
 <div class="paragraph"> </div>
 
-<a name="lab195"></a><h2 class="section">蕴含<i>是<i>函数</h2>
+<a name="lab199"></a><h2 class="section">蕴含<i>是<i>函数</h2>
 
 <div class="paragraph"> </div>
 
@@ -184,7 +184,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab196"></a><h2 class="section">定义命题</h2>
+<a name="lab200"></a><h2 class="section">定义命题</h2>
 
 <div class="paragraph"> </div>
 
@@ -194,7 +194,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 
 <div class="paragraph"> </div>
 
-<a name="lab197"></a><h3 class="section"> </h3>
+<a name="lab201"></a><h3 class="section"> </h3>
 
 <div class="paragraph"> </div>
 
@@ -224,7 +224,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab198"></a><h1 class="section">合取（逻辑"与"）</h1>
+<a name="lab202"></a><h1 class="section">合取（逻辑"与"）</h1>
 
 <div class="paragraph"> </div>
 
@@ -288,7 +288,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
     返回一个P/\Q的证据。 
 <div class="paragraph"> </div>
 
-<a name="lab199"></a><h2 class="section">"引入" 合取</h2>
+<a name="lab203"></a><h2 class="section">"引入" 合取</h2>
  除了从一个极小的基础建立起一切的简洁之外，这样定义合取还有另外一
     个好处：我们能够使用我们已经知道的证明策略来证明含有合取的陈述。
     比方说，如果目标是一个合取式，我们能够应用<span class="inlinecode"><span class="id" type="var">conj</span></span>这个单独的构造子，
@@ -325,7 +325,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab200"></a><h2 class="section">"消去" 合取</h2>
+<a name="lab204"></a><h2 class="section">"消去" 合取</h2>
  相反地，<span class="inlinecode"><span class="id" type="tactic">destruct</span></span>这一策略可以分析并计算出构造出上下文中的某个合取
     式所必须的证据，并且将这些证据以变量的形式添加到当前证明的上下文中。 
 </div>
@@ -343,7 +343,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab201"></a><h4 class="section">Exercise: 1 star, optional (proj2)</h4>
+<a name="lab205"></a><h4 class="section">Exercise: 1 star, optional (proj2)</h4>
 
 </div>
 <div class="code code-space">
@@ -373,7 +373,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab202"></a><h4 class="section">Exercise: 2 stars (and_assoc)</h4>
+<a name="lab206"></a><h4 class="section">Exercise: 2 stars (and_assoc)</h4>
  注意在下面的这个证明中<span class="inlinecode"><span class="id" type="tactic">destruct</span></span>使用的<i>嵌套模式<i>是如何将前提<span class="inlinecode"><span class="id" type="var">H</span></span> <span class="inlinecode">:</span> <span class="inlinecode"><span class="id" type="var">P</span></span> <span class="inlinecode"><span style="font-family: arial;">&and;</span></span> <span class="inlinecode">(<span class="id" type="var">Q</span></span> <span class="inlinecode"><span style="font-family: arial;">&and;</span></span> <span class="inlinecode"><span class="id" type="var">R</span>)</span>
     解构成<span class="inlinecode"><span class="id" type="var">HP</span>:</span> <span class="inlinecode"><span class="id" type="var">P</span></span>，<span class="inlinecode"><span class="id" type="var">HQ</span></span> <span class="inlinecode">:</span> <span class="inlinecode"><span class="id" type="var">Q</span></span>以及<span class="inlinecode"><span class="id" type="var">HR</span></span> <span class="inlinecode">:</span> <span class="inlinecode"><span class="id" type="var">R</span></span>的。从这里开始完成这个证明： 
 </div>
@@ -397,7 +397,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab203"></a><h1 class="section">Iff</h1>
+<a name="lab207"></a><h1 class="section">Iff</h1>
 
 <div class="paragraph"> </div>
 
@@ -435,7 +435,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab204"></a><h4 class="section">Exercise: 1 star, optional (iff_properties)</h4>
+<a name="lab208"></a><h4 class="section">Exercise: 1 star, optional (iff_properties)</h4>
  以上面的<span class="inlinecode"><span style="font-family: arial;">&harr;</span></span>的对称性的证明（<span class="inlinecode"><span class="id" type="var">iff_sym</span></span>）作为参考，证明它的自反性
     和传递性。 
 </div>
@@ -471,11 +471,11 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab205"></a><h1 class="section">析取（逻辑"或"）</h1>
+<a name="lab209"></a><h1 class="section">析取（逻辑"或"）</h1>
 
 <div class="paragraph"> </div>
 
-<a name="lab206"></a><h2 class="section">实现析取</h2>
+<a name="lab210"></a><h2 class="section">实现析取</h2>
 
 <div class="paragraph"> </div>
 
@@ -539,7 +539,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 
 <div class="paragraph"> </div>
 
-<a name="lab207"></a><h3 class="section"> </h3>
+<a name="lab211"></a><h3 class="section"> </h3>
  因为<span class="inlinecode"><span class="id" type="var">P</span></span> <span class="inlinecode"><span style="font-family: arial;">&or;</span></span> <span class="inlinecode"><span class="id" type="var">Q</span></span>有两个构造子，对一个类型为<span class="inlinecode"><span class="id" type="var">P</span></span> <span class="inlinecode"><span style="font-family: arial;">&or;</span></span> <span class="inlinecode"><span class="id" type="var">Q</span></span>的前提进行<span class="inlinecode"><span class="id" type="tactic">destruct</span></span>
     将会生成两个子目标。 
 </div>
@@ -588,7 +588,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab208"></a><h4 class="section">Exercise: 2 stars (or_distributes_over_and_2)</h4>
+<a name="lab212"></a><h4 class="section">Exercise: 2 stars (or_distributes_over_and_2)</h4>
 
 </div>
 <div class="code code-space">
@@ -602,7 +602,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab209"></a><h4 class="section">Exercise: 1 star, optional (or_distributes_over_and)</h4>
+<a name="lab213"></a><h4 class="section">Exercise: 1 star, optional (or_distributes_over_and)</h4>
 
 </div>
 <div class="code code-space">
@@ -621,7 +621,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab210"></a><h2 class="section">将<span class="inlinecode"><span style="font-family: arial;">&and;</span></span>和<span class="inlinecode"><span style="font-family: arial;">&or;</span></span>与<span class="inlinecode"><span class="id" type="var">andb</span></span>和<span class="inlinecode"><span class="id" type="var">orb</span></span>联系起来</h2>
+<a name="lab214"></a><h2 class="section">将<span class="inlinecode"><span style="font-family: arial;">&and;</span></span>和<span class="inlinecode"><span style="font-family: arial;">&or;</span></span>与<span class="inlinecode"><span class="id" type="var">andb</span></span>和<span class="inlinecode"><span class="id" type="var">orb</span></span>联系起来</h2>
 
 <div class="paragraph"> </div>
 
@@ -658,7 +658,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab211"></a><h4 class="section">Exercise: 2 stars, optional (andb_false)</h4>
+<a name="lab215"></a><h4 class="section">Exercise: 2 stars, optional (andb_false)</h4>
 
 </div>
 <div class="code code-space">
@@ -671,7 +671,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab212"></a><h4 class="section">Exercise: 2 stars, optional (orb_false)</h4>
+<a name="lab216"></a><h4 class="section">Exercise: 2 stars, optional (orb_false)</h4>
 
 </div>
 <div class="code code-space">
@@ -684,7 +684,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab213"></a><h4 class="section">Exercise: 2 stars, optional (orb_false_elim)</h4>
+<a name="lab217"></a><h4 class="section">Exercise: 2 stars, optional (orb_false_elim)</h4>
 
 </div>
 <div class="code code-space">
@@ -703,7 +703,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab214"></a><h1 class="section">矛盾式</h1>
+<a name="lab218"></a><h1 class="section">矛盾式</h1>
 
 <div class="paragraph"> </div>
 
@@ -742,7 +742,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
     可能出现的情况，因此这里没有可能出现的子目标，而证明因此得以完成。 
 <div class="paragraph"> </div>
 
-<a name="lab215"></a><h3 class="section"> </h3>
+<a name="lab219"></a><h3 class="section"> </h3>
  相反地，证明<span class="inlinecode"><span class="id" type="var">False</span></span>的唯一方法就是让当前上下文中存在谬误或者矛盾： 
 </div>
 <div class="code code-tight">
@@ -784,7 +784,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab216"></a><h2 class="section">真值</h2>
+<a name="lab220"></a><h2 class="section">真值</h2>
 
 <div class="paragraph"> </div>
 
@@ -792,7 +792,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
     相同的方式定义真值。我们能够这么做。 
 <div class="paragraph"> </div>
 
-<a name="lab217"></a><h4 class="section">Exercise: 2 stars, advanced (True)</h4>
+<a name="lab221"></a><h4 class="section">Exercise: 2 stars, advanced (True)</h4>
  将<span class="inlinecode"><span class="id" type="var">True</span></span>定义为一个归纳定义的命题。（从直觉上说<span class="inlinecode"><span class="id" type="var">True</span></span>应该是一个
     能平凡地给出证据的命题。） 
 </div>
@@ -817,7 +817,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab218"></a><h1 class="section">否定</h1>
+<a name="lab222"></a><h1 class="section">否定</h1>
 
 <div class="paragraph"> </div>
 
@@ -864,7 +864,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab219"></a><h3 class="section"> </h3>
+<a name="lab223"></a><h3 class="section"> </h3>
 
 </div>
 <div class="code code-space">
@@ -886,7 +886,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab220"></a><h4 class="section">Exercise: 2 stars, advanced (double_neg_inf)</h4>
+<a name="lab224"></a><h4 class="section">Exercise: 2 stars, advanced (double_neg_inf)</h4>
  写下命题<span class="inlinecode"><span class="id" type="var">double_neg</span></span>的非形式证明：
    <i>定理_: 对于任意命题<span class="inlinecode"><span class="id" type="var">P</span></span>，<span class="inlinecode"><span class="id" type="var">P</span></span>蕴含<span class="inlinecode">~~<span class="id" type="var">P</span></span>。
    <i>证明_:
@@ -895,7 +895,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 
 <div class="paragraph"> </div>
 
-<a name="lab221"></a><h4 class="section">Exercise: 2 stars (contrapositive)</h4>
+<a name="lab225"></a><h4 class="section">Exercise: 2 stars (contrapositive)</h4>
 
 </div>
 <div class="code code-space">
@@ -909,7 +909,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab222"></a><h4 class="section">Exercise: 1 star (not_both_true_and_false)</h4>
+<a name="lab226"></a><h4 class="section">Exercise: 1 star (not_both_true_and_false)</h4>
 
 </div>
 <div class="code code-space">
@@ -923,7 +923,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab223"></a><h4 class="section">Exercise: 1 star, advanced (informal_not_PNP)</h4>
+<a name="lab227"></a><h4 class="section">Exercise: 1 star, advanced (informal_not_PNP)</h4>
  写下命题<span class="inlinecode"><span style="font-family: arial;">&forall;</span></span> <span class="inlinecode"><span class="id" type="var">P</span></span> <span class="inlinecode">:</span> <span class="inlinecode"><span class="id" type="keyword">Prop</span>,</span> <span class="inlinecode">~(<span class="id" type="var">P</span></span> <span class="inlinecode"><span style="font-family: arial;">&and;</span></span> <span class="inlinecode">¬<span class="id" type="var">P</span>)</span>的非形式证明 
 </div>
 <div class="code code-tight">
@@ -936,7 +936,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab224"></a><h3 class="section">构造性逻辑</h3>
+<a name="lab228"></a><h3 class="section">构造性逻辑</h3>
  注意，有些在经典逻辑下成立的定理在Coq的构造性逻辑中是不可证的。
     例如说，让我们看看下面这个证明是如何无法进行下去的……
 </div>
@@ -953,7 +953,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab225"></a><h4 class="section">Exercise: 5 stars, advanced, optional (classical_axioms)</h4>
+<a name="lab229"></a><h4 class="section">Exercise: 5 stars, advanced, optional (classical_axioms)</h4>
  对于那些喜欢挑战的人，这里有一个摘自Coq'Art（第123页）的练习。
     下面是五条常常被认为是刻画了经典逻辑（与Coq"内置"的构造性逻辑
     相对）的语句。在Coq中我们无法证明它们，但是如果我们希望处理在
@@ -982,7 +982,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab226"></a><h4 class="section">Exercise: 3 stars (excluded_middle_irrefutable)</h4>
+<a name="lab230"></a><h4 class="section">Exercise: 3 stars (excluded_middle_irrefutable)</h4>
  这一定理蕴含了一个事实：对于任意<i>特定的<i>命题<span class="inlinecode"><span class="id" type="var">P</span></span>，可以添加任意一个可判定性
     公理（比如说排中律的一个实例）而不损安全性。为什么？因为我们不能证明这样一
     个公理的否定；如果我们能够这么做，我们将会同时有<span class="inlinecode">¬</span> <span class="inlinecode">(<span class="id" type="var">P</span></span> <span class="inlinecode"><span style="font-family: arial;">&or;</span></span> <span class="inlinecode"><span class="id" type="var">P</span>)</span>和<span class="inlinecode">¬</span> <span class="inlinecode">¬</span> <span class="inlinecode">(<span class="id" type="var">P</span></span> <span class="inlinecode"><span style="font-family: arial;">&or;</span></span> <span class="inlinecode">¬<span class="id" type="var">P</span>)</span>，
@@ -999,7 +999,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab227"></a><h2 class="section">不等式</h2>
+<a name="lab231"></a><h2 class="section">不等式</h2>
 
 <div class="paragraph"> </div>
 
@@ -1037,7 +1037,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 </div>
 
 <div class="doc">
-<a name="lab228"></a><h4 class="section">Exercise: 2 stars (false_beq_nat)</h4>
+<a name="lab232"></a><h4 class="section">Exercise: 2 stars (false_beq_nat)</h4>
 
 </div>
 <div class="code code-space">
@@ -1052,7 +1052,7 @@ Coq内置的逻辑系统十分地小：仅有的基本操作只有<span class="i
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-<a name="lab229"></a><h4 class="section">Exercise: 2 stars, optional (beq_nat_false)</h4>
+<a name="lab233"></a><h4 class="section">Exercise: 2 stars, optional (beq_nat_false)</h4>
 
 </div>
 <div class="code code-space">

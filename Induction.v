@@ -1,46 +1,123 @@
-(** * Induction: Proof by Induction *)
- 
+(** * 归纳法: 用归纳法证明 *)
 
-(** The next line imports all of our definitions from the
-    previous chapter. *)
+
+(** 下面这行代码会导入你在之前章节做的所有定义 *)
 
 Require Export Basics.
 
-(** For it to work, you need to use [coqc] to compile [Basics.v]
-    into [Basics.vo].  (This is like making a .class file from a .java
-    file, or a .o file from a .c file.)
-  
-    Here are two ways to compile your code:
-  
+(** 为了让它起作用，你需要用 [coqc] 把 [Basics.v] 编译成 [Basics.vo]。
+    （这就好像你把.java文件编译成.class文件，或者把.c文件编译成.o文件。）
+    有两种方式编译文件：
      - CoqIDE:
-   
-         Open [Basics.v].
-         In the "Compile" menu, click on "Compile Buffer".
-   
-     - Command line:
-   
-         Run [coqc Basics.v]
-
+         打开 [Basics.v].
+         在 "Compile" 菜单, 点击 "Compile Buffer".
+     - 命令行:
+         运行 [coqc Basics.v]
     *)
 
 (* ###################################################################### *)
-(** * Proof by Induction *)
+(** * 为分类命名 *)
 
-(** We proved in the last chapter that [0] is a neutral element
-    for [+] on the left using a simple argument.  The fact that it is
-    also a neutral element on the _right_... *)
+(** 现在有个问题是没有一个明确的命令让证明从一个分类跳到另一个分类，这让证明
+    脚本很难阅读。在一个极长的有很多分支的证明中，你甚至会迷失方向。（想象一下，
+    你试着记住一个内部分类的前五个子目标，这个分类的外边又有七个分类……）条理清晰
+    地使用缩进与注释可能会有点帮助，但是更好的方法还是使用 [Case] 策略。*)
+
+(** [Case] 不是Coq内置的策略：我们需要自己定义。
+    现在还没必要理解它是怎么运作的 ———— 你可以跳过下面的示例定义 ———— 这里用了
+    一些我们还没提到的Coq的功能：字符串库 （用在引用字符串的具体语法上）和
+    [Ltac] 命令 ———— 用来让我们自定义策略。感谢Aaron Bohannon做的这些工作！*)
+
+Require String. Open Scope string_scope.
+
+Ltac move_to_top x :=
+  match reverse goal with
+  | H : _ |- _ => try move x after H
+  end.
+
+Tactic Notation "assert_eq" ident(x) constr(v) :=
+  let H := fresh in
+  assert (x = v) as H by reflexivity;
+  clear H.
+
+Tactic Notation "Case_aux" ident(x) constr(name) :=
+  first [
+    set (x := name); move_to_top x
+  | assert_eq x name; move_to_top x
+  | fail 1 "because we are working on a different case" ].
+
+Tactic Notation "Case" constr(name) := Case_aux Case name.
+Tactic Notation "SCase" constr(name) := Case_aux SCase name.
+Tactic Notation "SSCase" constr(name) := Case_aux SSCase name.
+Tactic Notation "SSSCase" constr(name) := Case_aux SSSCase name.
+Tactic Notation "SSSSCase" constr(name) := Case_aux SSSSCase name.
+Tactic Notation "SSSSSCase" constr(name) := Case_aux SSSSSCase name.
+Tactic Notation "SSSSSSCase" constr(name) := Case_aux SSSSSSCase name.
+Tactic Notation "SSSSSSSCase" constr(name) := Case_aux SSSSSSSCase name.
+(** 这是一个 [Case] 的例子。一步一步运行然后观察上下文的变化（CoqIde的右上角）*)
+
+Theorem andb_true_elim1 : forall b c : bool,
+  andb b c = true -> b = true.
+Proof.
+  intros b c H.
+  destruct b.
+  Case "b = true".  (* <----- 看这 *)
+    reflexivity.
+  Case "b = false".  (* <---- 再看这 *)
+    rewrite <- H.
+    reflexivity.
+Qed.
+
+(** [Case] 的作用非常直接：它简单地在当前目标的上下文里加上一个我们选择的字符串
+    （之前用标识符“Case”标注的）。当子目标生成的时候，这个字符串会被带进目标的上下文。
+    当最后一个子目标证明完毕、下一个顶级目标被激活，这个字符串就会在上下文中消失然后我
+    们会发现这个分类在我们引入的地方完成了。 另外，这还起到了使纠错更清晰的作用。比方说
+    我们试着运行一个新的[Case]策略，然而上一个分类的字符串还在上下文里，显然我们有哪里
+    出错了。
+    
+    对于嵌套的分类讨论（比方说，我们用了[destruct]之后在分支里又用了一个[destruct]，
+    这时我们应该用[SCase]（subcase）策略来代替[Case]。*)
+
+(** **** 练习: 2星 (andb_true_elim2)  *)
+(** 证明 [andb_true_elim2], 当你使用[destruct]时用[Case]（或[SCase]）来标记*)
+
+Theorem andb_true_elim2 : forall b c : bool,
+  andb b c = true -> c = true.
+Proof.
+  (* 请在这里填写代码 *) Admitted.
+(** [] *)
+
+(** There are no hard and fast rules for how proofs should be
+    formatted in Coq -- in particular, where lines should be broken
+    and how sections of the proof should be indented to indicate their
+    nested structure.  However, if the places where multiple subgoals
+    are generated are marked with explicit [Case] tactics placed at
+    the beginning of lines, then the proof will be readable almost no
+    matter what choices are made about other aspects of layout.
+
+    This is a good place to mention one other piece of (possibly
+    obvious) advice about line lengths.  Beginning Coq users sometimes
+    tend to the extremes, either writing each tactic on its own line
+    or entire proofs on one line.  Good style lies somewhere in the
+    middle.  In particular, one reasonable convention is to limit
+    yourself to 80-character lines.  Lines longer than this are hard
+    to read and can be inconvenient to display and print.  Many
+    editors have features that help enforce this. *)
+
+(* ###################################################################### *)
+(** * 用归纳法来证明 *)
+
+(** 我们在上一章简单地证明了[0]对于[+]是一个左单位元。实际上它也是个右单位元…… *)
 
 Theorem plus_0_r_firsttry : forall n:nat,
   n + 0 = n.
 
-(** ... cannot be proved in the same simple way.  Just applying
-  [reflexivity] doesn't work: the [n] in [n + 0] is an arbitrary
-  unknown number, so the [match] in the definition of [+] can't be
-  simplified.  *)
+(** …… 它不能用同样简单的方式证明。只用[reflexivity]不起作用：这里的[n]在[n + 0]
+  中是一个任意的未知数，所以[+]的定义中的[match]不能被化简。*)
 
 Proof.
   intros n.
-  simpl. (* Does nothing! *)
+  simpl. (* 毫无变化！ *)
 Abort.
 
 (** *** *)
@@ -56,10 +133,10 @@ Theorem plus_0_r_secondtry : forall n:nat,
   n + 0 = n.
 Proof.
   intros n. destruct n as [| n'].
-  - (* n = 0 *)
-    reflexivity. (* so far so good... *)
-  - (* n = S n' *)
-    simpl.       (* ...but here we are stuck again *)
+  Case "n = 0".
+    reflexivity. (* 目前看上去还没什么问题…… *)
+  Case "n = S n'".
+    simpl.       (* ……但是在这里我们又卡住了 *)
 Abort.
 
 (** *** *)
@@ -70,7 +147,7 @@ Abort.
 
     Recall (from high school) the principle of induction over natural
     numbers: If [P(n)] is some proposition involving a natural number
-    [n] and we want to show that [P] holds for _all_ numbers [n], we can
+    [n] and we want to show that P holds for _all_ numbers [n], we can
     reason like this:
          - show that [P(O)] holds;
          - show that, for any [n'], if [P(n')] holds, then so does
@@ -88,9 +165,9 @@ Abort.
 
 Theorem plus_0_r : forall n:nat, n + 0 = n.
 Proof.
-  intros n. induction n as [| n' IHn'].
-  - (* n = 0 *)    reflexivity.
-  - (* n = S n' *) simpl. rewrite -> IHn'. reflexivity.  Qed.
+  intros n. induction n as [| n'].
+  Case "n = 0".     reflexivity.
+  Case "n = S n'".  simpl. rewrite -> IHn'. reflexivity.  Qed.
 
 (** Like [destruct], the [induction] tactic takes an [as...]
     clause that specifies the names of the variables to be introduced
@@ -98,20 +175,18 @@ Proof.
     the goal becomes [0 + 0 = 0], which follows by simplification.  In
     the second, [n] is replaced by [S n'] and the assumption [n' + 0 =
     n'] is added to the context (with the name [IHn'], i.e., the
-    Induction Hypothesis for [n']). Notice that the name for the
-    induction hypothesis was explicitly given in the [as...] clause of
-    the call to [induction]. The goal in this case becomes [(S n') + 0
-    = S n'], which simplifies to [S (n' + 0) = S n'], which in turn
-    follows from the induction hypothesis. *)
+    Induction Hypothesis for [n']).  The goal in this case becomes [(S
+    n') + 0 = S n'], which simplifies to [S (n' + 0) = S n'], which in
+    turn follows from the induction hypothesis. *)
 
 Theorem minus_diag : forall n,
   minus n n = 0.
 Proof.
-  (* WORKED IN CLASS *)
-  intros n. induction n as [| n' IHn'].
-  - (* n = 0 *)
+  (* 课堂任务 *)
+  intros n. induction n as [| n'].
+  Case "n = 0".
     simpl. reflexivity.
-  - (* n = S n' *)
+  Case "n = S n'".
     simpl. rewrite -> IHn'. reflexivity.  Qed.
 
 (** **** Exercise: 2 stars (basic_induction)  *)
@@ -124,9 +199,9 @@ Theorem mult_0_r : forall n:nat,
 Proof.
   (* FILL IN HERE *) Admitted.
 
-Theorem plus_n_Sm : forall n m : nat, 
+Theorem plus_n_Sm : forall n m : nat,
   S (n + m) = n + (S m).
-Proof. 
+Proof.
   (* FILL IN HERE *) Admitted.
 
 
@@ -155,14 +230,14 @@ Fixpoint double (n:nat) :=
 (** Use induction to prove this simple fact about [double]: *)
 
 Lemma double_plus : forall n, double n = n + n .
-Proof.  
+Proof.
   (* FILL IN HERE *) Admitted.
 (** [] *)
 
 
 (** **** Exercise: 1 star (destruct_induction)  *)
 (** Briefly explain the difference between the tactics
-    [destruct] and [induction].  
+    [destruct] and [induction].
 
 (* FILL IN HERE *)
 
@@ -171,7 +246,7 @@ Proof.
 
 
 (* ###################################################################### *)
-(** * Proofs Within Proofs *)
+(** * 证明里的证明 *)
 
 
 (** In Coq, as in informal mathematics, large proofs are very
@@ -190,7 +265,8 @@ Theorem mult_0_plus' : forall n m : nat,
   (0 + n) * m = n * m.
 Proof.
   intros n m.
-  assert (H: 0 + n = n). { reflexivity. }
+  assert (H: 0 + n = n).
+    Case "Proof of assertion". reflexivity.
   rewrite -> H.
   reflexivity.  Qed.
 
@@ -199,12 +275,13 @@ Proof.
     assertion [H].  (Note that we could also name the assertion with
     [as] just as we did above with [destruct] and [induction], i.e.,
     [assert (0 + n = n) as H].  Also note that we mark the proof of
-    this assertion with curly braces [{ ... }], both for readability
-    and so that, when using Coq interactively, we can see more easily
-    when we have finished proving the assertion.)  The second goal is
-    the same as the one at the point where we invoke [assert], except
-    that, in the context, we have the assumption [H] that [0 + n = n].
-    That is, [assert] generates one subgoal where we must prove the
+    this assertion with a [Case], both for readability and so that,
+    when using Coq interactively, we can see when we're finished
+    proving the assertion by observing when the ["Proof of assertion"]
+    string disappears from the context.)  The second goal is the same
+    as the one at the point where we invoke [assert], except that, in
+    the context, we have the assumption [H] that [0 + n = n].  That
+    is, [assert] generates one subgoal where we must prove the
     asserted fact and a second subgoal where we can use the asserted
     fact to make progress on whatever we were trying to prove in the
     first place. *)
@@ -241,14 +318,15 @@ Theorem plus_rearrange : forall n m p q : nat,
 Proof.
   intros n m p q.
   assert (H: n + m = m + n).
-  { rewrite -> plus_comm. reflexivity. }
+    Case "Proof of assertion".
+    rewrite -> plus_comm. reflexivity.
   rewrite -> H. reflexivity.  Qed.
 
 (** **** Exercise: 4 stars (mult_comm)  *)
 (** Use [assert] to help prove this theorem.  You shouldn't need to
     use induction. *)
 
-Theorem plus_swap : forall n m p : nat, 
+Theorem plus_swap : forall n m p : nat,
   n + (m + p) = m + (n + p).
 Proof.
   (* FILL IN HERE *) Admitted.
@@ -260,7 +338,7 @@ Proof.
     handy. *)
 
 Theorem mult_comm : forall m n : nat,
-  m * n = n * m.
+ m * n = n * m.
 Proof.
   (* FILL IN HERE *) Admitted.
 (** [] *)
@@ -276,7 +354,7 @@ Proof.
 (** [] *)
 
 (* ###################################################################### *)
-(** * More Exercises *)
+(** * 更多习题 *)
 
 (** **** Exercise: 3 stars, optional (more_exercises)  *)
 (** Take a piece of paper.  For each of the following theorems, first
@@ -302,7 +380,7 @@ Theorem andb_false_r : forall b : bool,
 Proof.
   (* FILL IN HERE *) Admitted.
 
-Theorem plus_ble_compat_l : forall n m p : nat, 
+Theorem plus_ble_compat_l : forall n m p : nat,
   ble_nat n m = true -> ble_nat (p + n) (p + m) = true.
 Proof.
   (* FILL IN HERE *) Admitted.
@@ -339,11 +417,11 @@ Proof.
 (** **** Exercise: 2 stars, optional (beq_nat_refl)  *)
 (** Prove the following theorem.  Putting [true] on the left-hand side
 of the equality may seem odd, but this is how the theorem is stated in
-the standard library, so we follow suit.  Since rewriting 
-works equally well in either direction, we will have no 
+the standard library, so we follow suit.  Since rewriting
+works equally well in either direction, we will have no
 problem using the theorem no matter which way we state it. *)
 
-Theorem beq_nat_refl : forall n : nat, 
+Theorem beq_nat_refl : forall n : nat,
   true = beq_nat n n.
 Proof.
   (* FILL IN HERE *) Admitted.
@@ -355,17 +433,18 @@ Proof.
    [replace (t) with (u)] replaces (all copies of) expression [t] in
    the goal by expression [u], and generates [t = u] as an additional
    subgoal. This is often useful when a plain [rewrite] acts on the wrong
-   part of the goal.  
+   part of the goal.
 
    Use the [replace] tactic to do a proof of [plus_swap'], just like
-   [plus_swap] but without needing [assert (n + m = m + n)]. 
+   [plus_swap] but without needing [assert (n + m = m + n)].
 *)
 
-Theorem plus_swap' : forall n m p : nat, 
+Theorem plus_swap' : forall n m p : nat,
   n + (m + p) = m + (n + p).
 Proof.
   (* FILL IN HERE *) Admitted.
 (** [] *)
+
 
 (** **** Exercise: 3 stars (binary_commute)  *)
 (** Recall the [increment] and [binary-to-unary] functions that you
@@ -408,14 +487,14 @@ Proof.
         part is tricky!)
 
     Again, feel free to change your earlier definitions if this helps
-    here. 
+    here.
 *)
 
 (* FILL IN HERE *)
 (** [] *)
 
 (* ###################################################################### *)
-(** * Formal vs. Informal Proof (Advanced) *)
+(** * 对比形式化和非形式化证明（高阶） *)
 
 (** "Informal proofs are algorithms; formal proofs are code." *)
 
@@ -465,7 +544,7 @@ Proof.
 
 Theorem plus_assoc' : forall n m p : nat,
   n + (m + p) = (n + m) + p.
-Proof. intros n m p. induction n as [| n' IHn']. reflexivity.
+Proof. intros n m p. induction n as [| n']. reflexivity.
   simpl. rewrite -> IHn'. reflexivity.  Qed.
 
 (** Coq is perfectly happy with this as a proof.  For a human,
@@ -478,11 +557,9 @@ Proof. intros n m p. induction n as [| n' IHn']. reflexivity.
 (** - _Theorem_: For any [n], [m] and [p],
       n + (m + p) = (n + m) + p.
     _Proof_: By induction on [n].
-
-    - First, suppose [n = 0].  We must show 
-        0 + (m + p) = (0 + m) + p.  
+    - First, suppose [n = 0].  We must show
+        0 + (m + p) = (0 + m) + p.
       This follows directly from the definition of [+].
-
     - Next, suppose [n = S n'], where
         n' + (m + p) = (n' + m) + p.
       We must show
@@ -509,17 +586,16 @@ Proof. intros n m p. induction n as [| n' IHn']. reflexivity.
 Theorem plus_assoc'' : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
-  intros n m p. induction n as [| n' IHn'].
-  - (* n = 0 *)
+  intros n m p. induction n as [| n'].
+  Case "n = 0".
     reflexivity.
-  - (* n = S n' *)
+  Case "n = S n'".
     simpl. rewrite -> IHn'. reflexivity.   Qed.
 
 (** **** Exercise: 2 stars, advanced (plus_comm_informal)  *)
 (** Translate your solution for [plus_comm] into an informal proof. *)
 
 (** Theorem: Addition is commutative.
- 
     Proof: (* FILL IN HERE *)
 *)
 (** [] *)
@@ -528,10 +604,6 @@ Proof.
 (** Write an informal proof of the following theorem, using the
     informal proof of [plus_assoc] as a model.  Don't just
     paraphrase the Coq tactics into English!
- 
     Theorem: [true = beq_nat n n] for any [n].
-    
-    Proof: (* FILL IN HERE *) 
+    Proof: (* FILL IN HERE *)
 [] *)
-
-(** $Date$ *)

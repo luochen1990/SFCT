@@ -2,26 +2,20 @@
 
 Require Export Imp.
 
-(** Up to now, we've continued to use a quite restricted set of 
-Coq's tactic facilities. In this chapter, we'll learn more about 
-two very powerful features of Coq's tactic language: 
-proof search via the [auto] and [eauto] tactics, and
-automated forward reasoning via the [Ltac] hypothesis matching
-machinery. Using these features together with Ltac's scripting facilities
-will enable us to make our proofs startlingly short!  Used properly,
-they can also make proofs more maintainable and robust in the face
-of incremental changes to underlying definitions. 
-
-There's a third major source of automation we haven't
-fully studied yet, namely built-in decision procedures for specific
-kinds of problems: [omega] is one example, but there are others.
-This topic will be defered for a while longer. 
-
+(** 到现在，我们一直用的是 Coq 的策略系统中的非常有限的一部分。在这章中，
+    我们会学习 Coq 的策略语言的两个强大的功能：使用 [auto] 和 [eauto]
+    进行证明搜索，和使用 [Ltac] 的前提搜索功能进行自动化正向推理。
+    这些功能和 Ltac 的脚本功能可以使我们能把证明搞的很短。
+    适当使用这些功能，我们也可以把我们的证明可维护性更好，在以后增量修改
+    底层的定义后也可以更健壮。
+    
+    还有第三种主要自动化的的方式，我们还没有完全了解，这就是自带的
+    对某些特定种类问题决策算法：[omega] 是这样的一个例子，不过还有其他的。
+    我们将稍微多推迟一下这个话题。
 *)
 
-(** Our motivating example will be this proof, repeated with 
-    just a few small changes from [Imp].  We will try to simplify
-    this proof in several stages. *)
+(** 我们的动机例子将是这个证明，加上几个在 [Imp] 里的小的改动。
+    我们将分几个阶段将它简化。*)
 
 Ltac inv H := inversion H; subst; clear H. 
 
@@ -38,41 +32,39 @@ Proof.
   - (* E_Ass *) reflexivity.
   - (* E_Seq *)
     assert (st' = st'0) as EQ1.
-    { (* Proof of assertion *) apply IHE1_1; assumption. }
+    { (* 断言的证明 *) apply IHE1_1; assumption. }
     subst st'0.
     apply IHE1_2. assumption.
   (* E_IfTrue *)
-  - (* b evaluates to true *)
+  - (* b 求值为真 *)
     apply IHE1. assumption.
-  - (* b evaluates to false (contradiction) *)
+  - (* b 求值为假（矛盾） *)
     rewrite H in H5. inversion H5.
   (* E_IfFalse *)
-  - (* b evaluates to true (contradiction) *)
+  - (* b 求值为真（矛盾） *)
     rewrite H in H5. inversion H5.
-  - (* b evaluates to false *)
+  - (* b 求值为假 *)
     apply IHE1. assumption.
   (* E_WhileEnd *)
-  - (* b evaluates to false *)
+  - (* b 求值为假 *)
     reflexivity.
-  - (* b evaluates to true (contradiction) *)
+  - (* b 求值为真（矛盾） *)
     rewrite H in H2. inversion H2.
   (* E_WhileLoop *)
-  - (* b evaluates to false (contradiction) *)
+  - (* b 求值为假（矛盾） *)
     rewrite H in H4. inversion H4.
-  - (* b evaluates to true *)
+  - (* b 求值为真 *)
     assert (st' = st'0) as EQ1.
-    { (* Proof of assertion *) apply IHE1_1; assumption. }
+    { (* 断言的证明 *) apply IHE1_1; assumption. }
     subst st'0.
     apply IHE1_2. assumption.  Qed.
 
-(** * The [auto] and [eauto] tactics *)
+(** * 证明策略 [auto] 和 [eauto] *)
 
-(** Thus far, we have (nearly) always written proof scripts that
-    apply relevant hypotheses or lemmas by name. In particular, when
-    a chain of hypothesis applications is needed, we have specified
-    them explicitly.  (The only exceptions introduced so far are using
-    [assumption] to find a matching unqualified hypothesis
-    or [(e)constructor] to find a matching constructor.) *)
+(** 话说这么久以来，我们（几乎）总是在写证明脚本时通过名字来使用有关的前提和
+    引理。特别的，当我们需要一系列的前提的应用时，我们将它们显式地把它们列出。
+    （目前讲过的仅有的例外是使用 [assumption] 来搜索一个与目标匹配的没有量词的
+    前提和使用 [(e)constructor] 来搜索一个匹配的构造子） *)
 
 
 Example auto_example_1 : forall (P Q R: Prop), (P -> Q) -> (Q -> R) -> P -> R. 
@@ -81,8 +73,9 @@ Proof.
   apply H2.  apply H1. assumption.
 Qed.
 
-(** The [auto] tactic frees us from this drudgery by _searching_
-   for a sequence of applications that will prove the goal *)
+(** 证明策略 [auto] 可以使我们免于这些苦役，办法是 _搜索_ 一个可以
+    解决证明目标的一系列应用。
+ *)
 
 Example auto_example_1' : forall (P Q R: Prop), (P -> Q) -> (Q -> R) -> P -> R. 
 Proof.  
@@ -90,19 +83,19 @@ Proof.
   auto. 
 Qed.
 
-(** The [auto] tactic solves goals that are solvable by any combination of 
-     - [intros],
-     - [apply] (with a local hypothesis, by default).
+(** [auto] 策略可以解决任何可由如下策略的组合解决的证明目标：
+    - [intros]
+    - [apply]（默认使用一个当前的前提）
 
-    The [eauto] tactic works just like [auto], except that it uses
-    [eapply] instead of [apply]. *)
+    [eauto] 策略与 [auto] 的效果非常相似，除了它使用的是 [eapply]
+    而不是 [apply]。
+    
+ *)
 
-(** Using [auto] is always "safe" in the sense that it will never fail
-    and will never change the proof state: either it completely solves
-    the current goal, or it does nothing.
-*)
+(** 使用 [auto] 一定是“安全”的，意思是说，它不会失败，也不会改变
+    当前证明状态：[auto] 要么完全解决它，要么什么也不做。 *)
 
-(** A more complicated example: *)
+(** 一个更复杂的例子 *)
 
 Example auto_example_2 : forall P Q R S T U : Prop,
   (P -> Q) ->
@@ -116,24 +109,21 @@ Example auto_example_2 : forall P Q R S T U : Prop,
 Proof. auto. Qed.
 
 
-(** Search can take an arbitrarily long time, so there are limits to
-    how far [auto] will search by default *)
+(** 搜索可能需要任意长的时间，所以有限制参数来控制 [auto] 的搜索深度。 *)
 
 Example auto_example_3 : forall (P Q R S T U: Prop), 
                            (P -> Q) -> (Q -> R) -> (R -> S) -> 
                            (S -> T) -> (T -> U) -> P -> U. 
 Proof.
-  auto. (* When it cannot solve the goal, does nothing! *)
-  auto 6.  (* Optional argument says how deep to search (default depth is 5) *)
+  auto. (* 不能解决目标的话，什么也不会发生 *)
+  auto 6.  (* 可选参数控制它的搜索深度（默认是 5） *)
 Qed.
 
 
-(** When searching for potential proofs of the current goal, [auto]
-    and [eauto] consider the hypotheses in the current context
-    together with a _hint database_ of other lemmas and constructors.
-    Some of the lemmas and constructors we've already seen -- e.g.,
-    [eq_refl], [conj], [or_introl], and [or_intror] -- are installed in this hint
-    database by default. *)
+(** 当搜索当前目标可能的证明时，[auto] 和 [eauto] 会同时考虑当前上下文中的前提
+    和一个包含了其他引理和构造子的 _提示库_ 。有些我们已经见到引理和构造子已经
+    在默认的提示库里装好了，如 [eq_refl] 、[conj] 、 [or_introl] 、 [or_intror]
+ *)
 
 Example auto_example_4 : forall P Q R : Prop,
   Q ->
@@ -143,16 +133,15 @@ Proof.
   auto. Qed.
 
 
-(** If we want to see which facts [auto] is using, we can use [info_auto] instead. *)
+(** 如果我们想看 [auto] 用到了什么，我们可以使用 [info_auto] *)
 
 Example auto_example_5: 2 = 2.
 Proof.
-  info_auto.  (* subsumes reflexivity because eq_refl is in hint database *)
+  info_auto.  (* 可以代替 reflexivity，因为提示库里有 eq_refl *)
 Qed.
 
 
-(** We can extend the hint database just for the purposes of one
-    application of [auto] or [eauto] by writing [auto using ...]. *)
+(** 我们可以为某一次 [auto] 或 [eauto] 的调用扩展提示库，方法是使用 [auto using ...] *)
 
 Lemma le_antisym : forall n m: nat, (n <= m /\ m <= n) -> n = m.
 Proof. intros. omega. Qed.
@@ -163,27 +152,24 @@ Example auto_example_6 : forall n m p : nat,
   n = m. 
 Proof.
   intros.
-  auto. (* does nothing: auto doesn't destruct hypotheses! *)
+  auto. (* 什么都没发生： auto 不会销毁一个前提 *)
   auto using le_antisym. 
 Qed.
 
 
-(** Of course, in any given development there will also be some of our
-    own specific constructors and lemmas that are used very often in
-    proofs.  We can add these to the global hint database by writing
+(** 当然, 在任何开发过程中我们都会有自己特有的一套构造子和引理会
+    在证明中经常用到。我们可以将这些加入全局提示库里，方法是在顶层使用：
       Hint Resolve T.
-    at the top level, where [T] is a top-level theorem or a
-    constructor of an inductively defined proposition (i.e., anything
-    whose type is an implication).  As a shorthand, we can write
+    其中 [T] 是一个顶层的定理或一个归纳定义的命题（也就是说，任何类型是一个
+    “蕴含”的命题）。我们也可以使用一个简写：
       Hint Constructors c.
-    to tell Coq to do a [Hint Resolve] for _all_ of the constructors
-    from the inductive definition of [c].
+    告诉 Coq 对归纳定义[c] 的 _每一个_ 构造子进行一个 [Hint Resolve]。
 
-    It is also sometimes necessary to add
+    有时我们可能需要
       Hint Unfold d.
-    where [d] is a defined symbol, so that [auto] knows to expand
-    uses of [d] and enable further possibilities for applying
-    lemmas that it knows about. *)
+    其中，[d] 是一个定义的标识符。这样，[auto] 就知道展开用到的 [d]
+    来获得更多的使用已知的引理的机会。
+*)
 
 Hint Resolve le_antisym. 
 
@@ -193,14 +179,14 @@ Example auto_example_6' : forall n m p : nat,
   n = m. 
 Proof.
   intros.
-  auto. (* picks up hint from database *)
+  auto. (* 从提示库里得到了引理 *)
 Qed.
 
 Definition is_fortytwo x := x = 42. 
 
 Example auto_example_7: forall x, (x <= 42 /\ 42 <= x) -> is_fortytwo x.
 Proof.
-  auto.  (* does nothing *)
+  auto.  (* 什么都没发生 *)
 Abort.
 
 Hint Unfold is_fortytwo. 
@@ -234,10 +220,9 @@ Proof.
 Qed.
 
 
-(** Now let's take a pass over [ceval_deterministic] using [auto]
-    to simplify the proof script. We see that all simple sequences of hypothesis
-    applications and all uses of [reflexivity] can be replaced by [auto],
-    which we add to the default tactic to be applied to each case. 
+(** 现在我们来看看 [ceval_deterministic]，并用 [auto] 来简化证明脚本。
+    我们发现所有简单的前提的应用和 [reflexivity] 都可以用 [auto] 代替，
+    因此我们把它加到每个情况默认执行的策略里。
 *)
 
 Theorem ceval_deterministic': forall c st st1 st2,
@@ -254,30 +239,29 @@ Proof.
     subst st'0.
     auto. 
   - (* E_IfTrue *)
-    + (* b evaluates to false (contradiction) *)
+    + (* b 求值为假（矛盾） *)
       rewrite H in H5. inversion H5.
   - (* E_IfFalse *)
-    + (* b evaluates to true (contradiction) *)
+    + (* b 求值为真（矛盾） *)
       rewrite H in H5. inversion H5.
   - (* E_WhileEnd *)
-    + (* b evaluates to true (contradiction) *)
+    + (* b 求值为真（矛盾） *)
       rewrite H in H2. inversion H2.
   (* E_WhileLoop *)
-  - (* b evaluates to false (contradiction) *)
+  - (* b 求值为假（矛盾） *)
     rewrite H in H4. inversion H4.
-  - (* b evaluates to true *)
+  - (* b 求值为真 *)
     assert (st' = st'0) as EQ1 by auto.
     subst st'0.
     auto. 
 Qed.
 
-(** When we are using a particular tactic many times in a proof,
-    we can use a variant of the [Proof] command to make that tactic
-    into a default within the proof. 
-    Saying [Proof with t] (where [t] is an arbitrary tactic) 
-    allows us to use [t1...] as a shorthand for [t1;t] within the proof.
-    As an illustration, here is an alternate version of the previous proof,
-    using [Proof with auto].
+(** 如果我们在证明里反复用到某一个策略，我们可以使用一个 [Proof] 命令的变体
+    来使这个策略称为默认策略。
+
+    [Proof with t]（其中 [t] 是任意一个策略）使我们在证明中可以使用 [t1...]
+    作为 [t1;t] 的简写。作为一个示范，这是一个上一个证明的另一种写法，用到了
+    [Proof with auto]。
 *)
 
 Theorem ceval_deterministic'_alt: forall c st st1 st2,
@@ -293,47 +277,42 @@ Proof with auto.
     assert (st' = st'0) as EQ1...
     subst st'0...
   - (* E_IfTrue *)
-    + (* b evaluates to false (contradiction) *)
+    + (* b 求值为假（矛盾） *)
       rewrite H in H5. inversion H5.
   - (* E_IfFalse *)
-    + (* b evaluates to true (contradiction) *)
+    + (* b 求值为真（矛盾） *)
       rewrite H in H5. inversion H5.
   - (* E_WhileEnd *)
-    + (* b evaluates to true (contradiction) *)
+    + (* b 求值为真（矛盾） *)
       rewrite H in H2. inversion H2.
   (* E_WhileLoop *)
-  - (* b evaluates to false (contradiction) *)
+  - (* b 求值为假（矛盾） *)
     rewrite H in H4. inversion H4.
-  - (* b evaluates to true *)
+  - (* b 求值为真 *)
     assert (st' = st'0) as EQ1...
     subst st'0...
 Qed.
 
-(** * Searching Hypotheses *)
+(** * 搜索前提 *)
 
-(** The proof has become simpler, but there is still an annoying amount
-    of repetition. Let's start by tackling the contradiction cases. Each
-    of them occurs in a situation where we have both
+(** 证明变得简单了，但是还是有一定的恼人的重复。我们先从矛盾的情况开始。这些
+    矛盾都是因为我们同时有这两个前提：
 
     [H1: beval st b = false]
 
-    and 
+    和
 
     [H2: beval st b = true]
 
-    as hypotheses.  The contradiction is evident, but demonstrating it
-    is a little complicated: we have to locate the two hypotheses [H1] and [H2]
-    and do a [rewrite] following by an [inversion].  We'd like to automate
-    this process.  
+    矛盾是显然的，但是证明有点麻烦：我们必须找到这两个假设 [H1] 和 [H2]，然后
+    用一个 [rewrite] 和一个 [inversion]。我们希望自动化这个过程。
 
-    Note: In fact, Coq has a built-in tactic [congruence] that will do the
-    job.  But we'll ignore the existence of this tactic for now, in order
-    to demonstrate how to build forward search tactics by hand.
+    注：事实上，Coq 有一个自带的策略 [congruence]，可以实现这个目的。但是
+    我们暂时忽略掉它的存在，而示范如何自己动手构建正向推理的策略。
 
 *)   
 
-(** As a first step, we can abstract out the piece of script in question by
-    writing a small amount of paramerized Ltac. *)
+(** 第一步，我们抽象出这个证明脚本中的一部分作为一个参数化的 Ltac *)
 
 Ltac rwinv H1 H2 := rewrite H1 in H2; inv H2. 
 
@@ -351,39 +330,36 @@ Proof.
     subst st'0.
     auto. 
   - (* E_IfTrue *)
-    + (* b evaluates to false (contradiction) *)
+    + (* b 求值为假（矛盾） *)
       rwinv H H5. 
   - (* E_IfFalse *)
-    + (* b evaluates to true (contradiction) *)
+    + (* b 求值为真（矛盾） *)
       rwinv H H5. 
   - (* E_WhileEnd *)
-    + (* b evaluates to true (contradiction) *)
+    + (* b 求值为真（矛盾） *)
       rwinv H H2. 
   (* E_WhileLoop *)
-  - (* b evaluates to false (contradiction) *)
+  - (* b 求值为假（矛盾） *)
     rwinv H H4. 
-  - (* b evaluates to true *)
+  - (* b 求值为真 *)
     assert (st' = st'0) as EQ1 by auto.
     subst st'0.
     auto. Qed.
 
 
-(** But this is not much better.  We really want Coq to discover
-   the relevant hypotheses for us.  We can do this by using the
-   [match goal with ... end] facility of Ltac. *)
+(** 但是这并没有改进多少。我们真正希望的是 Coq 能自动发现有关的前提。
+    我们可以使用 Ltac 的 [match goal with ... end] 功能达到这个目标。 *)
 
 Ltac find_rwinv :=
   match goal with
     H1: ?E = true, H2: ?E = false |- _ => rwinv H1 H2
   end. 
 
-(** In words, this [match goal] looks for two (distinct) hypotheses that have
-    the form of equalities with the same arbitrary expression [E] on the 
-    left and conflicting boolean values on the right; if such hypotheses are
-    found, it binds [H1] and [H2] to their names, and applies the tactic
-    after the [=>]. 
+(** 用中文表示，这个 [match goal] 搜索两个（不同）的前提，使得它们是左边是任意相同的
+    表达式 [E]，右边是两个冲突的布尔值。如果找到了这样的前提，就把它们命名为 [H1] 和 [H2]，
+    并执行 [=>] 后面的策略。
 
-    Adding this tactic to our default string handles all the contradiction cases. *)
+    将这个策略加入我们默认执行的策略序列中，就把所有矛盾情况解决了。 *)
     
 Theorem ceval_deterministic''': forall c st st1 st2,
      c / st || st1  ->
@@ -399,17 +375,15 @@ Proof.
     subst st'0.
     auto. 
   - (* E_WhileLoop *)
-    + (* b evaluates to true *)
+    + (* b 求值为真 *)
       assert (st' = st'0) as EQ1 by auto.
       subst st'0.
       auto. Qed.
 
-(** Finally, let's see about the remaining cases. Each of them involves 
-    applying a conditional hypothesis to extract an equality. Currently
-    we have phrased these as assertions, so that we have to predict what
-    the resulting equality will be (although we can then use [auto]
-    to prove it.)  An alternative is to pick the relevant
-    hypotheses to use, and then rewrite with them, as follows:
+(** 最后我们来看看剩余的情况。每一个都用到了一个有条件的前提以得到一个等式。
+    目前我们把这些等式列为了断言，所以我们必须猜出需要的等式是什么（虽然
+    我们可以用 [auto] 证明它们）。另一个方式是找出用到的有关的前提，然后
+    用他们重写，像这样：
 *)
 
 Theorem ceval_deterministic'''': forall c st st1 st2,
@@ -424,11 +398,10 @@ Proof.
   - (* E_Seq *)
     rewrite (IHE1_1 st'0 H1) in *. auto.
   - (* E_WhileLoop *)
-    + (* b evaluates to true *)
+    + (* b 求值为真 *)
       rewrite (IHE1_1 st'0 H3) in *. auto. Qed.
 
-(** Now we can automate the task of finding the relevant hypotheses to 
-    rewrite with. *)
+(** 现在我们就可以自动化找有关的用来重写的前提的这个过程了。 *)
 
 Ltac find_eqn :=
   match goal with
@@ -436,17 +409,14 @@ Ltac find_eqn :=
          rewrite (H1 X H2) in * 
   end.
 
-(** But there are several pairs of hypotheses that have the right
-    general form, and it seems tricky to pick out the ones we actually need.
-    A key trick is to realize that we can _try them all_!
-    Here's how this works: 
+(** 但是有许多对前提都具有这种一般形式，而挑出我们真正需要的好像比较复杂。
+    一个关键在于认识到我们可以 _全试一遍_！
 
-    - [rewrite] will fail given a trivial equation of the form [X = X].
-    - each execution of [match goal] will keep trying to find a valid pair of 
-        hypotheses until the tactic on the RHS of the match succeeds;
-        if there are no such pairs, it fails.
-    - we can wrap the whole thing in a [repeat] which will keep 
-        doing useful rewrites until only trivial ones are left. 
+    - [rewrite] 在得到一个平凡的形如 [X = X] 的等式时会失败。
+    - 每一个 [match goal] 在运行时都会不停的找可行的一对前提，直到
+        右面的策略成功。如果没有这样的一对前提就会失败。
+    - 我们可以把整个策略包在一个 [repeat] 中，这样就可以一直进行有用
+        的重写，直到只剩下平凡的了。
 *)
 
   
@@ -461,10 +431,9 @@ Proof.
            intros st2 E2; inv E2; try find_rwinv; repeat find_eqn; auto.
   Qed.
 
-(** The big pay-off in this approach is that our proof script 
-    should be robust in the face of modest changes to our language.
-    For example, we can add a [REPEAT] command to the language.
-    (This was an exercise in [Hoare.v].) *)
+(** 这样做的一个重要的成果是，我们的证明脚本在一些对语言的不太大的改变
+    后仍能正常使用。比如，我们可以给这个语言增加一个 [REPEAT] 命令。
+    （这是 [Hoare.v]）里的一个练习） *)
 
 Module Repeat.
 
@@ -476,10 +445,8 @@ Inductive com : Type :=
   | CWhile : bexp -> com -> com
   | CRepeat : com -> bexp -> com.
 
-(** [REPEAT] behaves like [WHILE], except that the loop guard is
-    checked _after_ each execution of the body, with the loop
-    repeating as long as the guard stays _false_.  Because of this,
-    the body will always execute at least once. *)
+(** [REPEAT] 行为和 [WHILE] 类似, 只是循环条件在每次循环主体执行 _之后_
+    执行，当条件为 _假_ 时重复执行。因此，循环主体至少会执行一次。 *)
 
 Notation "'SKIP'" := 
   CSkip.
@@ -545,12 +512,12 @@ Proof.
   induction E1;
            intros st2 E2; inv E2; try find_rwinv; repeat find_eqn; auto.
   - (* E_RepeatEnd *)
-    + (* b evaluates to false (contradiction) *)
+    + (* b 求值为假（矛盾） *)
        find_rwinv.
-       (* oops: why didn't [find_rwinv] solve this for us already? 
-          answer: we did things in the wrong order. *)
+       (* 啊呀，为什么刚才 find_rwinv 没有为我们解决这个呢？
+          因为我们把顺序搞错了*)
   - (* E_RepeatLoop *)
-     + (* b evaluates to true (contradiction) *)
+     + (* b 求值为真（矛盾） *)
         find_rwinv.
 Qed.
 
@@ -567,12 +534,10 @@ Qed.
       
 End Repeat.
 
-(** These examples just give a flavor of what "hyper-automation" can do...
+(** 这些例子只是给大家看看“高级自动化”可以做到什么。
 
-    The details of using [match goal] are tricky, and debugging is
-    not pleasant at all. But it is well worth adding at least simple
-    uses to your proofs to avoid tedium and "future proof" your scripts.
-
+    [match goal] 在使用时的细节十分复杂，调试也很不方便。但是我们非常值得
+    在证明时至少加入简单的自动化，来避免繁琐的工作，并为未来的修改做好准备。
 *)
 
 (** $Date$ *)

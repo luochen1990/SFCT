@@ -529,8 +529,8 @@ Proof.
     包括[Lemma]、[Fact]和[Remark])都是表示完全一样的东西。
 
     其次，我们增加了量词[forall n:nat]，因此我们的定理讨论了_所有的_
-    自然数[n]。为了证明这种形式的定理，我们需要能够依据一个
-    任意自然数的存在性_假定_来推理。在证明中，这是用[intros n]来实现的，
+    自然数[n]。为了证明这种形式的定理，我们需要能够依据 _假定_ 一个
+    任意自然数的存在性来推理。在证明中，这是用[intros n]来实现的，
     它将量词从证明目标移动到当前假设的"上下文"中。达到的效果就是，
     我们说"OK，假设[n]是任意一个自然数"，然后我们开始证明。
 
@@ -549,86 +549,69 @@ Theorem mult_0_l : forall n:nat, 0 * n = 0.
 Proof.
   intros n. reflexivity.  Qed.
 
-(** The [_l] suffix in the names of these theorems is
-    pronounced "on the left." *)
+(** 上述定理名称的后缀[_l]读作"从左边"。*)
 
-(** It is worth stepping through these proofs to observe how the
-context and the goal change. *)
-(** You may want to add calls to [simpl] before [reflexivity] to
-see the simplifications that Coq performs on the terms before checking
-that they are equal. *)
+(** 跟进这些证明的每个步骤，观察上下文及证明目标是如何变化的，非常有用。*)
+(** 你可能要在[reflexivity]前面增加[simpl]的调用，以观察Coq在检查它们相等前
+    做的一些化简。*)
 
-(** Finally, we should mention that, although powerful enough to
-    prove some fairly general facts, there are many statements that
-    cannot be handled by simplification alone. For instance, perhaps
-    surprisingly, we cannot use it to prove that [0] is also a
-    "neutral element" for [+] _on the right_. *)
+(** 最后，需要说明的是，尽管对于证明一些相当普遍的事实已经非常强大了，
+    但是还有很多陈述是无法仅用化简来处理的。比如，可能会有点让人吃惊，
+    当[0]出现在[+] _右侧_ 时，用化简就无法证明它是"零元"。*)
 
 Theorem plus_n_O : forall n, n + 0 = n.
 Proof.
-  intros n. simpl. (* Doesn't do anything! *)
+  intros n. simpl. (* 不起作用! *)
 
-(** (Can you explain why this happens?  Step through both proofs
-    with Coq and notice how the goal and context change.)
+(** (你能解释这为什么会出现么？在Coq里跟踪两个证明的每一步骤，注意观察
+    证明目标和上下文的变化。)
 
-    When stuck in the middle of a proof, we can use the [Abort]
-    command to give up on it momentarily. *)
+    当在证明过程中卡住时，可以用[Abort]命令来暂时放弃证明。*)
 
 Abort.
 
-(** In the next chapter, we cover a technique that can be used
-for proving this goal. *)
+(** 下一章里，我们会用到一种技术来证明这个目标。 *)
 
 (* ###################################################################### *)
-(** * Proof by Rewriting *)
+(** * 基于改写的证明 *)
 
-(** Here is a slightly more interesting theorem: *)
+(** 下面是一个有趣的定理： *)
 
 Theorem plus_id_example : forall n m:nat,
   n = m -> 
   n + n = m + m.
 
-(** Instead of making a completely universal claim about all numbers
-    [n] and [m], this theorem talks about a more specialized property
-    that only holds when [n = m].  The arrow symbol is pronounced
-    "implies."
+(** 这个定理没有在自然数[n]和[m]的所有可能值上做全称论断，而是仅仅讨论了
+    一个更特定的仅当[n = m]的情况。箭头符号读作"蕴含"。
 
-    As before, we need to be able to reason by assuming the existence
-    of some numbers [n] and [m].  We also need to assume the hypothesis
-    [n = m]. The [intros] tactic will serve to move all three of these
-    from the goal into assumptions in the current context. 
+    和前面一样，我们需要能够在假定自然数[n]和[m]存在性的基础上进行推理。
+    另外我们需要假定有前提[n = m]。[intros]策略用来将这三条假设从证明目标
+    中移动到当前上下文的假设中。
 
-    Since [n] and [m] are arbitrary numbers, we can't just use
-    simplification to prove this theorem.  Instead, we prove it by
-    observing that, if we are assuming [n = m], then we can replace
-    [n] with [m] in the goal statement and obtain an equality with the
-    same expression on both sides.  The tactic that tells Coq to
-    perform this replacement is called [rewrite]. *)
+    由于[n]和[m]是任意自然数，我们无法用化简来证明此定理。相反，我们可以通过
+    观察来证明它，如果我们假设了[n = m]，那么我们就可以通过将证明目标中的
+    [n]替换成[m]从而获得两边都是相同表达式的等式。用来告诉Coq执行这个替换的
+    策略叫做改写[rewrite]。*)
 
 Proof.
-  (* move both quantifiers into the context *)
+  (* 将两个量词移到上下文中 *)
   intros n m.
-  (* move the hypothesis into the context *)
+  (* 将前提移到上下文中 *)
   intros H.
-  (* rewrite the goal using the hypothesis *)
+  (* 用假设改写目标 *)
   rewrite -> H.
   reflexivity.  Qed.
 
-(** The first line of the proof moves the universally quantified
-    variables [n] and [m] into the context.  The second moves the
-    hypothesis [n = m] into the context and gives it the (arbitrary)
-    name [H].  The third tells Coq to rewrite the current goal ([n + n
-    = m + m]) by replacing the left side of the equality hypothesis
-    [H] with the right side.
+(** 证明的第一行将全称量词变量[n]和[m]移动到上下文中。第二行将假设
+    [n = m]移动到上下文中，并将其(随意)命名为[H]。第三行告诉Coq
+    改写当前当前目标([n + n = m + m])，把前提[H]等式左边的替换成右边的。
 
-    (The arrow symbol in the [rewrite] has nothing to do with
-    implication: it tells Coq to apply the rewrite from left to right.
-    To rewrite from right to left, you can use [rewrite <-].  Try
-    making this change in the above proof and see what difference it
-    makes in Coq's behavior.) *)
+    ([rewrite]里的箭头与蕴含无关：它指示Coq从左往右地应用改写。若要
+    从右往左改写，可以使用[rewrite <-]。在上面的证明里试一试这种改变，
+    看看Coq的反应有何变化。) *)
 
-(** **** Exercise: 1 star (plus_id_exercise)  *)
-(** Remove "[Admitted.]" and fill in the proof. *)
+(** **** 练习: 1 星级 (plus_id_exercise)  *)
+(** 删除 "[Admitted.]" 并补充完整证明。 *)
 
 Theorem plus_id_exercise : forall n m o : nat,
   n = m -> m = o -> n + m = m + o.

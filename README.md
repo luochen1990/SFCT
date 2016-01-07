@@ -24,7 +24,7 @@ How is the progress?
 - Basics manbaum NeedMigration
 - Induction ruoz Finished
 - Lists zeling Finished
-- Poly
+- Poly sakurakawaiiyo Progressing
 - MoreCoq
 - Logic bctnry Finished
 - Prop bctnry Finished
@@ -57,4 +57,4 @@ How is the progress?
 - UseTactics
 - UseAuto
 - PE
-- Postscript
+- Postscript lolisa Progressing

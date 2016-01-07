@@ -1,81 +1,79 @@
 (** * Postscript *)
 
-(** * Looking back... *)
+(** * 往后看．．． *)
 
-(**  - _Functional programming_
-          - "declarative" programming (recursion over persistent data
-            structures)
-          - higher-order functions
-          - polymorphism *)
+(**  - _函数式编程_
+          - "声明式" 编程 (在不变数据结构下递归)
+          - 高阶函数
+          - 多态 *)
 
 (**
-     - _Logic_, the mathematical basis for software engineering:
+     - _逻辑_, 软件工程的数学基础：
 <<
-               logic                        calculus
+               逻辑                        微积分
         --------------------   =   ----------------------------
-        software engineering       mechanical/civil engineering
+　　　        软件工程      　　　　　 机械工程/土木工程
 >>
 
-          - inductively defined sets and relations 
-          - inductive proofs 
-          - proof objects *)
+          - 递归定义的集合，关系
+          - 归纳证明
+          - 证明对象 *)
 
 (**
-     - _Coq_, an industrial-strength proof assistant
-          - functional core language
-          - core tactics
-          - automation
+     - _Coq_, 一个工业等级的证明助理
+          - 函数式核心语言
+          - 核心策略
+          - 自动化
 *)
 
 (**
-     - _Foundations of programming languages_ 
+     - _编程语言基础_ 
 
-           - notations and definitional techniques for precisely specifying
-                - abstract syntax
-                - operational semantics
-                    - big-step style
-                    - small-step style
-                - type systems
+           - 记号法，定义手段，用于
+                - 抽象语法
+                - 操作语义
+                    - 大步风格
+                    - 小步风格
+                - 类型系统
 
-           - program equivalence
+           - 程序等价
 
-           - Hoare logic
+           - 霍尔逻辑
 
-           - fundamental metatheory of type systems
+           - 类型系统的基础元理论
 
-              - progress and preservation
+              - 前进于及类型保留
 
-           - theory of subtyping
+           - 子类型理论
 *)
 
 (* ###################################################################### *)
-(** * Looking forward... *)
+(** * 往前看．．． *)
 
-(** Some good places to go for more...
+(** 对欲求不满的人．．．
 
-       - Several optional chapters of _Software Foundations_ 
+       - _Software Foundations_ 的一些可选章节
 
-       - Cutting-edge conferences on programming languages and formal
-         verification:
+       - 编程语言，形式验证的顶级会议：
             - POPL
             - PLDI
             - OOPSLA
             - ICFP
             - CAV
-            - (and many others)
+            - (还有很多其他的)
 
-       - More on functional programming
+       - 更多函数式编程：
             - Learn You a Haskell for Great Good, by Miran
               Lipovaca (ebook)
-            - and many other texts on Haskell, OCaml, Scheme, Scala, ...
+            - 其他 Haskell, OCaml, Scheme, Scala, ...　的书
 
-       - More on Hoare logic and program verification
+       - 更多霍尔逻辑，程序验证：
             - The Formal Semantics of Programming Languages: An
               Introduction, by Glynn Winskel.  MIT Press, 1993.
             - Many practical verification tools, e.g. Microsoft's
               Boogie system, Java Extended Static Checking, etc.
 
-       - More on the foundations of programming languages:
+       - 更多编程语言基础：
             - Types and Programming Languages, by Benjamin C. Pierce. MIT
               Press, 2002.
             - Practical Foundations for Programming Languages, by Robert
@@ -84,7 +82,7 @@
             - Foundations for Programming Languages, by John C. Mitchell.
               MIT Press, 1996. 
  
-       - More on Coq: 
+       - 更多Coq: 
            - Certified Programming with Dependent Types, by Adam
              Chlipala.  A draft textbook on practical proof
              engineering with Coq, available from his web page.

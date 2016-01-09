@@ -56,5 +56,5 @@ How is the progress?
 - LibTactics
 - UseTactics
 - UseAuto
-- PE
+- PE lolisa Progressing
 - Postscript lolisa Finished

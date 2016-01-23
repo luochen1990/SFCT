@@ -10,13 +10,13 @@ Definition admit {T: Type} : T.  Admitted.
 (** * 简介 *)
 
 (** 函数式编程风格使得编程更接近简单的、日常的数学：当一个过程或方法
-    没有副作用，那么所有你需要去理解的也就是如何将输入对应到输出而已 ——
-    或者说，你可以把它当做是一个用来计算数学函数的具体方法。这也就是
+    没有副作用，那么所有你需要去理解的也就是如何将输入对应到输出而已
+    —— 或者说，你可以把它当做是一个用来计算数学函数的具体方法。这也就是
     "函数式编程"中"函数式"一词的含义之一。程序与简单数学对象之间的关联
     同时支撑了有关程序行为正确性的形式化证明以及非形式化合理论证。
     
     函数式编程中'函数式'一词的另一个含义是它强调把函数(或方法)作为
-    _第一等_ 的值 —— 换言之，这个值可以作为参数传递给其他函数，可以作为
+    第一等的值 —— 换言之，这个值可以作为参数传递给其他函数，可以作为
     结果返回，也可以存储在数据结构中，等等。这种把函数当做数据的认可
     形式使得很多既有用且强大的用法成为可能。
     
@@ -25,8 +25,7 @@ Definition admit {T: Type} : T.  Admitted.
     (用来支持抽象和代码复用)。Coq提供所有这些特性。
     
     这一章的前半部分介绍了Coq函数式编程语言的最基本的元素，后半部分
-    介绍了可被用于证明Coq程序一些简单特点的基本 _策略_ 。
-*)
+    介绍了可被用于证明Coq程序一些简单特点的基本策略。 *)
 
 (* ###################################################################### *)
 (** * 可枚举类型 *)
@@ -42,12 +41,12 @@ Definition admit {T: Type} : T.  Admitted.
     这个，我们在整个教程里显式的重新定义了所有我们所需要的数据类型，
     而不是隐式的使用库里那些。
 
-    来看看这个机制是如何工作的，让我们从一个非常简单的例子开始。*)
+    来看看这个机制是如何工作的，让我们从一个非常简单的例子开始。 *)
 
 (* ###################################################################### *)
 (** ** 一周里的日子 *)
 
-(** 下面的声明形式告诉Coq我们在定义一个新的数值集合 —— 一个 _类型_ 。*)
+(** 下面的声明形式告诉Coq我们在定义一个新的数值集合 —— 一个类型。 *)
 
 Inductive day : Type :=
   | monday : day
@@ -166,20 +165,20 @@ Proof. simpl. reflexivity.  Qed.
 Example test_orb4:  (orb true  true)  = true.
 Proof. simpl. reflexivity.  Qed.
 
-(** _关于标记方式的说明_：在.v文件里，我们用方括号来界定注释中的
+(** _关于标记方式的说明_ ：在.v文件里，我们用方括号来界定注释中的
     Coq代码片段；这种习惯，也用于[coqdoc]文档工具里，这使得代码与其
     左右的文字在视觉上分离开。在HTML版的文件里，这部分文字会以
-    [不同字体]的形式出现。*)
+    [不同字体]的形式出现。 *)
 
 (** 文字[Admitted]和[admit]被用来填充不完整的定义或证明。在后续的
     例子中我们就会用到。通常，你的练习作业就是将[Admitted]和[admit]
-    替换为实际的定义和证明。*)
+    替换为实际的定义和证明。 *)
 
 (** **** 练习：1星级 (nandb)  *)
 (** 完成以下函数的定义，并确保下列[Example]中的断言每一个都能被
-    Coq验证通过。*)
+    Coq验证通过。 *)
 
-(** 当其中一个输入或两个输入都为[false]时，下面的函数返回[true]。*)
+(** 当其中一个输入或两个输入都为[false]时，下面的函数返回[true]。 *)
 
 Definition nandb (b1:bool) (b2:bool) : bool :=
   (* 请补充 *) admit.
@@ -619,20 +618,14 @@ Proof.
   (* 请补充 *) Admitted.
 (** [] *)
 
-(** As we've seen in earlier examples, the [Admitted] command
-    tells Coq that we want to skip trying to prove this theorem and
-    just accept it as a given.  This can be useful for developing
-    longer proofs, since we can state subsidiary facts that we believe
-    will be useful for making some larger argument, use [Admitted] to
-    accept them on faith for the moment, and continue thinking about
-    the larger argument until we are sure it makes sense; then we can
-    go back and fill in the proofs we skipped.  Be careful, though:
-    every time you say [Admitted] (or [admit]) you are leaving a door
-    open for total nonsense to enter Coq's nice, rigorous, formally
-    checked world! *)
+(** 如我们前面看到的例子，[Admitted]命令告诉Coq我们想要跳过此定理的证明而将其
+    作为已知条件。这在开发较长的证明时很有用。在进行一些较大的命题论证时，我们
+    能够声明一些附加的事实，既然我们认为这些事实是对论证有用的，就可以用[Admitted]
+    先不加怀疑的接受这些事实，然后继续思考大命题的论证，直到确认了该命题确实是有意义的，
+    在回过头去证明刚才跳过的证明。但是要小心：每次使用[Admitted]或者[admit]，
+    你就为进入Coq这个完好、严密、形式化且封闭的世界开了一个毫无道理的后门。 *)
 
-(** We can also use the [rewrite] tactic with a previously proved
-    theorem instead of a hypothesis from the context. *)
+(** 我们还可以使用[rewrite]策略来运用前期已证明过的定理，而不是上下文中的现有前提。*)
 
 Theorem mult_0_plus : forall n m : nat,
   (0 + n) * m = n * m.
@@ -641,7 +634,7 @@ Proof.
   rewrite -> plus_O_n.
   reflexivity.  Qed.
 
-(** **** Exercise: 2 stars (mult_S_1)  *)
+(** **** 练习: 2 星级 (mult_S_1)  *)
 Theorem mult_S_1 : forall n m : nat,
   m = S n -> 
   m * (1 + n) = m * m.
@@ -651,19 +644,17 @@ Proof.
 
 
 (* ###################################################################### *)
-(** * Proof by Case Analysis *) 
+(** * 利用案例分析来证明 *) 
 
-(** Of course, not everything can be proved by simple
-    calculation: In general, unknown, hypothetical values (arbitrary
-    numbers, booleans, lists, etc.) can block the calculation.  
-    For example, if we try to prove the following fact using the 
-    [simpl] tactic as above, we get stuck. *)
+(** 当然，并不是一切都是可以通过简单的计算来证明的：通常，一些未知的、假定值(数值、
+    布尔值、列表等等)会阻碍计算求值。比如，我们如果像以前一样使用[simpl]策略尝试
+    证明下面的事实，我们会被卡住。 *)
 
 Theorem plus_1_neq_0_firsttry : forall n : nat,
   beq_nat (n + 1) 0 = false.
 Proof.
   intros n. 
-  simpl.  (* does nothing! *)
+  simpl.  (* 无能为力! *)
 Abort.
 
 (** The reason for this is that the definitions of both

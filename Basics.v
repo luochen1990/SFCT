@@ -657,22 +657,17 @@ Proof.
   simpl.  (* 无能为力! *)
 Abort.
 
-(** The reason for this is that the definitions of both
-    [beq_nat] and [+] begin by performing a [match] on their first
-    argument.  But here, the first argument to [+] is the unknown
-    number [n] and the argument to [beq_nat] is the compound
-    expression [n + 1]; neither can be simplified.
+(** 原因就是[beq_nat]和[+]的定义都是对它们的第一个参数进行匹配[match]。
+    但在这里，[+]的第一个参数是未知数[n]，而[beq_nat]的第一个参数是
+    复合表达式[n + 1]，都不能被简化。
 
-    What we need is to be able to consider the possible forms of [n]
-    separately.  If [n] is [O], then we can calculate the final result
-    of [beq_nat (n + 1) 0] and check that it is, indeed, [false].
-    And if [n = S n'] for some [n'], then, although we don't know
-    exactly what number [n + 1] yields, we can calculate that, at
-    least, it will begin with one [S], and this is enough to calculate
-    that, again, [beq_nat (n + 1) 0] will yield [false].
+    我们需要能够将[n]可能的形式分开来进行考虑。如果[n]是[0]，那么
+    我们可以计算[beq_nat (n + 1) 0]的最终结果并且验证，实际上是[false]。
+    而如果相对于某个[n']有[n = S n']，那么，尽管我们无法确切地知道
+    [n + 1]得到的数字是几，但我们可以做计算，至少它应该以[S]打头，
+    这对于计算已经足够了，同样[beq_nat (n + 1) 0]会得到[false]。
 
-    The tactic that tells Coq to consider, separately, the cases where
-    [n = O] and where [n = S n'] is called [destruct]. *)
+    告诉Coq根据情况[n = 0]和[n = S n']来分开考虑的策略，叫做[destruct]。 *)
 
 Theorem plus_1_neq_0 : forall n : nat,
   beq_nat (n + 1) 0 = false.
@@ -681,57 +676,40 @@ Proof.
   - reflexivity.
   - reflexivity.  Qed.
 
-(** The [destruct] generates _two_ subgoals, which we must then
-    prove, separately, in order to get Coq to accept the theorem as
-    proved. The annotation "[as [| n']]" is called an _intro pattern_.
-    It tells Coq what variable names to introduce in each subgoal.  In
-    general, what goes between the square brackets is a _list_ of
-    lists of names, separated by [|].  Here, the first component is
-    empty, since the [O] constructor is nullary (it doesn't carry any
-    data).  The second component gives a single name, [n'], since [S]
-    is a unary constructor.
+(** [destruct]会生成_两个_子目标，这两个目标我们需要分别进行证明，
+    然后才能让Coq接受此定理是已证明的。记法"[as [| n']]"叫做
+    _引入模板_，用来告诉Coq在每个子目标中引入的变量名是什么。
+    通常，在方括号内是一组名字列表的_列表_，中间用[|]分割。这里，
+    列表的第一个成员是空，是因为[0]的构造器是零元的(不包含任何参数)。
+    第二个成员给出了一个名字[n']，是因为[S]是一元构造器。
 
-    The [-] signs on the second and third lines are called _bullets_,
-    and delimit parts of the proof that correspond to each generated
-    subgoal. The code that comes after a bullet is the entire proof
-    for a subgoal. In this example, each of the subgoals is easily
-    proved by a single use of [reflexivity] (which itself performs
-    some simplification, as usual -- e.g., the first one simplifies
-    [beq_nat (S n' + 1) 0] to [false] by first rewriting [(S n' + 1)]
-    to [S (n' + 1)], then unfolding [beq_nat], and then simplifying
-    the [match]).
+    第二和第三行中的[-]符号是_标号_，分隔了分别对应各自子目标的证明部分。
+    标号后面的代码是一个子目标的完整证明。在整个例子中，每个子目标
+    都被使用[reflexivity]简单地完成证明，通常[reflexivity]本身执行了一些
+    化简操作。比如，第一个证明里[beq_nat (S n' + 1) 0]被化简成[false]，
+    是通过先将[(S n' + 1)]转写成[S (n' + 1)]，然后再展开[beq_nat]，
+    然后在化简[match]完成的。
 
-    Marking cases with bullets is entirely optional: if they are not
-    present, Coq simply asks you to prove each subgoal in sequence,
-    one at a time. Even so, it is a good idea to use bullets, mainly
-    for two reasons. First, they make the structure of a proof more
-    apparent, making it more readable. Second, bullets instruct Coq to
-    ensure that a subgoal is complete before trying to verify the next
-    one, preventing proofs for different subgoals from getting mixed
-    up. These issues become especially important in large
-    developments, where fragile proofs lead to long debugging sessions.
+    用标号来标记区分情况完全是可选的：如果标号不存在，Coq只是简单的要求你
+    顺序地依次证明每个子目标。尽管如此，使用标号是一个好习惯，这有两个原因。
+    首先，它使得一个证明的结构更显而易见，使其更可读。其次，标号指示Coq
+    在试图验证下一个目标时去确认上一个子目标已完成，防止不同子目标的证明
+    搅和在一起。这一点在大型开发中尤其重要，一些证明片段会导致很耗时的
+    排错过程。
 
-    There are no hard and fast rules for how proofs should be
-    formatted in Coq -- in particular, where lines should be broken
-    and how sections of the proof should be indented to indicate their
-    nested structure.  However, if the places where multiple subgoals
-    are generated are marked with explicit bullets placed at the
-    beginning of lines, then the proof will be readable almost no
-    matter what choices are made about other aspects of layout.
+    在Coq中证明如何被格式化没有既严格又便捷的规则 —— 尤指一行在哪里
+    断行以及证明中的段落如何缩进以显示其嵌套结构。不管怎样，如果那些由多个
+    子目标生成的地方显式地在每行起始处标以标号，那么证明会有很好的可读性，
+    不论格式布局的其他方面是被如何选择的。
 
-    This is a good place to mention one other piece of (possibly
-    obvious) advice about line lengths.  Beginning Coq users sometimes
-    tend to the extremes, either writing each tactic on its own line
-    or entire proofs on one line.  Good style lies somewhere in the
-    middle.  In particular, one reasonable convention is to limit
-    yourself to 80-character lines.  Lines longer than this are hard
-    to read and can be inconvenient to display and print.  Many
-    editors have features that help enforce this.
+    这里也很应该提到另一个(貌似很显然)关于代码的每行长度的建议。
+    Coq的初学者有时会爱走极端，要么一行只一个策略语句，要么把整个证明
+    写在一行里。更好的风格则是在乎两者之间。特别要说的是，一个合理的
+    习惯是给你自己一个每行80个字符的限制。比这个长的行会很难读也不便于
+    显示及打印。很多编辑器具有功能帮助你做到这个。
 
-    The [destruct] tactic can be used with any inductively defined
-    datatype.  For example, we use it here to prove that boolean
-    negation is involutive -- i.e., that negation is its own
-    inverse. *)
+    [destruct]策略可以用于任何归纳定义的数据类型。比如，用在这里证明
+    布尔值的取反是对合的 —— 即，取反是自身的逆运算。 *)
 
 Theorem negb_involutive : forall b : bool,
   negb (negb b) = b.
@@ -740,18 +718,14 @@ Proof.
   - reflexivity.
   - reflexivity.  Qed.
 
-(** Note that the [destruct] here has no [as] clause because
-    none of the subcases of the [destruct] need to bind any variables,
-    so there is no need to specify any names.  (We could also have
-    written [as [|]], or [as []].)  In fact, we can omit the [as]
-    clause from _any_ [destruct] and Coq will fill in variable names
-    automatically.  Although this is convenient, it is arguably bad
-    style, since Coq often makes confusing choices of names when left
-    to its own devices. 
+(** 注意这里的[destruct]没有[as]子句，因为[destruct]生成的子情况没有一个
+    需要绑定任何变量，因此也就不需要指定名字。(我们也可以写成[as [|]]或者
+    [as []]。) 实际上，我们也可以省略_任何_[destruct]中的[as]子句，Coq会
+    自动填上变量名称。尽管这很方便，但这是个坏习惯，是因为如果任其自由的话
+    Coq经常做一些令人容易混淆的名字选择。
 
-    It is possible to invoke [destruct] inside a subgoal, generating
-    yet more proof obligations. In this case, we use different bullets
-    to mark goals on different "levels." For example: *)
+    也可以在一个子目标内调用[destruct]，产生出更多的证明目标。这时候，
+    我们使用不同的标号来标记目标的不同"层级"，比如： *)
 
 Theorem andb_commutative : forall b c, andb b c = andb c b.
 Proof.
@@ -764,15 +738,11 @@ Proof.
     + reflexivity.
 Qed.
 
-(** Here, each pair of calls to [reflexivity] corresponds to
-    subgoals that were generated after the execution of the [destruct
-    c] line right above it. Using [+] instead of [-] for these
-    subgoals allows Coq to distinguish between different levels of
-    subgoals generated in a proof, making it more robust. Besides [-]
-    and [+], Coq proofs can also use [*] as a third kind of bullet. If
-    we encounter a proof that generates more than three levels of
-    subgoals, we can also enclose individual subgoals with curly
-    braces ([{ ... }]): *)
+(** 这里，每一对[reflexivity]调用对应了紧邻其上的[destruct]行执行后所生成的
+    子目标。用[+]而不是[-]来标记这些子目标使得Coq能够区分一个证明里所生成的
+    不同层次的子目标，使得其更鲁棒。除了[-]和[+]，Coq证明还可以使用[*]作为
+    第三种标号。如果我们遇到一个证明生成了超过三层的子目标，那可以用花括号将
+    每个子目标括起来([{ ... }])： *)
 
 Theorem andb_commutative' : forall b c, andb b c = andb c b.
 Proof.
@@ -785,10 +755,8 @@ Proof.
     { reflexivity. } }
 Qed.
 
-(** Since curly braces mark both the beginning and the end of a
-    proof, they can appear on multiple subgoal levels at the same
-    time, as this example shows. Furthermore, curly braces allow us to
-    reuse the same bullet shapes at multiple levels in a proof: *)
+(** 由于花括号同时标识了证明的开始和结束，因此它们可同时用在不同的子目标层级，
+    如上例所述。进一步地，花括号允许我们在一个证明中在多个层级下使用同一个标号： *)
 
 Theorem andb3_exchange :
   forall b c d, andb (andb b c) d = andb (andb b d) c.
@@ -810,9 +778,8 @@ Proof.
       - reflexivity. }
 Qed.
 
-(** **** Exercise: 2 stars (andb_true_elim2)  *)
-(** Prove [andb_true_elim2], marking cases (and subcases) with bullets
-    when you use [destruct]. *)
+(** **** 练习: 2 星级 (andb_true_elim2)  *)
+(** 证明 [andb_true_elim2], 在使用[destruct]后用标号表示情况(及子情况)。 *)
 
 Theorem andb_true_elim2 : forall b c : bool,
   andb b c = true -> c = true.
@@ -820,7 +787,7 @@ Proof.
   (* 请补充 *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star (zero_nbeq_plus_1)  *)
+(** **** 练习: 1 星级 (zero_nbeq_plus_1)  *)
 Theorem zero_nbeq_plus_1 : forall n : nat,
   beq_nat 0 (n + 1) = false.
 Proof.
@@ -829,11 +796,10 @@ Proof.
 (** [] *)
 
 (* ###################################################################### *)
-(** * More Exercises *)
+(** * 更多练习 *)
 
-(** **** Exercise: 2 stars (boolean_functions)  *)
-(** Use the tactics you have learned so far to prove the following 
-    theorem about boolean functions. *)
+(** **** 练习: 2 星级 (boolean_functions)  *)
+(** 用你已经学过的策略证明以下关于布尔函数的定理。 *)
 
 Theorem identity_fn_applied_twice : 
   forall (f : bool -> bool), 
@@ -842,17 +808,15 @@ Theorem identity_fn_applied_twice :
 Proof.
   (* 请补充 *) Admitted.
 
-(** Now state and prove a theorem [negation_fn_applied_twice] similar
-    to the previous one but where the second hypothesis says that the
-    function [f] has the property that [f x = negb x].*)
+(** 现在声明并证明定理[negation_fn_applied_twice]，与上一个类似，但是
+    第二个假设是说函数[f]有[f x = negb x]的性质。 *)
 
 (* 请补充 *)
 (** [] *)
 
-(** **** Exercise: 2 stars (andb_eq_orb)  *)
-(** Prove the following theorem.  (You may want to first prove a
-    subsidiary lemma or two. Alternatively, remember that you do
-    not have to introduce all hypotheses at the same time.) *)
+(** **** 练习: 2 星级 (andb_eq_orb)  *)
+(** 证明下列定理。(你有可能需要先证明一到两个辅助引理。或者，你要记住
+    并非要同时引入所有假设。) *)
 
 Theorem andb_eq_orb : 
   forall (b c : bool),
@@ -862,52 +826,44 @@ Proof.
   (* 请补充 *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (binary)  *)
-(** Consider a different, more efficient representation of natural
-    numbers using a binary rather than unary system.  That is, instead
-    of saying that each natural number is either zero or the successor
-    of a natural number, we can say that each binary number is either
+(** **** 练习: 3 星级 (binary)  *)
+(** 设想一种不同的、更有效的表示自然数的方法，使用二进制，而不是一进制。
+    换言之，并非说每个自然数是零或者另一个自然数的后继，我们可以说每个
+    自然数：
 
-      - zero,
-      - twice a binary number, or
-      - one more than twice a binary number.
+      - 要么是零，
+      - 要么是一个二进制数的两倍，
+      - 要么比一个二进制数的两倍还多一。
 
-    (a) First, write an inductive definition of the type [bin]
-        corresponding to this description of binary numbers. 
+    (a) 首先，写出对应上述二进制数类型的归纳定义。 
 
-    (Hint: Recall that the definition of [nat] from class,
+    (提示：回想一下[nat]的定义，
     Inductive nat : Type :=
       | O : nat
       | S : nat -> nat.
-    says nothing about what [O] and [S] "mean."  It just says "[O] is
-    in the set called [nat], and if [n] is in the set then so is [S
-    n]."  The interpretation of [O] as zero and [S] as successor/plus
-    one comes from the way that we _use_ [nat] values, by writing
-    functions to do things with them, proving things about them, and
-    so on.  Your definition of [bin] should be correspondingly simple;
-    it is the functions you will write next that will give it
-    mathematical meaning.)
+    它并没有说出[O]和[S]的"含义"。它只是说"[O]是在被称之为[nat]的集合中，
+    而且，如果[n]在集合中那么[S n]也在集合中。" 把[O]解释为零以及把[S]
+    定义为后继或者加一运算，是因为我们按这种方式去"使用"了[nat]的值而已。
+    我们写出函数来计算它们，证明与之相关的东西，等等。你的[bin]的定义
+    应该相对简单，下一步你写出的函数才会给出它的数学含义。)
 
-    (b) Next, write an increment function [incr] for binary numbers, 
-        and a function [bin_to_nat] to convert binary numbers to unary numbers.
+    (b) 进一步地，为二进制数写出自增函数[incr]，并且写出函数[bin_to_nat]
+        来将二进制数转换成一进制数。
 
-    (c) Write five unit tests [test_bin_incr1], [test_bin_incr2], etc.
-        for your increment and binary-to-unary functions. Notice that 
-        incrementing a binary number and then converting it to unary 
-        should yield the same result as first converting it to unary and 
-        then incrementing. 
+    (c) 针对你写出的自增函数和二进制-一进制转换函数，写5个单元测试，
+        如[test_bin_incr1], [test_bin_incr2], 等等。注意，将一个二进制数
+        先自增再转换为一进制数，应该与将其先转换成一进制后再自增获得的结果相同。
 *)
 
 (* 请补充 *)
 (** [] *)
 
 (* ###################################################################### *)
-(** * More on Notation (Advanced) *)
+(** * 关于表示法的更多内容 (高级) *)
 
-(** In general, sections marked Advanced are not needed to follow the
-    rest of the book, except possibly other Advanced sections.  On a
-    first reading, you might want to skim these sections so that you
-    know what's there for future reference. *)
+(** 通常，标记着高级的部分对于跟进本书其他部分的学习来说不是必须的，
+    除了那些也标记为高级的部分。在初次阅读时，你可以快速浏览这些部分，
+    以便于使你在未来遇到时知道这里有些什么。 *)
 
 Notation "x + y" := (plus x y)  
                        (at level 50, left associativity) 
@@ -916,32 +872,24 @@ Notation "x * y" := (mult x y)
                        (at level 40, left associativity) 
                        : nat_scope.
 
-(** For each notation symbol in Coq, we can specify its _precedence
-    level_ and its _associativity_.  The precedence level [n] is
-    specified by writing [at level n]; this helps Coq parse compound
-    expressions.  The associativity setting helps to disambiguate
-    expressions containing multiple occurrences of the same
-    symbol. For example, the parameters specified above for [+] and
-    [*] say that the expression [1+2*3*4] is shorthand for
-    [(1+((2*3)*4))]. Coq uses precedence levels from 0 to 100, and
-    _left_, _right_, or _no_ associativity.
+(** 对于Coq中的每个表示法符号，我们可以指定它的_优先级_和_结合性_。
+    优先级[n]用[at level n]来表示；这将有助于Coq分析复合表达式。
+    结合性的设置有助于消除有相同符号多次出现的表达式的歧义。比如，
+    上面这组对于[+]和[*]的参数定义了表达式[1+2*3*4]是[(1+((2*3)*4))]的
+    简写。Coq使用0到100的优先级等级，同时支持左结合(left)、右结合(right)
+    和不结合(no)的结合性。
 
-    Each notation symbol is also associated with a _notation scope_.
-    Coq tries to guess what scope you mean from context, so when you
-    write [S(O*O)] it guesses [nat_scope], but when you write the
-    cartesian product (tuple) type [bool*bool] it guesses
-    [type_scope].  Occasionally, you may have to help it out with
-    percent-notation by writing [(x*y)%nat], and sometimes in Coq's
-    feedback to you it will use [%nat] to indicate what scope a
-    notation is in.
+    每个表示法符合还与_表示法范围_相关。Coq会尝试根据上下文来猜测
+    你所指的范围，因此当你写出[S(0*0)]时，它猜测是[nat_scope]；而当你
+    写出笛卡尔积(元组)类型[bool*bool]时，它猜测是[type_scope]。
+    有时你可能不得不用百分号表示法写出[(x*y)%nat]来帮助Coq确定范围，
+    另外，有时Coq对你的反馈中也包含[%nat]用来指示表示法所在的范围是什么。
 
-    Notation scopes also apply to numeral notation ([3], [4], [5],
-    etc.), so you may sometimes see [0%nat], which means [O] (the
-    natural number [0] that we're using in this chapter), or [0%Z]
-    which means the Integer zero (which comes from a different part of
-    the standard library). *)
+    表示法范围同样适用与数字表示([3]、[4]、[5]等等)，因此你有时候会看到
+    [0%nat]，表示[0](我们在本章中使用的自然数零[0])，而[0%Z]表示整数零
+    (来自于标准库中的里的另一个部分)。 *)
 
-(** * [Fixpoint] and Structural Recursion (Advanced) *)
+(** * 不动点[Fixpoint]以及结构化递归 (高级) *)
 
 Fixpoint plus' (n : nat) (m : nat) : nat :=
   match n with
@@ -949,25 +897,19 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     | S n' => S (plus' n' m)
   end.
 
-(** When Coq checks this definition, it notes that [plus'] is
-    "decreasing on 1st argument."  What this means is that we are
-    performing a _structural recursion_ over the argument [n] -- i.e.,
-    that we make recursive calls only on strictly smaller values of
-    [n].  This implies that all calls to [plus'] will eventually
-    terminate.  Coq demands that some argument of _every_ [Fixpoint]
-    definition is "decreasing."
-    
-    This requirement is a fundamental feature of Coq's design: In
-    particular, it guarantees that every function that can be defined
-    in Coq will terminate on all inputs.  However, because Coq's
-    "decreasing analysis" is not very sophisticated, it is sometimes
-    necessary to write functions in slightly unnatural ways. *)
+(** 当Coq查看此定义时，它会意识到[plus']是"在其第一个参数上递减"。
+    这意味着我们在参数[n]上执行了_结构化递归_。换言之，我们在进行
+    递归调用时仅对严格减小了的[n]值。这隐含说明了对[plus']的调用
+    最终会停止。Coq要求每个[Fixpoint]定义中的某些参数必须是"递减的"。
 
-(** **** Exercise: 2 stars, optional (decreasing)  *)
-(** To get a concrete sense of this, find a way to write a sensible
-    [Fixpoint] definition (of a simple function on numbers, say) that
-    _does_ terminate on all inputs, but that Coq will reject because
-    of this restriction. *)
+    这项要求是Coq设计的根本特性之一：尤其是，它保证了能在Coq中定义的
+    所有函数对于各种输出都会计算结束。然而，由于Coq的"递减分析"不是非常
+    精致，在编写函数时有时不得不需要一点点不同寻常。 *)
+
+(** **** 练习: 2 星级, 可选做 (递减)  *)
+(** 为了能对此有更具体的认识，找出一个方式写出有效的[Fixpoint]定义
+    (比如有关数字的简单函数)，在各种的输入下_确实_能够终止，但是Coq却
+    由于此限制而拒绝接受。 *)
 
 (* 请补充 *)
 (** [] *)

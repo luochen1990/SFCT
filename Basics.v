@@ -243,7 +243,7 @@ Check negb.
 (* ===> negb : bool -> bool *)
 
 (** [negb] 的类型写作 [bool -> bool]，读做“[bool] 箭头 [bool]”，
-    可以理解为“给定一个 [bool] 类型的输入，该函数产生一个 [bool] 类型的输出。"
+    可以理解为“给定一个 [bool] 类型的输入，该函数产生一个 [bool] 类型的输出。”
     同样，[andb] 的类型写作 [bool -> bool -> bool]，可以理解为
     “给定两个输入，都是 [bool] 类型，该函数产生一个 [bool] 类型的输出。” *)
 
